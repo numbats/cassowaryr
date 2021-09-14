@@ -1,0 +1,47 @@
+Package: cassowaryr
+Title: Compute Scagnostics on Pairs of Numeric Variables in a Data Set
+Version: 0.1.9999
+Authors@R: 
+    c(person(given = "Harriet",
+             family = "Mason",
+             email = "hmas0003@student.monash.edu",
+             role = c("aut", "cre")),
+      person(given = "Stuart", 
+             family = "Lee", 
+             email = "stuart.andrew.lee@gmail.com", 
+             role = "aut", 
+             comment = c(ORCID = "0000-0003-1179-8436")),
+      person(given = "Ursula", 
+             family = "Laa", 
+             email = "ursula.laa@boku.ac.at", 
+             role = "aut", 
+             comment = c(ORCID = "0000-0002-0249-6439")),
+      person(given = "Di", 
+             family = "Cook", 
+             email = "dicook@monash.edu", 
+             role = "aut", 
+             comment = c(ORCID = "0000-0002-3813-7155")))
+Description: This package computes a range of scatterplot diagnostics (scagnostics) on pairs of numerical variables in a data set. It has both graph-based, and association-based metrics. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/numbats/vaast
+BugReports: https://github.com/numbats/vaast/issues
+Depends: R (>= 3.5.0)
+Imports: 
+    igraph,
+    alphahull,
+    splancs,
+    tripack,
+    dplyr,
+    ggplot2,
+    magrittr
+RoxygenNote: 7.1.1
+Suggests: 
+    rmarkdown,
+    knitr,
+    mgcv,
+    energy,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3

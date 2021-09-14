@@ -1,0 +1,49 @@
+---
+title: "vaast"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vaast}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vaast)
+library(ggplot2)
+library(dplyr)
+
+# pick examples
+exampledata <- datasaurus_dozen %>%
+  filter(dataset==c("v_lines", "circle", "dots", "away")) 
+
+#plot them
+exampledata %>%
+  ggplot(aes(x=x,y=y, colour=dataset))+
+  geom_point() +
+  facet_wrap("dataset")
+```
+
+Scagnostics examples
+
+```{r scag}
+#compute scagnostics
+exampledata %>%
+  group_by(dataset) %>%
+  summarise(monotonic=sc_monotonic(x,y), 
+            dcor=sc_dcor(x,y), 
+            splines=sc_splines(x,y),
+            skinny = sc_skinny(x,y),
+            convex = sc_convex(x,y),
+            striated = sc_striated(x,y),
+            stringy = sc_stringy(x,y),
+            ) %>%
+  knitr::kable(digits=4, align="c")
+```
+
