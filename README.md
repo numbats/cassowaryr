@@ -6,8 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `cassowaryr` package provides functions to compute scagnostics on pairs
-of numeric variables in a data set.
+The `cassowaryr` package provides functions to compute scagnostics on
+pairs of numeric variables in a data set.
 
 The term **scagnostics** refers to scatter plot diagnostics. This is a
 collection of techniques for automatically extracting interesting visual
@@ -30,9 +30,11 @@ sc_outlying(anscombe$x2, anscombe$y2)
 sc_outlying(anscombe$x3, anscombe$y3)
 sc_outlying(anscombe$x4, anscombe$y4)
 ```
+
 ## About the name
 
-CAlculate Scagnostics on Scatterplots Over Wads of Associated Real numberYs in R
+CAlculate Scagnostics on Scatterplots Over Wads of Associated Real
+numberYs in R
 
 ## About the calculations
 
@@ -45,7 +47,7 @@ which are computed directly from the Delauney-Voroni tesselation.
     triangles
 2.  The **convex hull** of the points i.e. the outer segments of the
     triangulation
-3.  The **alpha hull** (also called concave hull) i.e. formed by
+3.  The **alpha hull ** (also called concave hull) i.e. formed by
     connect the outer edges of triangles that are enclosed within a ball
     of radius *alpha*.
 

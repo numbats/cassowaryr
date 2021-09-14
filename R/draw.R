@@ -1,18 +1,22 @@
-# Code for drawing alphahull,
-# not in package format yet
+#' Drawing the alphahull
+#'
+#' This function will draw the alphahull for a
+#' scatterplot.
+#'
+#' @param x numeric vector
+#' @param y numeric vector
+#' @examples
+#' data("features")
+#' nl <- features %>% filter(feature == "nonlinear2")
+#' draw_alphahull(nl$x, nl$y)
+#' @export
+draw_alphahull <- function(x, y, alpha=0.5) {
+  d_ahull <- ahull(x, y, a=alpha)
+  p <- ggplot(as_tibble(x, y), aes(x, y)) + geom_point()
 
-library(geozoo)
-library(ggplot2)
-library(vaast)
-library(alphahull)
-set.seed(0903)
-d <- as_tibble(sphere.hollow(p=2, n=300)$points) %>%
-rename(x = V1, y = V2) %>%
-filter(!(x > -0.5 & y > -0.5)) %>%
-mutate(x = x + rnorm(length(x), sd=0.2), y = y + rnorm(length(y), sd=0.2))
-p <- ggplot(d, aes(x, y)) + geom_point()
+  d_ahull_c <- d_ahull$ashape.obj
+  p + geom_segment(data=as_tibble(d_ahull_c$edges),
+                   aes(x=x1, xend=x2, y=y1, yend=y2))
+}
 
-d_ahull <- ahull(d$x, d$y, a=0.5)
-d_ahull_c <- d_ahull$ashape.obj
-p + geom_segment(data=as_tibble(d_ahull_c$edges), aes(x=x1, xend=x2, y=y1, yend=y2))
 

@@ -12,6 +12,11 @@
 #' @param y numeric vector
 #' @return double
 #' @examples
+#' data("datasaurus_dozen_wide")
+#' sc_striped(datasaurus_dozen_wide$v_lines_x,
+#'            datasaurus_dozen_wide$v_lines_y)
+#' sc_striped(datasaurus_dozen_wide$dino_x,
+#'            datasaurus_dozen_wide$dino_y)
 #' @export
 sc_striped <- function(x, y){
   # TODO: Need to make this work for rotations,
