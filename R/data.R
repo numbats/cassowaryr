@@ -35,3 +35,12 @@ NULL
 #' @docType data
 #' @name datasaurus_dozen_wide
 NULL
+
+#' features data
+#'
+#' Simulated data with standard features that might
+#' be seen in 2D data. Variable are feature, x, y.
+#'
+#' @docType data
+#' @name features
+NULL
