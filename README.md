@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `vaast` package provides functions to compute scagnostics on pairs
+The `cassowaryr` package provides functions to compute scagnostics on pairs
 of numeric variables in a data set.
 
 The term **scagnostics** refers to scatter plot diagnostics. This is a
@@ -18,7 +18,7 @@ graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman
 ## Installation
 
 ``` r
-remotes::install_github("numbats/vaast")
+remotes::install_github("numbats/cassowaryr")
 ```
 
 ## Examples
@@ -30,6 +30,9 @@ sc_outlying(anscombe$x2, anscombe$y2)
 sc_outlying(anscombe$x3, anscombe$y3)
 sc_outlying(anscombe$x4, anscombe$y4)
 ```
+## About the name
+
+CAlculate Scagnostics on Scatterplots Over Wads of Associated Real numberYs in R
 
 ## About the calculations
 
