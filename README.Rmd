@@ -52,7 +52,7 @@ which are computed directly from the Delauney-Voroni tesselation.
 
 1. A __minimum spanning tree__ weighted by the lengths of the Delauney triangles
 2. The __convex hull__ of the points i.e. the outer segments of the triangulation
-3. The __alpha hull __ (also called concave hull) i.e. formed by connect the outer edges of triangles that are enclosed within a ball of radius _alpha_. 
+3. The __alpha hull__ (also called concave hull) i.e. formed by connect the outer edges of triangles that are enclosed within a ball of radius _alpha_. 
 
 All graph based scagnostic measures are computed with respect to these three graphs.
 

@@ -47,9 +47,9 @@ which are computed directly from the Delauney-Voroni tesselation.
     triangles
 2.  The **convex hull** of the points i.e. the outer segments of the
     triangulation
-3.  The **alpha hull ** (also called concave hull) i.e. formed by
-    connect the outer edges of triangles that are enclosed within a ball
-    of radius *alpha*.
+3.  The **alpha hull** (also called concave hull) i.e. formed by connect
+    the outer edges of triangles that are enclosed within a ball of
+    radius *alpha*.
 
 All graph based scagnostic measures are computed with respect to these
 three graphs.
