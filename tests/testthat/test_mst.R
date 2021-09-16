@@ -15,7 +15,7 @@ y2 <- c(50,60,50,40,50,50,60,50,40,50,100,0)
 #plot(x2,y2)
 
 test_that("Clumpy Scagnotist", {
-  #expect_equal(sc_clumpy(x1,y1), (1-(0.05/sqrt(0.8^2+0.8^2))))
+  expect_equal(sc_clumpy(x1,y1), (1-(0.05/sqrt(0.8^2+0.8^2))))
   expect_equal(sc_clumpy(x2,y2), (1-0.4/0.6))
 })
 
