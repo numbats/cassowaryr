@@ -1,5 +1,5 @@
 ---
-title: "vaast"
+title: "An introduction to the cassowaryr package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaast}
@@ -14,8 +14,25 @@ knitr::opts_chunk$set(
 )
 ```
 
+# About 
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The `cassowaryr` package provides functions to compute scagnostics on pairs of numeric variables in a data set.
+
+The term __scagnostics__ refers to scatter plot diagnostics. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.  
+
+# Installation
+
+``` r
+remotes::install_github("numbats/cassowaryr")
+```
+
+# Examples 
+
 ```{r setup}
-library(vaast)
+library(cassowaryr)
 library(ggplot2)
 library(dplyr)
 
@@ -29,8 +46,6 @@ exampledata %>%
   geom_point() +
   facet_wrap("dataset")
 ```
-
-Scagnostics examples
 
 ```{r scag}
 #compute scagnostics
