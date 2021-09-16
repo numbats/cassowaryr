@@ -67,3 +67,4 @@ As all the graph based measures rely on the triangulation, they could be compute
 
 These are computed directly from the 2-d point clouds, and do not need to be constructed from the graph. 
 
+
