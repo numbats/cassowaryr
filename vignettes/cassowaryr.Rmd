@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 The `cassowaryr` package provides functions to compute scagnostics on pairs of numeric variables in a data set.
 
-The term __scagnostics__ refers to scatter plot diagnostics. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.  
+The term __scagnostics__ refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.  
 
 # Installation
 
