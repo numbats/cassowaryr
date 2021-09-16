@@ -2,8 +2,8 @@ pandoc: 2.11.4
 pkgdown: 1.6.1.9001
 pkgdown_sha: 705ff7c650bb1c7d46d35e72f27ad093689e2f29
 articles:
-  vaast: vaast.html
-last_built: 2021-09-16T07:48Z
+  cassowaryr: cassowaryr.html
+last_built: 2021-09-16T08:00Z
 urls:
   reference: https://numbats.github.io/cassowaryr/reference
   article: https://numbats.github.io/cassowaryr/articles
