@@ -14,7 +14,7 @@ reference:
   desc: Functions to compute multiple scagnostics and summarise output
   contents:
   - calc_scags
-  - sc_pairwise
+  - calc_scags_wide
 - title: data
   desc: Sample data sets for illustration and testing
   contents:

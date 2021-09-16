@@ -5,11 +5,10 @@
 #' require(GGally)
 #' require(dplyr)
 #' # Calculate selected scagnostics
-#' sc_pairwise(datasaurus_dozen_wide,
-#'   scags=c("outlying","clumpy","monotonic"))
+#' calc_scags_wide(datasaurus_dozen_wide[,c(1:4)], scags=c("outlying","clumpy","monotonic"))
 #'
 #' # Calculate all scagnsotics for all variable pairs and plot it
-#' p <- sc_pairwise(datasaurus_dozen_wide) %>%
+#' p <- calc_scags_wide(datasaurus_dozen_wide) %>%
 #'   GGally::ggpairs(scagdata, columns = 3:ncol(scagdata))
 #' p
 #' # to make it interactive use
@@ -18,7 +17,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-sc_pairwise <- function(all_data, scags=c("outlying","stringy", "striated", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
+calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
   #make a dataset of all pairwise variable combinations
   all_combs <- expand.grid(colnames(all_data),colnames(all_data))%>%
