@@ -112,7 +112,7 @@
 <ol style="list-style-type: decimal">
 <li>A <strong>minimum spanning tree</strong> weighted by the lengths of the Delauney triangles</li>
 <li>The <strong>convex hull</strong> of the points i.e. the outer segments of the triangulation</li>
-<li>The <strong>alpha hull </strong> (also called concave hull) i.e. formed by connect the outer edges of triangles that are enclosed within a ball of radius <em>alpha</em>.</li>
+<li>The <strong>alpha hull</strong> (also called concave hull) i.e. formed by connect the outer edges of triangles that are enclosed within a ball of radius <em>alpha</em>.</li>
 </ol>
 <p>All graph based scagnostic measures are computed with respect to these three graphs.</p>
 <p>Prior to graph construction decisions must be made about filtering outliers (done with respect to the distribution of edge lengths in the triangulation) and thinning the size of the graphs by performing binning (for computational speed). For the moment we can forge ahead without these but it is worth keeping in mind that the package needs to be flexible enough to include them.<br>
