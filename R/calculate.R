@@ -2,20 +2,9 @@
 #'
 #' @seealso calc_scags
 #' @examples
-#' require(GGally)
-#' require(dplyr)
 #' # Calculate selected scagnostics
-#' calc_scags_wide(datasaurus_dozen_wide[,c(1:4)], scags=c("outlying","clumpy","monotonic"))
+#' calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
 #'
-#' # Calculate all scagnsotics for all variable pairs and plot it
-#' p <- calc_scags_wide(datasaurus_dozen_wide) %>%
-#'   GGally::ggpairs(scagdata, columns = 3:ncol(scagdata))
-#' p
-#' # to make it interactive use
-#' # plotly::ggplotly(p)
-#'
-#' @importFrom magrittr %>%
-#' @importFrom progress progress_bar
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
