@@ -3,9 +3,10 @@
 \docType{data}
 \name{datasaurus_dozen}
 \alias{datasaurus_dozen}
+\alias{datasaurus_dozen_wide}
 \title{datasaurus_dozen data}
 \description{
-datasaurus dozen data from datasauRus pacakge,
+datasaurus dozen data from datasauRus package,
 all plots have same x and y mean, variance and correlation,
 but look different visually. variables for dataset, x and y
 }

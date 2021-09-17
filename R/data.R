@@ -1,4 +1,4 @@
-#' numbat data
+#' A toy data set with a numbat shape hidden among noise variables
 #'
 #' Variables 4 and 7 have the numbat. The rest are
 #' noise. Group A has the numbat, and group B is all noise.
@@ -7,7 +7,7 @@
 #' @name numbat
 NULL
 
-#' anscombe_tidy data
+#' Data from Anscombe's famous example in tidy format
 #'
 #' anscombe data, all have same summary statistics and
 #' different visualisations.
@@ -18,7 +18,7 @@ NULL
 
 #' datasaurus_dozen data
 #'
-#' datasaurus dozen data from datasauRus pacakge,
+#' datasaurus dozen data from datasauRus package,
 #' all plots have same x and y mean, variance and correlation,
 #' but look different visually. variables for dataset, x and y
 #'
@@ -26,19 +26,14 @@ NULL
 #' @name datasaurus_dozen
 NULL
 
-#' datasaurus_dozen_wide data
-#'
-#' datasaurus dozen data from datasauRus pacakge, but instead
-#' of having a variable for which dataset, each dataset has its own
-#' x and y variables
-#'
 #' @docType data
 #' @name datasaurus_dozen_wide
+#' @rdname datasaurus_dozen
 NULL
 
-#' features data
+#' Simulated data with special features
 #'
-#' Simulated data with standard features that might
+#' Simulated data with common features that might
 #' be seen in 2D data. Variable are feature, x, y.
 #'
 #' @docType data

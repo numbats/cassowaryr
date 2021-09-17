@@ -3,7 +3,7 @@
 \docType{data}
 \name{anscombe_tidy}
 \alias{anscombe_tidy}
-\title{anscombe_tidy data}
+\title{Data from Anscombe's famous example in tidy format}
 \description{
 anscombe data, all have same summary statistics and
 different visualisations.

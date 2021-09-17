@@ -3,7 +3,7 @@
 \docType{data}
 \name{numbat}
 \alias{numbat}
-\title{numbat data}
+\title{A toy data set with a numbat shape hidden among noise variables}
 \description{
 Variables 4 and 7 have the numbat. The rest are
 noise. Group A has the numbat, and group B is all noise.
