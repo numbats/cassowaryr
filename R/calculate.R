@@ -5,6 +5,8 @@
 #' # Calculate selected scagnostics
 #' calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
 #'
+#' @importFrom magrittr %>%
+#' @importFrom progress progress_bar
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
