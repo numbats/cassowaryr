@@ -5,6 +5,7 @@
 \alias{numbat}
 \title{A toy data set with a numbat shape hidden among noise variables}
 \description{
+There are 7 variables (x1-x7) and 2,100 observations.
 Variables 4 and 7 have the numbat. The rest are
 noise. Group A has the numbat, and group B is all noise.
 }

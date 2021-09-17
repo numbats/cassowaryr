@@ -4,7 +4,16 @@
 \name{anscombe_tidy}
 \alias{anscombe_tidy}
 \title{Data from Anscombe's famous example in tidy format}
+\format{
+A tibble with 44 observations and 3 variables
+\describe{
+  \item{set}{label of the data set, each set has 11 observations}
+  \item{x}{variable for horizontal axis}
+  \item{y}{variable for vertical axis}
+}
+}
 \description{
-anscombe data, all have same summary statistics and
-different visualisations.
+All variables and pairs of variables have same
+summary statistics but are very different data,
+as can be seen by visualisation.
 }
