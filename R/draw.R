@@ -50,3 +50,35 @@ draw_MST <- function(x, y, alpha=0.5) {
                      y=y1, yend=y2))
 }
 
+#' Drawing the Convex Hull
+#'
+#' This function will draw the Convex Hull for a
+#' scatterplot.
+#'
+#' @param x numeric vector
+#' @param y numeric vector
+#' @examples
+#' data("features")
+#' nl <- features %>% filter(feature == "nonlinear2")
+#' draw_convexhull(nl$x, nl$y)
+#' @export
+draw_convexhull <- function(x, y, alpha=0.5) {
+
+  #make scree and convex hull
+  scree <- scree(x, y)
+  chull <- gen_conv_hull(scree$del)
+
+  #make data of start and end points of hull
+  data <- tibble(x = sc$del$mesh[,3],
+                 y = sc$del$mesh[,4])
+  ends <- tibble(x1 = chull$x,
+                 y1 = chull$y,
+                 x2 = chull$x[c(2:length(chull$x),1)],
+                 y2 = chull$y[c(2:length(chull$y),1)])
+
+  #plot
+  ggplot(data, aes(x,y)) +
+    geom_point() +
+    geom_segment(data=ends, aes(x=x1, y=y1, xend=x2, yend=y2))
+
+}
