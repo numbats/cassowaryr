@@ -49,7 +49,7 @@ test_that("Sparse Scagnotist", {
 
 # Skewed Test
 #plot(x1,y1)
-test_that("Sparse Scagnotist", {
+test_that("Skewed Scagnotist", {
   expect_equal(sc_skewed(x1,y1), (4/7))
 })
 
