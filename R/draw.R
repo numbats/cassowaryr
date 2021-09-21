@@ -27,6 +27,8 @@ draw_alphahull <- function(x, y, alpha=0.5) {
 #' @param x numeric vector
 #' @param y numeric vector
 #' @examples
+#' require(dplyr)
+#' require(ggplot2)
 #' data("features")
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_MST(nl$x, nl$y)
@@ -41,10 +43,10 @@ draw_MST <- function(x, y, alpha=0.5) {
     mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
     ungroup() %>%
     filter(connected==1)
-  ggplot(new, aes(x1, y1)) +
-    geom_point() +
-    geom_point(aes(x2,y2)) +
-    geom_segment(data=new, aes(x=x1, xend=x2, y=y1, yend=y2))
-
+  ggplot(d_MST) +
+    geom_point(aes(x=x1, y=y1)) +
+    geom_point(aes(x=x2, y=y2)) +
+    geom_segment(aes(x=x1, xend=x2,
+                     y=y1, yend=y2))
 }
 
