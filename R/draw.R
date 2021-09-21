@@ -19,4 +19,32 @@ draw_alphahull <- function(x, y, alpha=0.5) {
                    aes(x=x1, xend=x2, y=y1, yend=y2))
 }
 
+#' Drawing the MST
+#'
+#' This function will draw the MST for a
+#' scatterplot.
+#'
+#' @param x numeric vector
+#' @param y numeric vector
+#' @examples
+#' data("features")
+#' nl <- features %>% filter(feature == "nonlinear2")
+#' draw_MST(nl$x, nl$y)
+#' @export
+draw_MST <- function(x, y, alpha=0.5) {
+  scree <- scree(x, y)
+  MST <- gen_mst(scree$del, scree$weights)
+  xystartend <- as_tibble(scree[["del"]][["mesh"]])
+  MST_mat <- twomstmat(MST, scree)$mat
+  d_MST <- xystartend %>%
+    group_by(ind1,ind2) %>%
+    mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
+    ungroup() %>%
+    filter(connected==1)
+  ggplot(new, aes(x1, y1)) +
+    geom_point() +
+    geom_point(aes(x2,y2)) +
+    geom_segment(data=new, aes(x=x1, xend=x2, y=y1, yend=y2))
+
+}
 
