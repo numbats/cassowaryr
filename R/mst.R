@@ -271,7 +271,7 @@ sc_sparse.igraph <- function(mymst, x){
   mstmat <- twomstmat(mymst,x)$lowertri
   edges <- mstmat[which(mstmat>0)]
   #calculate sparse value
-  unname(quantile(edges, probs = 0.9))
+  sort(edges)[floor(0.9*length( edges))]
 }
 
 
@@ -329,9 +329,14 @@ sc_skewed.igraph <- function(mymst, x){
   mstmat <- twomstmat(mymst,x)$lowertri
   edges <- mstmat[which(mstmat>0)]
 
-  #calculate skewed value
-  q <- quantile(edges, probs = c(0.9, 0.5, 0.1))
-  unname(diff(q[1:2])/diff(q[c(1,3)]))#no size adjustment
+  # find quantiles
+  q10 <- sort(edges)[floor(0.1*length( edges))]
+  q50 <- sort(edges)[floor(0.5*length( edges))]
+  q90 <- sort(edges)[floor(0.9*length( edges))]
+
+  # calculate skewed value
+  (q90-q50)/(q90-q10)
+
 }
 
 
