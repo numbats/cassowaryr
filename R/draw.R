@@ -6,11 +6,14 @@
 #' @param x numeric vector
 #' @param y numeric vector
 #' @examples
+#' require(dplyr)
+#' require(ggplot2)
+#' require(alphahull)
 #' data("features")
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_alphahull(nl$x, nl$y)
 #' @export
-draw_alphahull <- function(x, y, alpha=0.5) {
+draw_alphahull <- function(x, y, alpha=0.2) {
   d_ahull <- ahull(x, y, a=alpha)
   p <- ggplot(as_tibble(x, y), aes(x, y)) + geom_point()
 
@@ -58,6 +61,8 @@ draw_MST <- function(x, y, alpha=0.5) {
 #' @param x numeric vector
 #' @param y numeric vector
 #' @examples
+#' require(dplyr)
+#' require(ggplot2)
 #' data("features")
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_convexhull(nl$x, nl$y)
@@ -65,20 +70,22 @@ draw_MST <- function(x, y, alpha=0.5) {
 draw_convexhull <- function(x, y, alpha=0.5) {
 
   #make scree and convex hull
-  scree <- scree(x, y)
-  chull <- gen_conv_hull(scree$del)
+  sc <- scree(x, y)
+  chull <- gen_conv_hull(sc$del)
 
   #make data of start and end points of hull
-  data <- tibble(x = sc$del$mesh[,3],
+  d_hull <- tibble(x = sc$del$mesh[,3],
                  y = sc$del$mesh[,4])
-  ends <- tibble(x1 = chull$x,
+  d_ends <- tibble(x1 = chull$x,
                  y1 = chull$y,
                  x2 = chull$x[c(2:length(chull$x),1)],
                  y2 = chull$y[c(2:length(chull$y),1)])
 
   #plot
-  ggplot(data, aes(x,y)) +
+  ggplot(d_hull, aes(x,y)) +
     geom_point() +
-    geom_segment(data=ends, aes(x=x1, y=y1, xend=x2, yend=y2))
+    geom_segment(data=d_ends,
+                 aes(x=x1, y=y1,
+                     xend=x2, yend=y2))
 
 }
