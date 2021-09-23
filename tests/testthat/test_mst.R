@@ -71,11 +71,21 @@ y3 <- c(y2, 9)
 x4 <- c(x2, 10)
 y4 <- c(y2, 7)
 
+# internal outlier
+x5 <- c(x4, 10)
+y5 <- c(y4, 6)
+
+# internal outlier
+x6 <- c(0,1,1,1,0,0,0,0,0,0,0,1,1,1, 10, 10, 10)
+y6 <- c(0,0,1,2,2,3,4,5,6,7,8,8,9,10, 10, 6, 7)
+
 #plot(x2,y2)
 
 test_that("Outlying Scagnotist", {
-  expect_equal(sc_outlying(x1,y1), 0)
-  expect_equal(sc_outlying(x2,y2), (9/24))
-  expect_equal(sc_outlying(x3,y3), 0) #adjacent edges not all outlying
-  expect_equal(sc_outlying(x4,y4), 0)
+  expect_equal(sc_outlying(x1,y1), 0) #no outliers
+  expect_equal(sc_outlying(x2,y2), (9/24)) #single external outleirs
+  expect_equal(sc_outlying(x3,y3), 0) #close edge to outlier so no longer outlier
+  expect_equal(sc_outlying(x4,y4), 12/27) # internal and external outliers connected
+  expect_equal(sc_outlying(x5,y5), 3/28) #single internal outlier 1 (becomes single external outlier)
+  expect_equal(sc_outlying(x6,y6), 12/26) #single internal outlier 2
 })
