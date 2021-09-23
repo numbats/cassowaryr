@@ -10,7 +10,7 @@ set.seed(4213)
 x2 <- c(0,10,10,10,20,80,90,90,90,100,10,90)
 y2 <- c(50,60,50,40,50,50,60,50,40,50,100,0)
 
-#plot(x2,y2)
+plot(x2,y2)
 
 test_that("Clumpy Scagnotist", {
   expect_equal(sc_clumpy(x2,y2), (1-0.4/0.6))
@@ -89,3 +89,7 @@ test_that("Outlying Scagnotist", {
   expect_equal(sc_outlying(x5,y5), 3/28) #single internal outlier 1 (becomes single external outlier)
   expect_equal(sc_outlying(x6,y6), 12/26) #single internal outlier 2
 })
+
+# Striated Adjusted Test
+sc_striated_adjusted(x1,y1)
+sc_striated_adjusted(x5,y5)
