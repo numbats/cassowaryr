@@ -33,9 +33,6 @@ scree <- function(x, y, binner = NULL, ...) {
   # Check for duplicates and remove
   xy <- xy[!duplicated(xy),]
 
-  # remove duplicates
-  xy <- xy[!duplicated(xy),]
-
   if (is.function(binner)) {
     xy <- binner(xy)
   }

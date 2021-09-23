@@ -54,11 +54,18 @@ sc_splines <- function(x,y) {
   if (!requireNamespace("mgcv", quietly = TRUE)) {
     stop("Package: mgcv must be installed to use splines scagnostic")
   }
-  kx <- ifelse(length(unique(x[!is.na(x)])) < 20, 3, 10)
-  ky <- ifelse(length(unique(y[!is.na(y)])) < 20, 3, 10)
-  mgam1 <- mgcv::gam(y ~ s(x, bs = "cr", k = kx))
-  mgam2 <- mgcv::gam(x ~ s(y, bs = "cr", k = ky))
-  measure <- max(1 - var(residuals(mgam1), na.rm = T) / var(y, na.rm = T), 1 - var(residuals(mgam2), na.rm = T) / var(x, na.rm = T))
+  nx <- length(unique(x[!is.na(x)]))
+  ny <- length(unique(y[!is.na(y)]))
+  if (nx < 4 || ny < 4) {
+    measure <- 0
+  }
+  else {
+    kx <- ifelse(nx < 20, 3, 10)
+    ky <- ifelse(ny < 20, 3, 10)
+    mgam1 <- mgcv::gam(y ~ s(x, bs = "cr", k = kx))
+    mgam2 <- mgcv::gam(x ~ s(y, bs = "cr", k = ky))
+    measure <- max(1 - var(residuals(mgam1), na.rm = T) / var(y, na.rm = T), 1 - var(residuals(mgam2), na.rm = T) / var(x, na.rm = T))
+  }
   return(measure)
 }
 
