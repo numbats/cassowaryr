@@ -128,10 +128,12 @@ sc_striated_adjusted.default <- function(x, y){
 #' @rdname sc_striated_adjusted
 #' @export
 sc_striated_adjusted.igraph <- function(mst, x){
-  vertex_counts <- igraph::degree(mst)
-  print(vertex_counts)
-  angs <- which(vertex_counts==2)
-  angles_vect <- numeric(length(angs))
+
+  vertex_counts <- igraph::degree(mst)-1
+  angs <- rep(1:length(vertex_counts), vertex_counts)
+  angles_vect <- 0.5*sum(vertex_counts)
+
+  print(angs)
   for(i in seq_len(length(angs))){
     adjs <- which(mst[angs[i]]>0)
     points <- x$del$x[adjs,]
@@ -139,6 +141,7 @@ sc_striated_adjusted.igraph <- function(mst, x){
     vects <- t(t(points)-origin)
     angles_vect[i] <- (vects[1,]%*%vects[2,])/(prod(mst[angs[i]][adjs]))
   }
+  print(angles_vect)
   print(ifelse(angles_vect<(-0.99), 1, 0))
   print(ifelse(abs(angles_vect)<(0.01), 1, 0))
   sum(c(ifelse(angles_vect<(-0.99), 1, 0),
