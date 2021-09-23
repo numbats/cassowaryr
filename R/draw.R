@@ -39,17 +39,17 @@ draw_alphahull <- function(x, y, alpha=0.2) {
 draw_MST <- function(x, y, alpha=0.5) {
   scree <- scree(x, y)
   MST <- gen_mst(scree$del, scree$weights)
-  xystartend <- as_tibble(scree[["del"]][["mesh"]])
+  xystartend <- tibble::as_tibble(scree[["del"]][["mesh"]])
   MST_mat <- twomstmat(MST, scree)$mat
   d_MST <- xystartend %>%
-    group_by(ind1,ind2) %>%
-    mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
-    ungroup() %>%
-    filter(connected==1)
-  ggplot(d_MST) +
-    geom_point(aes(x=x1, y=y1)) +
-    geom_point(aes(x=x2, y=y2)) +
-    geom_segment(aes(x=x1, xend=x2,
+    dplyr::group_by(ind1,ind2) %>%
+    dplyr::mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(connected==1)
+  ggplot2::ggplot(d_MST) +
+    ggplot2::geom_point(ggplot2::aes(x=x1, y=y1)) +
+    ggplot2::geom_point(ggplot2::aes(x=x2, y=y2)) +
+    ggplot2::geom_segment(ggplot2::aes(x=x1, xend=x2,
                      y=y1, yend=y2))
 }
 
