@@ -401,7 +401,7 @@ sc_outlying.igraph <- function(mymst, x){
 
   #calculate outlying value
   numer <- sum(mstmat[outliers,]) #sum of edges of outlying points
-  denom <- sum(mstmat)
+  denom <- 0.5* sum(mstmat) # half because not lower triangular matrix
   numer/denom
 }
 
