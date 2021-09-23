@@ -64,12 +64,18 @@ y2 <- c(y1,10)
 #plot(x1,y1)
 
 # Outlier with a Close Value
-x3 <- c(x1, 10)
-y3 <- c(y1, 9)
+x3 <- c(x2, 10)
+y3 <- c(y2, 9)
+
+# two connected outliers
+x4 <- c(x2, 10)
+y4 <- c(y2, 7)
+
 #plot(x2,y2)
 
 test_that("Outlying Scagnotist", {
   expect_equal(sc_outlying(x1,y1), 0)
   expect_equal(sc_outlying(x2,y2), (9/24))
-  expect_equal(sc_outlying(x3,y3), (10/25))
+  expect_equal(sc_outlying(x3,y3), 0) #adjacent edges not all outlying
+  expect_equal(sc_outlying(x4,y4), 0)
 })
