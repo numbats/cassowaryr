@@ -44,7 +44,10 @@ sc_convex.default <- function(x, y){
 #' @export
 sc_convex.list <- function(chull, ahull){
   chull_area <- splancs::areapl(cbind(chull$x, chull$y))
-  ahull_area <- alphahull::areaahull(ahull)
+  if (ahull$length > 0)
+    ahull_area <- alphahull::areaahull(ahull)
+  else
+    ahull_area <- 0
   ahull_area / chull_area
 }
 
@@ -91,8 +94,13 @@ sc_skinny.default <- function(x, y){
 #' @rdname sc_skinny
 #' @export
 sc_skinny.list <- function(ahull){
-  ahull_area <- alphahull::areaahull(ahull)
-  1 - sqrt(4*pi * ahull_area) / ahull$length
+  if (ahull$length > 0) {
+    ahull_area <- alphahull::areaahull(ahull)
+    s <- 1 - sqrt(4*pi * ahull_area) / ahull$length
+  }
+  else
+    s <- 0
+  return(s)
 }
 
 gen_conv_hull <- function(del) {
@@ -100,5 +108,12 @@ gen_conv_hull <- function(del) {
 }
 
 gen_alpha_hull <- function(del, alpha) {
-  alphahull::ahull(del, alpha = alpha)
+  # This catches errors in ahull calculation and
+  # returns a NULL if necessary
+
+  ahull <- tryCatch(alphahull::ahull(del, alpha = alpha),
+           error = function(c) {
+             return(list(arcs=NULL, xahull=NULL, length=0, alpha=NULL))
+           })
+  return(ahull)
 }
