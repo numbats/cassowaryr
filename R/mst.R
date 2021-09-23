@@ -394,14 +394,18 @@ sc_outlying.igraph <- function(mymst, x){
   #output: outlying mst value
 
   #make into matrix
-  mstmat <- twomstmat(mymst,x)$mat
+  twomst <- twomstmat(mymst,x)
+  mstmat <- twomst$mat
+  mstlowertri <- twomst$lowertri
 
   #identify outliers
   outliers <- outlying_identify(mymst, x)
 
   #calculate outlying value
-  numer <- sum(mstmat[outliers,]) #sum of edges of outlying points
-  denom <- 0.5* sum(mstmat) # half because not lower triangular matrix
+  outlier_e <- sum(mstmat[outliers,]) #sum of edges of outlying points
+  overlap <- sum(mstmat[as.matrix(expand.grid(outliers,outliers))]) #outerliers connected to outliers
+  numer <- outlier_e - 0.5*overlap #overlap double counts
+  denom <-  0.5*sum(mstmat)
   numer/denom
 }
 
