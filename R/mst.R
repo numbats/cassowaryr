@@ -96,6 +96,55 @@ sc_striated.igraph <- function(mst, x){
   (sum(ifelse(angles_vect<(-0.75),1,0)))/length(vertex_counts)
 }
 
+#' Compute angle adjusted stirated measure using MST
+#'
+#' @examples
+#'   require(ggplot2)
+#'   require(tidyr)
+#'   require(dplyr)
+#'   data(anscombe_tidy)
+#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
+#'     geom_point() +
+#'     facet_wrap(~set, ncol=2, scales = "free")
+#'   sc_striated_adjusted(anscombe$x1, anscombe$y1)
+#' @export
+sc_striated_adjusted <- function(x, y) UseMethod("sc_striated_adjusted")
+
+#' @rdname sc_striated_adjusted
+#' @export
+sc_striated_adjusted.scree <- function(x, y = NULL) {
+  mst <- gen_mst(x$del, x$weights)
+  sc_striated_adjusted.igraph(mst, x)
+
+}
+
+#' @rdname sc_striated_adjusted
+#' @export
+sc_striated_adjusted.default <- function(x, y){
+  sc <- scree(x, y)
+  sc_striated_adjusted.scree(sc)
+}
+
+#' @rdname sc_striated_adjusted
+#' @export
+sc_striated_adjusted.igraph <- function(mst, x){
+  vertex_counts <- igraph::degree(mst)
+  print(vertex_counts)
+  angs <- which(vertex_counts==2)
+  angles_vect <- numeric(length(angs))
+  for(i in seq_len(length(angs))){
+    adjs <- which(mst[angs[i]]>0)
+    points <- x$del$x[adjs,]
+    origin <- x$del$x[angs[i],]
+    vects <- t(t(points)-origin)
+    angles_vect[i] <- (vects[1,]%*%vects[2,])/(prod(mst[angs[i]][adjs]))
+  }
+  print(ifelse(angles_vect<(-0.99), 1, 0))
+  print(ifelse(abs(angles_vect)<(0.01), 1, 0))
+  sum(c(ifelse(angles_vect<(-0.99), 1, 0),
+         ifelse(abs(angles_vect)<(0.01), 1, 0))) / length(vertex_counts)
+}
+
 #' Compute clumpy scagnostic measure using MST
 #'
 #' @examples
