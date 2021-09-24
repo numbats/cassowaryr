@@ -15,7 +15,8 @@
 #' @export
 draw_alphahull <- function(x, y, alpha=0.2) {
   d_ahull <- ahull(x, y, a=alpha)
-  p <- ggplot(as_tibble(x, y), aes(x, y)) + geom_point()
+  p <- ggplot(as_tibble(x, y), aes(x, y)) +
+    geom_point(alpha=0.5)
 
   d_ahull_c <- d_ahull$ashape.obj
   p + geom_segment(data=as_tibble(d_ahull_c$edges),
@@ -47,8 +48,8 @@ draw_mst <- function(x, y, alpha=0.5) {
     dplyr::ungroup() %>%
     dplyr::filter(connected==1)
   ggplot2::ggplot(d_MST) +
-    ggplot2::geom_point(ggplot2::aes(x=x1, y=y1)) +
-    ggplot2::geom_point(ggplot2::aes(x=x2, y=y2)) +
+    ggplot2::geom_point(ggplot2::aes(x=x1, y=y1), alpha=0.5) +
+    ggplot2::geom_point(ggplot2::aes(x=x2, y=y2), alpha=0.5) +
     ggplot2::geom_segment(ggplot2::aes(x=x1, xend=x2,
                      y=y1, yend=y2))
 }
@@ -83,7 +84,7 @@ draw_convexhull <- function(x, y, alpha=0.5) {
 
   # plot
   ggplot() +
-    geom_point(data=d, aes(x,y)) +
+    geom_point(data=d, aes(x,y), alpha=0.5) +
     geom_segment(data=d_ends,
                  aes(x=x1, y=y1,
                      xend=x2, yend=y2))
