@@ -10,6 +10,10 @@ reference:
   contents:
   - starts_with("sc_")
   - scree
+- title: drawing functions
+  desc: Draw building blocks of the scagnostics
+  contents:
+  - starts_with("draw_")
 - title: summary functions
   desc: Functions to compute multiple scagnostics and summarise output
   contents:

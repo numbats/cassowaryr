@@ -46,6 +46,12 @@
     <loc>https://numbats.github.io/cassowaryr/reference/draw_alphahull.html</loc>
   </url>
   <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/draw_convexhull.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/draw_mst.html</loc>
+  </url>
+  <url>
     <loc>https://numbats.github.io/cassowaryr/reference/features.html</loc>
   </url>
   <url>
@@ -89,6 +95,9 @@
   </url>
   <url>
     <loc>https://numbats.github.io/cassowaryr/reference/sc_striated.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_striated_adjusted.html</loc>
   </url>
   <url>
     <loc>https://numbats.github.io/cassowaryr/reference/sc_stringy.html</loc>

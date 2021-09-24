@@ -36,7 +36,7 @@ draw_alphahull <- function(x, y, alpha=0.2) {
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_MST(nl$x, nl$y)
 #' @export
-draw_MST <- function(x, y, alpha=0.5) {
+draw_mst <- function(x, y, alpha=0.5) {
   scree <- scree(x, y)
   MST <- gen_mst(scree$del, scree$weights)
   xystartend <- tibble::as_tibble(scree[["del"]][["mesh"]])
@@ -69,21 +69,21 @@ draw_MST <- function(x, y, alpha=0.5) {
 #' @export
 draw_convexhull <- function(x, y, alpha=0.5) {
 
-  #make scree and convex hull
+  # make scree and convex hull
   sc <- scree(x, y)
   chull <- gen_conv_hull(sc$del)
 
-  #make data of start and end points of hull
-  d_hull <- tibble(x = sc$del$mesh[,3],
-                 y = sc$del$mesh[,4])
+  # make data of start and end points of hull
+  d <- tibble(x = sc$del$x[,1],
+                 y = sc$del$x[,2])
   d_ends <- tibble(x1 = chull$x,
                  y1 = chull$y,
                  x2 = chull$x[c(2:length(chull$x),1)],
                  y2 = chull$y[c(2:length(chull$y),1)])
 
-  #plot
-  ggplot(d_hull, aes(x,y)) +
-    geom_point() +
+  # plot
+  ggplot() +
+    geom_point(data=d, aes(x,y)) +
     geom_segment(data=d_ends,
                  aes(x=x1, y=y1,
                      xend=x2, yend=y2))
