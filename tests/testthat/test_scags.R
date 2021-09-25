@@ -20,6 +20,9 @@ d1 <- sample(1:10, 100, replace=TRUE)
 d2 <- sample(1:10, 100, replace=TRUE)
 c1 <- rnorm(100)
 c2 <- rnorm(100)
+#rotated
+x3 <- c(c1, c2)
+y3 <- c(1.5*c1+1, 1.5*c2+3)
 
 #most striated_adjusted (both discrete)
 sc_striated_adjusted(d1,d2)
@@ -32,3 +35,8 @@ sc_striated(d1,c1)
 # least (both continuous)
 sc_striated_adjusted(c1,c2)
 sc_striated(c1,c2)
+
+# rotated (both continuous)
+sc_striated_adjusted(x3,y3)
+sc_striated(x3,y3)
+
