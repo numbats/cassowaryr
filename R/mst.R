@@ -128,24 +128,22 @@ sc_striated_adjusted.default <- function(x, y){
 #' @rdname sc_striated_adjusted
 #' @export
 sc_striated_adjusted.igraph <- function(mst, x){
-
-  vertex_counts <- igraph::degree(mst)-1
-  angs <- rep(1:length(vertex_counts), vertex_counts)
-  angles_vect <- 0.5*sum(vertex_counts)
-
-  print(angs)
+  vertex_counts <- igraph::degree(mst)
+  angs <- which(vertex_counts>=2)
+  stri=0
   for(i in seq_len(length(angs))){
     adjs <- which(mst[angs[i]]>0)
     points <- x$del$x[adjs,]
     origin <- x$del$x[angs[i],]
     vects <- t(t(points)-origin)
-    angles_vect[i] <- (vects[1,]%*%vects[2,])/(prod(mst[angs[i]][adjs]))
+    b =0
+    for(j in seq(length(vects[,1])-1)){
+      costheta <- (vects[j,]%*%vects[j+1,])/(sqrt(sum(vects[j,]^2))*sqrt(sum(vects[j+1,]^2)))
+      b <- ifelse(any(c(costheta<(-0.99), abs(costheta)<0.01)), b+1, b)
+    }
+    stri <- stri + b
   }
-  print(angles_vect)
-  print(ifelse(angles_vect<(-0.99), 1, 0))
-  print(ifelse(abs(angles_vect)<(0.01), 1, 0))
-  sum(c(ifelse(angles_vect<(-0.99), 1, 0),
-         ifelse(abs(angles_vect)<(0.01), 1, 0))) / length(vertex_counts)
+  stri/(0.5*sum(vertex_counts) - 1)
 }
 
 #' Compute clumpy scagnostic measure using MST
