@@ -8,7 +8,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
+calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated_adjusted", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
   #make a dataset of all pairwise variable combinations
   all_combs <- expand.grid(colnames(all_data),colnames(all_data))%>%
@@ -54,11 +54,12 @@ intermediate_scags <- function(vars, data, scags, pb){
 #'     scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "clumpy", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated_adjusted", "clumpy", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
   striated = NULL
+  striated_adjusted = NULL
   clumpy = NULL
   sparse = NULL
   skewed = NULL
@@ -86,6 +87,9 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "clumpy"
   }
   if("striated" %in% scags){
     striated <- sc_striated.igraph(mst, sc)
+  }
+  if("striated_adjusted" %in% scags){
+    striated_adjusted <- sc_striated_adjusted.igraph(mst, sc)
   }
   if("clumpy" %in% scags){
     clumpy <- sc_clumpy.igraph(mst, sc)
@@ -125,6 +129,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "clumpy"
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
                              "striated"=striated,
+                             "striated_adjusted" = striated_adjusted,
                              "clumpy"=clumpy,
                              "sparse"=sparse,
                              "skewed"=skewed,
