@@ -137,7 +137,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
     splines <- sc_splines(x,y)
   }
   if("dcor" %in% scags){
-    dcor <- sc_splines(x,y)
+    dcor <- sc_dcor(x,y)
   }
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
