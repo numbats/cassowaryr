@@ -476,7 +476,7 @@ outlying_identify <- function(mst, scr){
   mstmat_lt <- matlist$lowertri
 
   #calculate w value
-  edges <- mstmat_lt[which(mstmat>0)]
+  edges <- mstmat_lt[which(mstmat_lt>0)]
   w <- psi(edges)
 
   #set values above w to 0 in matrix to find outlying
