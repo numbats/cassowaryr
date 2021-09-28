@@ -254,14 +254,17 @@ sc_clumpy.igraph <- function(mymst, x){
     c2weights <- mst_ej[c2ind]
 
     #set K weight value
-    ek_weight <- ifelse(sum(c1weights)<sum(c2weights), max(c(0,c1weights)), max(c(0,c2weights)))
+    ek <- max(c(0,c1weights)) #max(c1weights, na.rm=TRUE)
+    em <- max(c(0,c2weights)) #max(c2weights, na.rm=TRUE)
+    ek_weight <- ifelse(length(c1weights)<length(c2weights), ek, em)
+
 
     #calculate this clumpy value
-    clumpy[j] <- ifelse(ek_weight==0, 0, 1 - (ek_weight/ej_weight))
-
+    clumpy[j] <- ifelse(ek_weight==0, 0, 1 - (ek_weight/ej_weight)) # ifelse(is.finite(1 - ek_weight/ej_weight), 1 - ek_weight/ej_weight, 0)
   }
+
   #remove NA and return final clumpy measure
-  max(clumpy)
+  max(clumpy, na.rm=TRUE)
 
 }
 
