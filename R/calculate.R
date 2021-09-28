@@ -10,20 +10,33 @@
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated_adjusted", "clumpy", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
-  #make a dataset of all pairwise variable combinations
-  all_combs <- expand.grid(colnames(all_data),colnames(all_data))%>%
+  # Check if variables are non-constant
+  std_dev <- all_data %>% summarise_all(sd, na.rm=TRUE)
+  keep <- names(std_dev)[std_dev > 0]
+  drop <- names(std_dev)[!(names(std_dev) %in% keep)]
+  if (length(drop) > 0) {
+    message("These variables have constant values and are removed: \n")
+    for (i in 1:length(drop))
+      message(drop[i])
+    all_data <- all_data[, keep]
+  }
+
+  # make a dataset of all pairwise variable combinations
+  all_combs <- expand.grid(colnames(all_data), colnames(all_data)) %>%
     dplyr::filter(!(Var1==Var2))
 
-  #get rid of reversed duplicates
-  all_combs <- all_combs[!duplicated(apply(all_combs,1,function(x) paste(sort(x),collapse=''))),]
+  # get rid of reversed duplicates
+  all_combs <- all_combs[!duplicated(apply(all_combs, 1, function(x) paste(sort(x), collapse=''))),]
 
-  #set up progress bar (ticks in intermediate scags)
+  # set up progress bar (ticks in intermediate scags)
   num_ticks <- length(all_combs$Var1)
   pb <- progress_bar$new(format = "[:bar] (:percent) eta :eta", total = num_ticks)
-  #calculate scagnostics
+  # calculate scagnostics
   all_combs %>%
     dplyr::group_by(Var1, Var2)%>%
-    dplyr::summarise(intermediate_scags(vars=c(Var1, Var2), data=all_data, scags=scags, pb))
+    dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
+                                        data=all_data,
+                                        scags=scags, pb))
 
 }
 
