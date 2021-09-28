@@ -119,7 +119,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   }
 
   #CALCULATE ALPHA HULL MEASURES
-  if(xor("convex" %in% scags, "skinny" %in% scags)){
+  if(any("convex" %in% scags, "skinny" %in% scags)){
     chull <- gen_conv_hull(sc$del)
     ahull <- gen_alpha_hull(sc$del, sc$alpha)
     if("convex" %in% scags){
