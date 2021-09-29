@@ -268,6 +268,33 @@ sc_clumpy.igraph <- function(mymst, x){
 
 }
 
+#' @export
+sc_clumpy_adjusted <- function(x, y) UseMethod("sc_clumpy_adjusted")
+
+#' @rdname sc_clumpy_adjusted
+#' @export
+sc_clumpy_adjusted.default <- function(x, y){
+  sc <- scree(x, y)
+  sc_clumpy_adjusted.scree(sc)
+}
+
+#' @rdname sc_clumpy_adjusted
+#' @export
+sc_clumpy_adjusted.scree <- function(x, y = NULL) {
+  mymst <- gen_mst(x$del, x$weights)
+  sc_clumpy_adjusted.igraph(mymst,x)
+}
+
+#' @rdname sc_clumpy_adjusted
+#' @export
+sc_clumpy_adjusted.igraph <- function(mst, sc){
+  mstmat <- twomstmat(mst, sc)$lowertri
+  edges <- sort(mstmat[which(mstmat>0)])
+  ind <- which.max(diff(edges))
+  numer <- mean(edges[(ind+1):length(edges)])
+  denom <- median(edges[1:ind])
+  numer/denom
+}
 
 
 #' Compute sparse scagnostic measure using MST
