@@ -114,7 +114,7 @@ inner_clumpy <- function(mstmat){
     denom <- (length(c1ind)+length(c2ind))*ej_weight
 
     #maintain vectors
-    clumpy[j] <- ifelse(denom==0, 0, 1 - (numer1+numer2)/denom) #set =0 if denom=0
+    clumpy[j] <- 1 - (numer1+numer2)/denom #ifelse(denom==0, 0, 1 - (numer1+numer2)/denom) #set =0 if denom=0
     ej[j] <- ej_weight
 
   }
@@ -136,16 +136,22 @@ outside_cluster <- function(mstmat_lt){
   #get clumpy value
   clump_ej <- inner_clumpy(mstmat_lt)
 
-  #no split
-  if(clump_ej[2]<w){
-    val <- length(edges)*clump_ej[1]
+  #check if leaf actualll has clumpy value
+  val=0
+
+  if(length(clump_ej)>0){
+    #no split
+    if(clump_ej[2]<w){
+      val <- length(edges)*clump_ej[1]
+    }
+    #split
+    if(clump_ej[2]>=w){
+      #split into two MST
+      newclusters <- split_clusters(mstmat_lt, clump_ej[3])
+      val <- c(outside_cluster(newclusters$mat1), outside_cluster(newclusters$mat2))
+    }
   }
-  #split
-  if(clump_ej[2]>=w){
-    #split into two MST
-    newclusters <- split_clusters(mstmat_lt, clump_ej[3])
-    val <- c(outside_cluster(newclusters$mat1), outside_cluster(newclusters$mat2))
-  }
+
   val #retun value
 }
 
