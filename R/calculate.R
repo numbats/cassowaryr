@@ -86,6 +86,25 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   #make original and outlying adjusted scree+mst
   sm_list <- original_and_robust(x,y)
 
+  if(is.null(sm_list)){
+    # this is null when one of the variables is constant after outlier removal
+    return(
+      dplyr::tibble("outlying"=NA,
+                    "stringy"=NA,
+                    "striated"=NA,
+                    "striated_adjusted" = NA,
+                    "clumpy"=NA,
+                    "clumpy_adjusted"=NA,
+                    "sparse"=NA,
+                    "skewed"=NA,
+                    "convex"=NA,
+                    "skinny"=NA,
+                    "monotonic"=NA,
+                    "splines"=NA,
+                    "dcor"=NA)
+    )
+  }
+
   #scree and mst without outlier removal
   sc_orig <- sm_list$scree_ori
   mst_orig <- sm_list$mst_ori
