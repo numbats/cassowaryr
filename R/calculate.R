@@ -11,7 +11,7 @@
 calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated_adjusted", "clumpy", "clumpy_adjusted", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
   # Check if variables are non-constant
-  std_dev <- all_data %>% summarise_all(sd, na.rm=TRUE)
+  std_dev <- all_data %>% dplyr::summarise_all(sd, na.rm=TRUE)
   keep <- names(std_dev)[std_dev > 0]
   drop <- names(std_dev)[!(names(std_dev) %in% keep)]
   if (length(drop) > 0) {
