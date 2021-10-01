@@ -538,6 +538,7 @@ original_and_robust <- function(x,y){
   if(length(outliers)>0){
     new_x <- x[-outliers]
     new_y <- y[-outliers]
+    if(sd(new_x) == 0 | sd(new_y) == 0) return(NULL)
     #recalculate scree and MST
     sc_robust <- scree(new_x,new_y)
     mst_robust <- gen_mst(sc_robust$del, sc_robust$weights)

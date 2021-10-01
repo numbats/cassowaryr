@@ -11,7 +11,7 @@
 calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated_adjusted", "clumpy", "clumpy_adjusted", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
   # Check if variables are non-constant
-  std_dev <- all_data %>% summarise_all(sd, na.rm=TRUE)
+  std_dev <- all_data %>% dplyr::summarise_all(sd, na.rm=TRUE)
   keep <- names(std_dev)[std_dev > 0]
   drop <- names(std_dev)[!(names(std_dev) %in% keep)]
   if (length(drop) > 0) {
@@ -85,6 +85,25 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
 
   #make original and outlying adjusted scree+mst
   sm_list <- original_and_robust(x,y)
+
+  if(is.null(sm_list)){
+    # this is null when one of the variables is constant after outlier removal
+    return(
+      dplyr::tibble("outlying"=NA,
+                    "stringy"=NA,
+                    "striated"=NA,
+                    "striated_adjusted" = NA,
+                    "clumpy"=NA,
+                    "clumpy_adjusted"=NA,
+                    "sparse"=NA,
+                    "skewed"=NA,
+                    "convex"=NA,
+                    "skinny"=NA,
+                    "monotonic"=NA,
+                    "splines"=NA,
+                    "dcor"=NA)
+    )
+  }
 
   #scree and mst without outlier removal
   sc_orig <- sm_list$scree_ori
