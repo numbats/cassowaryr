@@ -14,7 +14,7 @@
 #' draw_alphahull(nl$x, nl$y)
 #' @export
 draw_alphahull <- function(x, y, alpha=0.2) {
-  d_ahull <- ahull(x, y, a=alpha)
+  d_ahull <- alphahull::ahull(x, y, a=alpha)
   p <- ggplot(as_tibble(x, y), aes(x, y)) +
     geom_point(alpha=0.5)
 
