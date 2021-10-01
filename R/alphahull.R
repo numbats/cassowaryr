@@ -99,7 +99,7 @@ sc_skinny.list <- function(ahull){
     s <- 1 - sqrt(4*pi * ahull_area) / ahull$length
   }
   else
-    s <- 0
+    s <- 1
   return(s)
 }
 
