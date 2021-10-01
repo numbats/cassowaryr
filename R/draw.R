@@ -5,6 +5,8 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @param clr optional colour of points and lines, default black
+#' @param fill Fill the polygon
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
@@ -13,14 +15,17 @@
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_alphahull(nl$x, nl$y)
 #' @export
-draw_alphahull <- function(x, y, alpha=0.2) {
+draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
   d_ahull <- alphahull::ahull(x, y, a=alpha)
-  p <- ggplot(as_tibble(x, y), aes(x, y)) +
-    geom_point(alpha=0.5)
+    p <- ggplot() +
+      geom_point(data=as_tibble(x, y), aes(x, y),
+                 colour = "black", alpha=0.5)
 
   d_ahull_c <- d_ahull$ashape.obj
-  p + geom_segment(data=as_tibble(d_ahull_c$edges),
-                   aes(x=x1, xend=x2, y=y1, yend=y2))
+  p <- p + geom_segment(data=as_tibble(d_ahull_c$edges),
+                   aes(x=x1, xend=x2, y=y1, yend=y2),
+                   colour = clr)
+  p
 }
 
 #' Drawing the MST
@@ -61,6 +66,8 @@ draw_mst <- function(x, y, alpha=0.5) {
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @param clr optional colour of points and lines, default black
+#' @param fill Fill the polygon
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
@@ -68,7 +75,7 @@ draw_mst <- function(x, y, alpha=0.5) {
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_convexhull(nl$x, nl$y)
 #' @export
-draw_convexhull <- function(x, y, alpha=0.5) {
+draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
 
   # make scree and convex hull
   sc <- scree(x, y)
@@ -83,10 +90,16 @@ draw_convexhull <- function(x, y, alpha=0.5) {
                  y2 = chull$y[c(2:length(chull$y),1)])
 
   # plot
-  ggplot() +
-    geom_point(data=d, aes(x,y), alpha=0.5) +
-    geom_segment(data=d_ends,
-                 aes(x=x1, y=y1,
-                     xend=x2, yend=y2))
+  p <- ggplot() +
+    geom_point(data = d, aes(x, y), colour = "black", alpha = 0.5)
 
+  p <- p + geom_segment(data = d_ends,
+                 aes(x=x1, y=y1,
+                     xend=x2, yend=y2), colour = clr)
+
+  if (fill)
+    p <- p + geom_polygon(data=d_ends,
+                          aes(x=x1, y=y1),
+                          fill = clr, alpha = 0.5)
+  p
 }

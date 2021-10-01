@@ -6,8 +6,9 @@
 \usage{
 calc_scags_wide(
   all_data,
-  scags = c("outlying", "stringy", "striated", "striated_adjusted", "clumpy", "sparse",
-    "skewed", "convex", "skinny", "monotonic", "splines", "dcor"),
+  scags = c("outlying", "stringy", "striated", "striated_adjusted", "clumpy",
+    "clumpy_adjusted", "sparse", "skewed", "convex", "skinny", "monotonic", "splines",
+    "dcor"),
   euclid = TRUE
 )
 }

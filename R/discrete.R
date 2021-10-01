@@ -22,6 +22,19 @@ sc_striped <- function(x, y){
   # TODO: Need to make this work for rotations,
   # and do some rounding
   dx <- unique(x)
-  length(dx)/length(x)
+  value <- 1-length(dx)/length(x)
+  xs <- x - mean(x)
+  ys <- y - mean(y)
+  for (ang in seq(0, pi, pi/180)) {
+    xr <- sin(ang)*xs + cos(ang)*ys
+    #yr <- -cos(ang)*xs + sin(ang)*ys
+    dx <- unique(xr)
+    new_value <- 1-length(dx)/length(x)
+    if (new_value > value) {
+      value <- new_value
+      cat(value, " ", new_value, "\n")
+    }
+  }
+  value
 }
 
