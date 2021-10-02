@@ -292,7 +292,7 @@ sc_clumpy_adjusted.igraph <- function(mst, sc){
   edges <- sort(mstmat[which(mstmat>0)])
   ind <- which.max(diff(edges))
   bigedges <- mean(edges[(ind+1):length(edges)])
-  smalledges <- median(edges[1:ind])
+  smalledges <- max(edges[1:ind])
   1- smalledges/bigedges
 }
 
