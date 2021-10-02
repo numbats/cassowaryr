@@ -291,9 +291,9 @@ sc_clumpy_adjusted.igraph <- function(mst, sc){
   mstmat <- twomstmat(mst, sc)$lowertri
   edges <- sort(mstmat[which(mstmat>0)])
   ind <- which.max(diff(edges))
-  numer <- mean(edges[(ind+1):length(edges)])
-  denom <- median(edges[1:ind])
-  numer/denom
+  bigedges <- mean(edges[(ind+1):length(edges)])
+  smalledges <- median(edges[1:ind])
+  1- smalledges/bigedges
 }
 
 
