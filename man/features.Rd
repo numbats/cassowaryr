@@ -5,7 +5,8 @@
 \alias{features}
 \title{Simulated data with special features}
 \format{
-A tibble with 1,013 observations and 3 variables
+A tibble with 1,013 observations and 3 variables,
+and 15 different patterns
 \describe{
   \item{feature}{label of data set}
   \item{x}{variable for horizontal axis}

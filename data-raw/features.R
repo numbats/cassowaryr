@@ -71,7 +71,7 @@ l_shape <- tibble(x = c(rexp(50, 0.01), runif(50)*20),
 
 discrete <- tibble(x = rnorm(200)) %>%
   mutate(y = -x+rnorm(25)*0.1 + rep(0:7, 25)) %>%
-  filter((scale(x)^2 + scale(y)^2) < 2) %>%
+  filter((((x-mean(x))/sd(x))^2 + ((y-mean(y))/sd(y))^2) < 2) %>%
   mutate(feature = "discrete") %>%
   select(feature, x, y)
 
@@ -79,6 +79,31 @@ hetero <- tibble(x = runif(200)-0.5) %>%
   mutate(y = -2*x+rnorm(200)*(x+0.5)) %>%
   mutate(feature = "heteroskedastic") %>%
   select(feature, x, y)
+
+# Harriet's additional features
+# generate circle data
+theta <- runif(150, 0, 2*pi)
+r1 <- rbeta(150, 3, 2)
+r2 <- rbeta(150, 10, 1)
+
+disk <- tibble(x = r1*cos(theta),
+               y = r1*sin(theta),
+               feature = "disk")
+ring <- tibble(x = r2*cos(theta),
+               y = r2*sin(theta),
+               feature = "ring")
+vlines <- tibble(x = sample(c(1,2,3), 150, replace=TRUE),
+                 y = theta,
+                 feature = "vlines")
+outliers2 <- tibble(x = c(rnorm(147, 0,1), 0, 10, 10),
+                    y = c(rnorm(147, 0,1), 10, 10, 0),
+                    feature = "outliers2")
+line <- tibble(x = theta,
+               y = 2*theta + 2,
+               feature = "line")
+nonlinear1 <- tibble(x = theta,
+                     y = 2*theta^3 - 10*theta^2 - 5*theta +  8,
+                     feature = "nonlinear1")
 
 features <- bind_rows(d_trend,
                       d_strength,
@@ -88,8 +113,15 @@ features <- bind_rows(d_trend,
                       d_gaps,
                       d_barrier,
                       discrete,
-                      l_shape)
+                      l_shape,
+                      disk,
+                      ring,
+                      vlines,
+                      outliers2,
+                      line,
+                      nonlinear1)
 
 ggplot(features, aes(x, y)) +
   geom_point() +
-  facet_wrap(~feature, scales = "free")
+  facet_wrap(~feature, scales = "free") +
+  theme(aspect.ratio = 1)

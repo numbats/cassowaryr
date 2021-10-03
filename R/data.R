@@ -75,7 +75,8 @@ NULL
 #' Simulated data with common features that might
 #' be seen in 2D data. Variable are feature, x, y.
 #'
-#' @format A tibble with 1,013 observations and 3 variables
+#' @format A tibble with 1,013 observations and 3 variables,
+#' and 15 different patterns
 #' \describe{
 #'   \item{feature}{label of data set}
 #'   \item{x}{variable for horizontal axis}

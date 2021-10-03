@@ -20,7 +20,8 @@
 #' @export
 sc_striped <- function(x, y){
   # TODO: Need to make this work for rotations,
-  # and do some rounding
+  # and do some rounding, bin first and then
+  # the rounding isn't necessary
   dx <- unique(x)
   value <- 1-length(dx)/length(x)
   xs <- x - mean(x)
