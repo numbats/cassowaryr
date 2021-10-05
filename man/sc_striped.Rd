@@ -15,11 +15,11 @@ sc_striped(x, y)
 double
 }
 \description{
-This metric computes the ration between the
-number of unique values to total data values
+This metric computes the 1-(ratio between the
+number of unique values to total data values)
 on number of rotations of the data, and
 returns the smallest value. If this value is
-small it means that there are only a few unique
+large it means that there are only a few unique
 data values, and hence the distribution is
 discrete
 }
