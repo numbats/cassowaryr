@@ -35,7 +35,8 @@ Imports:
     tripack,
     dplyr,
     ggplot2,
-    magrittr
+    magrittr,
+    progress
 RoxygenNote: 7.1.1
 Suggests: 
     rmarkdown,
