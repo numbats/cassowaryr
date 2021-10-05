@@ -82,6 +82,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   monotonic = NULL
   splines = NULL
   dcor = NULL
+  striped = NULL
 
   #make original and outlying adjusted scree+mst
   sm_list <- original_and_robust(x,y)
@@ -101,7 +102,8 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
                     "skinny"=NA,
                     "monotonic"=NA,
                     "splines"=NA,
-                    "dcor"=NA)
+                    "dcor"=NA,
+                    "stripes"=NA)
     )
   }
 
@@ -162,6 +164,12 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   if("dcor" %in% scags){
     dcor <- sc_dcor(x,y)
   }
+
+  # Striped, special index
+  if("striped" %in% scags){
+    striped <- sc_striped(x,y)
+  }
+
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
                              "striated"=striated,
@@ -174,7 +182,8 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
                              "skinny"=skinny,
                              "monotonic"=monotonic,
                              "splines"=splines,
-                             "dcor"=dcor)
+                             "dcor"=dcor,
+                             "striped"=striped)
   return(scagnostic_calcs)
 }
 
