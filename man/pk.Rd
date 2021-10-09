@@ -7,17 +7,17 @@
 \format{
 A tibble with 1,013 observations and 3 variables
 \describe{
-  \item{name}{ASCII subject name and recording number}
-  \item{`MDVP:Fo(Hz)`}{Average vocal fundamental frequency}
-  \item{`MDVP:Fhi(Hz)`}{Maximum vocal fundamental frequency}
-  \item{`MDVP:Flo(Hz)`}{Minimum vocal fundamental frequency}
-  \item{`MDVP:Jitter`,`MDVP:Jitter(Abs)`,`MDVP:RAP`,`MDVP:PPQ`,`Jitter:DDP`}{Several measures of variation in fundamental frequency}
-  \item{`MDVP:Shimmer`,`MDVP:Shimmer(dB)`,`Shimmer:APQ3`,`Shimmer:APQ5`,`MDVP:APQ`,`Shimmer:DDA`}{Several measures of variation in amplitude}
-  \item{`NHR`,`HNR`}{Two measures of ratio of noise to tonal components in the voice}
-  \item{`status`}{Health status of the subject (one) - Parkinson's, (zero) - healthy}
-  \item{`RPDE`,`D2`}{Two nonlinear dynamical complexity measures}
-  \item{`DFA`}{Signal fractal scaling exponent}
-  \item{`spread1`,`spread2`,`PPE`}{Three nonlinear measures of fundamental frequency variation}
+\item{name}{ASCII subject name and recording number}
+\item{\code{MDVP:Fo(Hz)}}{Average vocal fundamental frequency}
+\item{\code{MDVP:Fhi(Hz)}}{Maximum vocal fundamental frequency}
+\item{\code{MDVP:Flo(Hz)}}{Minimum vocal fundamental frequency}
+\item{\code{MDVP:Jitter},\code{MDVP:Jitter(Abs)},\code{MDVP:RAP},\code{MDVP:PPQ},\code{Jitter:DDP}}{Several measures of variation in fundamental frequency}
+\item{\code{MDVP:Shimmer},\code{MDVP:Shimmer(dB)},\code{Shimmer:APQ3},\code{Shimmer:APQ5},\code{MDVP:APQ},\code{Shimmer:DDA}}{Several measures of variation in amplitude}
+\item{\code{NHR},\code{HNR}}{Two measures of ratio of noise to tonal components in the voice}
+\item{\code{status}}{Health status of the subject (one) - Parkinson's, (zero) - healthy}
+\item{\code{RPDE},\code{D2}}{Two nonlinear dynamical complexity measures}
+\item{\code{DFA}}{Signal fractal scaling exponent}
+\item{\code{spread1},\code{spread2},\code{PPE}}{Three nonlinear measures of fundamental frequency variation}
 }
 }
 \description{
@@ -31,7 +31,7 @@ from those with PD, according to "status" column
 which is set to 0 for healthy and 1 for PD.
 }
 \details{
-The data is available at [The UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Parkinsons)
+The data is available at \href{https://archive.ics.uci.edu/ml/datasets/Parkinsons}{The UCI Machine Learning Repository}
 in ASCII CSV format. The rows of the CSV file contain
 an instance corresponding to one voice recording.
 There are around six recordings per patient, the name

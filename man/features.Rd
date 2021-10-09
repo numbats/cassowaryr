@@ -8,9 +8,9 @@
 A tibble with 1,013 observations and 3 variables,
 and 15 different patterns
 \describe{
-  \item{feature}{label of data set}
-  \item{x}{variable for horizontal axis}
-  \item{y}{variable for vertical axis}
+\item{feature}{label of data set}
+\item{x}{variable for horizontal axis}
+\item{y}{variable for vertical axis}
 }
 }
 \description{

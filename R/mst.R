@@ -96,56 +96,6 @@ sc_striated.igraph <- function(mst, x){
   (sum(ifelse(angles_vect<(-0.75),1,0)))/length(vertex_counts)
 }
 
-#' Compute angle adjusted stirated measure using MST
-#'
-#' @examples
-#'   require(ggplot2)
-#'   require(tidyr)
-#'   require(dplyr)
-#'   data(anscombe_tidy)
-#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~set, ncol=2, scales = "free")
-#'   sc_striated_adjusted(anscombe$x1, anscombe$y1)
-#' @export
-sc_striated_adjusted <- function(x, y) UseMethod("sc_striated_adjusted")
-
-#' @rdname sc_striated_adjusted
-#' @export
-sc_striated_adjusted.scree <- function(x, y = NULL) {
-  mst <- gen_mst(x$del, x$weights)
-  sc_striated_adjusted.igraph(mst, x)
-
-}
-
-#' @rdname sc_striated_adjusted
-#' @export
-sc_striated_adjusted.default <- function(x, y){
-  sc <- scree(x, y)
-  sc_striated_adjusted.scree(sc)
-}
-
-#' @rdname sc_striated_adjusted
-#' @export
-sc_striated_adjusted.igraph <- function(mst, x){
-  vertex_counts <- igraph::degree(mst)
-  angs <- which(vertex_counts>=2)
-  stri=0
-  for(i in seq_len(length(angs))){
-    adjs <- which(mst[angs[i]]>0)
-    points <- x$del$x[adjs,]
-    origin <- x$del$x[angs[i],]
-    vects <- t(t(points)-origin)
-    b =0
-    for(j in seq(length(vects[,1])-1)){
-      costheta <- (vects[j,]%*%vects[j+1,])/(sqrt(sum(vects[j,]^2))*sqrt(sum(vects[j+1,]^2)))
-      b <- ifelse(any(c(costheta<(-0.99), abs(costheta)<0.01)), b+1, b)
-    }
-    stri <- stri + b
-  }
-  stri/(0.5*sum(vertex_counts) - 1)
-}
-
 #' Compute clumpy scagnostic measure using MST
 #'
 #' @examples
@@ -267,35 +217,6 @@ sc_clumpy.igraph <- function(mymst, x){
   max(clumpy, na.rm=TRUE)
 
 }
-
-#' @export
-sc_clumpy_adjusted <- function(x, y) UseMethod("sc_clumpy_adjusted")
-
-#' @rdname sc_clumpy_adjusted
-#' @export
-sc_clumpy_adjusted.default <- function(x, y){
-  sc <- scree(x, y)
-  sc_clumpy_adjusted.scree(sc)
-}
-
-#' @rdname sc_clumpy_adjusted
-#' @export
-sc_clumpy_adjusted.scree <- function(x, y = NULL) {
-  mymst <- gen_mst(x$del, x$weights)
-  sc_clumpy_adjusted.igraph(mymst,x)
-}
-
-#' @rdname sc_clumpy_adjusted
-#' @export
-sc_clumpy_adjusted.igraph <- function(mst, sc){
-  mstmat <- twomstmat(mst, sc)$lowertri
-  edges <- sort(mstmat[which(mstmat>0)])
-  ind <- which.max(diff(edges))
-  bigedges <- mean(edges[(ind+1):length(edges)])
-  smalledges <- max(edges[1:ind])
-  1- smalledges/bigedges
-}
-
 
 #' Compute sparse scagnostic measure using MST
 #'

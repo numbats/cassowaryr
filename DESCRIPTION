@@ -37,7 +37,7 @@ Imports:
     ggplot2,
     magrittr,
     progress
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
     knitr,
@@ -46,3 +46,4 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)

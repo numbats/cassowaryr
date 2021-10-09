@@ -16,10 +16,12 @@ to triangulation}
 }
 \value{
 An object of class "scree" that consists of three elements:
- - `del`: the Delauney-Vornoi tesselation from [alphahull::delvor()]
- - `weights`: the lengths of each edge in the Delauney triangulation
- - `alpha`: the radius or `alpha` value that will be used to generate the
- alphahull
+\itemize{
+\item \code{del}: the Delauney-Vornoi tesselation from \code{\link[alphahull:delvor]{alphahull::delvor()}}
+\item \code{weights}: the lengths of each edge in the Delauney triangulation
+\item \code{alpha}: the radius or \code{alpha} value that will be used to generate the
+alphahull
+}
 }
 \description{
 Pre-processing to generate scagnostic measures

@@ -7,9 +7,9 @@
 \format{
 A tibble with 44 observations and 3 variables
 \describe{
-  \item{set}{label of the data set, each set has 11 observations}
-  \item{x}{variable for horizontal axis}
-  \item{y}{variable for vertical axis}
+\item{set}{label of the data set, each set has 11 observations}
+\item{x}{variable for horizontal axis}
+\item{y}{variable for vertical axis}
 }
 }
 \description{

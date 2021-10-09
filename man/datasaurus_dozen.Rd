@@ -8,27 +8,27 @@
 \format{
 A tibble with 1,846 observations and 3 variables
 \describe{
-  \item{dataset}{label of data set}
-  \item{x}{variable for horizontal axis}
-  \item{y}{variable for vertical axis}
+\item{dataset}{label of data set}
+\item{x}{variable for horizontal axis}
+\item{y}{variable for vertical axis}
 }
 
 A tibble with 142 observations and 26 variables
 \describe{
-  \item{away_x, away_y}{x and y variables for away data}
-  \item{bullseye_x, bullseye_y}{x and y variables for bullseye data}
-  \item{circle_x, circle_y}{x and y variables for circle data}
-  \item{dino_x, dino_y}{x and y variables for dino data}
-  \item{dots_x, dots_y}{x and y variables for dots data}
-  \item{h_lines_x, h_lines_y}{x and y variables for h_lines data}
-  \item{high_lines_x, high_lines_y}{x and y variables for high_lines data}
-  \item{slant_down_x, slant_down_y}{x and y variables for slant_down data}
-  \item{slant_up_x, slant_up_y}{x and y variables for slant_up data}
-  \item{star_x, star_y}{x and y variables for star data}
-  \item{v_lines_x, v_lines_y}{x and y variables for v_lines data}
-  \item{wide_lines_x, wide_lines_y}{x and y variables for wide_lines data}
-  \item{star_x, star_y}{x and y variables for star data}
-  \item{x_shape_x, x_shape_y}{x and y variables for x_shape data}
+\item{away_x, away_y}{x and y variables for away data}
+\item{bullseye_x, bullseye_y}{x and y variables for bullseye data}
+\item{circle_x, circle_y}{x and y variables for circle data}
+\item{dino_x, dino_y}{x and y variables for dino data}
+\item{dots_x, dots_y}{x and y variables for dots data}
+\item{h_lines_x, h_lines_y}{x and y variables for h_lines data}
+\item{high_lines_x, high_lines_y}{x and y variables for high_lines data}
+\item{slant_down_x, slant_down_y}{x and y variables for slant_down data}
+\item{slant_up_x, slant_up_y}{x and y variables for slant_up data}
+\item{star_x, star_y}{x and y variables for star data}
+\item{v_lines_x, v_lines_y}{x and y variables for v_lines data}
+\item{wide_lines_x, wide_lines_y}{x and y variables for wide_lines data}
+\item{star_x, star_y}{x and y variables for star data}
+\item{x_shape_x, x_shape_y}{x and y variables for x_shape data}
 }
 }
 \description{
