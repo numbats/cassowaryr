@@ -163,97 +163,19 @@ sc_clumpy2.igraph <- function(mst, sc){
     len_c2 <- length(c2weights)
     # take the value of the smaller cluster (points wise)
     c_length <- ifelse(len_c1 > len_c2, len_c2, len_c1)
-
     # and get short edge
     short_edge <- ifelse(len_c1 > len_c2, median(c2weights), median(c1weights))
     # possible code for dealing with irregular clusters
     # short_edge <- ifelse(len_c1 == len_c2, max(c(c2weights,c1weights)), short_edge)
 
     # calculate clumpy value w penalty for uneven clusters
-    uneven <- ((2*c_length)/(len_c1+len_c2))
+    uneven <- sqrt((2*c_length)/(len_c1+len_c2))
     clumpy[j] <- uneven*(big_ew[j]/short_edge)
+    #just setting this now will fix to something more appropriate later
+    clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j]) #return 1 if all clusters are of size 1
   }
-  mean(clumpy)
-}
-
-sc_clumpy.igraph <- function(mymst, x){
-
-  #lower triangular matrix
-  mstmat <- twomstmat(mymst,x)$lowertri
-
-  #make index variables to iterate through
-  matind <- which(mstmat>0)
-  rows <- matind %% length(mstmat[,1])
-  cols <- (matind-1) %/% length(mstmat[,1]) +1
-  clumpy <- rep(0,length(matind))
-
-  for(j in seq(length(rows))){
-    #set mst we are going to remove all the edges from
-    mst_ej <- mstmat
-
-    #have two clusters sprawling out from the deleted edge (inex i)
-    c1rowcol <- rows[j]
-    c2rowcol <- cols[j]
-
-    #get weight of ej
-    ej_weight <- mst_ej[matind[j]]
-
-    #remove ej and all values in mst that are greater than ej
-    mst_ej[which(mst_ej>=ej_weight)] = 0
-
-    #remake index objects to edit within iteration
-    matind_ej <- which(mst_ej>0)
-    rows_ej <- matind_ej %% length(mst_ej[,1])
-    cols_ej <- (matind_ej-1) %/% length(mst_ej[,1]) +1
-
-    #initialise variable that checks if clusters have changed
-    whilecheck <- c(c1rowcol,c2rowcol)
-    quitloop = 0
-
-    #add in new indices until both clusters are full
-    while(quitloop==0){
-
-      #find matches in rows/columns to join connected vertices
-      c1rowcol <- unique(c(c1rowcol,
-                           rows_ej[which(cols_ej%in%c1rowcol)],
-                           cols_ej[which(rows_ej%in%c1rowcol)]))
-      c2rowcol <- unique(c(c2rowcol,
-                           rows_ej[which(cols_ej%in%c2rowcol)],
-                           cols_ej[which(rows_ej%in%c2rowcol)]))
-
-      #check if indices are done updating
-      if(setequal(whilecheck, c(c1rowcol,c2rowcol))){
-        quitloop=1
-      }
-
-      #update while loop check
-      whilecheck = c(c1rowcol,c2rowcol)
-
-    }
-
-    #get matrix indices of each of the clusters
-    c1ind <- unique(c(matind_ej[which(cols_ej%in%c1rowcol)],
-                      matind_ej[which(rows_ej%in%c1rowcol)]))
-    c2ind <- unique(c(matind_ej[which(cols_ej%in%c2rowcol)],
-                      matind_ej[which(rows_ej%in%c2rowcol)]))
-
-    #get edge weights for each cluster
-    c1weights <- mst_ej[c1ind]
-    c2weights <- mst_ej[c2ind]
-
-    #set K weight value
-    ek <- max(c(0,c1weights)) #max(c1weights, na.rm=TRUE)
-    em <- max(c(0,c2weights)) #max(c2weights, na.rm=TRUE)
-    ek_weight <- ifelse(length(c1weights)<length(c2weights), ek, em)
-
-
-    #calculate this clumpy value
-    clumpy[j] <- ifelse(ek_weight==0, 0, 1 - (ek_weight/ej_weight)) # ifelse(is.finite(1 - ek_weight/ej_weight), 1 - ek_weight/ej_weight, 0)
-  }
-
-  #remove NA and return final clumpy measure
-  max(clumpy, na.rm=TRUE)
-
+  value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy))
+  1-(1/value)
 }
 
 
