@@ -8,7 +8,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated_adjusted", "clumpy", "clumpy_adjusted", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
+calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
 
   # Check if variables are non-constant
   std_dev <- all_data %>% dplyr::summarise_all(sd, na.rm=TRUE)
@@ -67,14 +67,14 @@ intermediate_scags <- function(vars, data, scags, pb){
 #'     scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated_adjusted", "clumpy", "clumpy_adjusted", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
   striated = NULL
-  striated_adjusted = NULL
+  striated2 = NULL
   clumpy = NULL
-  clumpy_adjusted = NULL
+  clumpy2 = NULL
   sparse = NULL
   skewed = NULL
   convex = NULL
@@ -93,9 +93,9 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
       dplyr::tibble("outlying"=NA,
                     "stringy"=NA,
                     "striated"=NA,
-                    "striated_adjusted" = NA,
+                    "striated2" = NA,
                     "clumpy"=NA,
-                    "clumpy_adjusted"=NA,
+                    "clumpy2"=NA,
                     "sparse"=NA,
                     "skewed"=NA,
                     "convex"=NA,
@@ -123,14 +123,14 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   if("striated" %in% scags){
     striated <- sc_striated.igraph(mst, sc)
   }
-  if("striated_adjusted" %in% scags){
-    striated_adjusted <- sc_striated_adjusted.igraph(mst, sc)
+  if("striated2" %in% scags){
+    striated2 <- sc_striated2.igraph(mst, sc)
   }
   if("clumpy" %in% scags){
     clumpy <- sc_clumpy.igraph(mst, sc)
   }
-  if("clumpy_adjusted" %in% scags){
-    clumpy_adjusted <- sc_clumpy_adjusted.igraph(mst, sc)
+  if("clumpy2" %in% scags){
+    clumpy2 <- sc_clumpy2.igraph(mst, sc)
   }
   if("sparse" %in% scags){
     sparse <- sc_sparse.igraph(mst, sc)
@@ -173,9 +173,9 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
                              "striated"=striated,
-                             "striated_adjusted" = striated_adjusted,
+                             "striated2" = striated2,
                              "clumpy"=clumpy,
-                             "clumpy_adjusted"=clumpy_adjusted,
+                             "clumpy2"=clumpy2,
                              "sparse"=sparse,
                              "skewed"=skewed,
                              "convex"=convex,
