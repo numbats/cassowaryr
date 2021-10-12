@@ -31,6 +31,6 @@ Compute angle adjusted sparse measure using the Alpha Hull
   ggplot(anscombe_tidy, aes(x=x, y=y)) +
     geom_point() +
     facet_wrap(~set, ncol=2, scales = "free")
-  sc_clumpy2(anscombe$x1, anscombe$y1)
+  sc_sparse2(anscombe$x1, anscombe$y1)
 
 }
