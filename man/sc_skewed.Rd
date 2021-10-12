@@ -4,7 +4,7 @@
 \alias{sc_skewed}
 \alias{sc_skewed.scree}
 \alias{sc_skewed.default}
-\alias{sc_skewed.igraph}
+\alias{sc_skewed.list}
 \title{Compute skewed scagnostic measure using MST}
 \usage{
 sc_skewed(x, y)
@@ -13,7 +13,12 @@ sc_skewed(x, y)
 
 \method{sc_skewed}{default}(x, y)
 
-\method{sc_skewed}{igraph}(mymst, x)
+\method{sc_skewed}{list}(mymst, x)
+}
+\arguments{
+\item{x}{numeric vector of x values}
+
+\item{y}{numeric vector of y values}
 }
 \description{
 Compute skewed scagnostic measure using MST
@@ -23,27 +28,11 @@ Compute skewed scagnostic measure using MST
   require(tidyr)
   require(dplyr)
   data(anscombe_tidy)
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  sc_skewed(anscombe$x1, anscombe$y1)
-  sc_skewed(anscombe$x2, anscombe$y2)
-  sc_skewed(anscombe$x3, anscombe$y3)
-  sc_skewed(anscombe$x4, anscombe$y4)
   ggplot(datasaurus_dozen, aes(x=x, y=y)) +
     geom_point() +
     facet_wrap(~dataset, ncol=3, scales = "free")
-  sc_skewed(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
-  sc_skewed(datasaurus_dozen_wide$bullseye_x, datasaurus_dozen_wide$bullseye_y)
-  sc_skewed(datasaurus_dozen_wide$circle_x, datasaurus_dozen_wide$circle_y)
-  sc_skewed(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
   sc_skewed(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
   sc_skewed(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
-  sc_skewed(datasaurus_dozen_wide$high_lines_x, datasaurus_dozen_wide$high_lines_y)
-  sc_skewed(datasaurus_dozen_wide$slant_down_x, datasaurus_dozen_wide$slant_up_y)
-  sc_skewed(datasaurus_dozen_wide$star_x, datasaurus_dozen_wide$star_y)
-  sc_skewed(datasaurus_dozen_wide$v_lines_x, datasaurus_dozen_wide$v_lines_y)
-  sc_skewed(datasaurus_dozen_wide$wide_lines_x, datasaurus_dozen_wide$wide_lines_y)
   sc_skewed(datasaurus_dozen_wide$x_shape_x, datasaurus_dozen_wide$x_shape_y)
 
 }

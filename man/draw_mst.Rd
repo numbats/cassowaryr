@@ -10,6 +10,8 @@ draw_mst(x, y, alpha = 0.5)
 \item{x}{numeric vector}
 
 \item{y}{numeric vector}
+
+\item{alpha}{The alpha value used to build the graph object. Larger values allow points further appart to be connected.}
 }
 \description{
 This function will draw the MST for a

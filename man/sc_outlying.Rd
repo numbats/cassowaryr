@@ -12,6 +12,11 @@ sc_outlying(x, y)
 
 \method{sc_outlying}{default}(x, y)
 }
+\arguments{
+\item{x}{numeric vector of x values}
+
+\item{y}{numeric vector of y values}
+}
 \description{
 Compute outlying scagnostic measure using MST
 }
@@ -19,28 +24,11 @@ Compute outlying scagnostic measure using MST
   require(ggplot2)
   require(tidyr)
   require(dplyr)
-  data(anscombe_tidy)
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  sc_outlying(anscombe$x1, anscombe$y1)
-  sc_outlying(anscombe$x2, anscombe$y2)
-  sc_outlying(anscombe$x3, anscombe$y3)
-  sc_outlying(anscombe$x4, anscombe$y4)
   ggplot(datasaurus_dozen, aes(x=x, y=y)) +
     geom_point() +
     facet_wrap(~dataset, ncol=3, scales = "free")
-  sc_outlying(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
-  sc_outlying(datasaurus_dozen_wide$bullseye_x, datasaurus_dozen_wide$bullseye_y)
-  sc_outlying(datasaurus_dozen_wide$circle_x, datasaurus_dozen_wide$circle_y)
   sc_outlying(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
   sc_outlying(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
   sc_outlying(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
-  sc_outlying(datasaurus_dozen_wide$high_lines_x, datasaurus_dozen_wide$high_lines_y)
-  sc_outlying(datasaurus_dozen_wide$slant_down_x, datasaurus_dozen_wide$slant_up_y)
-  sc_outlying(datasaurus_dozen_wide$star_x, datasaurus_dozen_wide$star_y)
-  sc_outlying(datasaurus_dozen_wide$v_lines_x, datasaurus_dozen_wide$v_lines_y)
-  sc_outlying(datasaurus_dozen_wide$wide_lines_x, datasaurus_dozen_wide$wide_lines_y)
-  sc_outlying(datasaurus_dozen_wide$x_shape_x, datasaurus_dozen_wide$x_shape_y)
 
 }

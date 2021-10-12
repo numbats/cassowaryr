@@ -1,4 +1,4 @@
-#' Compute angle adjusted stirated measure using MST
+#' Compute angle adjusted striated measure using MST
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values

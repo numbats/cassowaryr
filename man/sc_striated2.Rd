@@ -5,7 +5,7 @@
 \alias{sc_striated2.scree}
 \alias{sc_striated2.default}
 \alias{sc_striated2.igraph}
-\title{Compute angle adjusted stirated measure using MST}
+\title{Compute angle adjusted striated measure using MST}
 \usage{
 sc_striated2(x, y)
 
@@ -21,7 +21,7 @@ sc_striated2(x, y)
 \item{y}{numeric vector of y values}
 }
 \description{
-Compute angle adjusted stirated measure using MST
+Compute angle adjusted striated measure using MST
 }
 \examples{
   require(ggplot2)

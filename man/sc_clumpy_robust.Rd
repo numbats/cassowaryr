@@ -2,9 +2,18 @@
 % Please edit documentation in R/robustscags.R
 \name{sc_clumpy_robust}
 \alias{sc_clumpy_robust}
+\alias{sc_clumpy_robust.scree}
+\alias{sc_clumpy_robust.default}
+\alias{sc_clumpy_robust.igraph}
 \title{Compute robust clumpy scagnostic measure using MST}
 \usage{
 sc_clumpy_robust(x, y)
+
+\method{sc_clumpy_robust}{scree}(x, y = NULL)
+
+\method{sc_clumpy_robust}{default}(x, y)
+
+\method{sc_clumpy_robust}{igraph}(mst, scr)
 }
 \description{
 Compute robust clumpy scagnostic measure using MST

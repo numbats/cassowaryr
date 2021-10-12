@@ -12,7 +12,7 @@
 #' @export
 sc_clumpy_robust <- function(x, y) UseMethod("sc_clumpy_robust")
 
-#' @rdname clumpy_robust
+#' @rdname sc_clumpy_robust
 #' @export
 sc_clumpy_robust.scree <- function(x, y = NULL) {
   #generate vector of MST edges
@@ -20,14 +20,14 @@ sc_clumpy_robust.scree <- function(x, y = NULL) {
   sc_clumpy_robust.igraph(mymst, x)
 }
 
-#' @rdname clumpy_robust
+#' @rdname sc_clumpy_robust
 #' @export
 sc_clumpy_robust.default <- function(x, y){
   sc <- scree(x, y)
   sc_clumpy_robust.scree(sc)
 }
 
-#' @rdname clumpy_robust
+#' @rdname sc_clumpy_robust
 #' @export
 sc_clumpy_robust.igraph <- function(mst, scr){
   mst_lt <- twomstmat(mst,scr)$lowertri
@@ -36,8 +36,7 @@ sc_clumpy_robust.igraph <- function(mst, scr){
   sum(vals)/n
 }
 
-#function used inside robust clumpy_robust
-
+# function used inside robust clumpy_robust
 inner_clumpy <- function(mstmat){
   #pretty similar to original clumpy with with enough changes that I'm just making a new function
   #input: mst (lower triangular matrix) and scree

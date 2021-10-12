@@ -25,12 +25,11 @@ Compute angle adjusted clumpy measure using MST
 }
 \examples{
   require(ggplot2)
-  require(tidyr)
   require(dplyr)
-  data(anscombe_tidy)
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  sc_clumpy2(anscombe$x1, anscombe$y1)
+  ggplot(features, aes(x=x, y=y)) +
+     geom_point() +
+     facet_wrap(~feature, ncol = 5, scales = "free")
+  features \%>\% group_by(feature) \%>\% summarise(clumpy = sc_clumpy2(x,y))
+  sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 
 }

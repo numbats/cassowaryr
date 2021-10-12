@@ -15,27 +15,20 @@ sc_convex(x, y)
 
 \method{sc_convex}{list}(chull, ahull)
 }
+\arguments{
+\item{x}{numeric vector of x values}
+
+\item{y}{numeric vector of y values}
+}
 \description{
 Compute convex scagnostic measures
 }
 \examples{
   require(ggplot2)
-  require(tidyr)
   require(dplyr)
-  data(anscombe)
-  anscombe_tidy <- anscombe \%>\%
-  pivot_longer(cols = everything(),
-    names_to = c(".value", "set"),
-    names_pattern = "(.)(.)")
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  a_s <- scree(anscombe$x1, anscombe$y1)
-  sc_convex(a_s)
-  a_s <- scree(anscombe$x2, anscombe$y2)
-  sc_convex(a_s)
-  a_s <- scree(anscombe$x3, anscombe$y3)
-  sc_convex(a_s)
-  a_s <- scree(anscombe$x4, anscombe$y4)
-  sc_convex(a_s)
+  ggplot(features, aes(x=x, y=y)) +
+     geom_point() +
+     facet_wrap(~feature, ncol = 5, scales = "free")
+  features \%>\% group_by(feature) \%>\% summarise(convex = sc_convex(x,y))
+  sc_convex(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 }

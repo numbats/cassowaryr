@@ -4,7 +4,7 @@
 \alias{sc_clumpy}
 \alias{sc_clumpy.scree}
 \alias{sc_clumpy.default}
-\alias{sc_clumpy.igraph}
+\alias{sc_clumpy.list}
 \title{Compute clumpy scagnostic measure using MST}
 \usage{
 sc_clumpy(x, y)
@@ -13,30 +13,23 @@ sc_clumpy(x, y)
 
 \method{sc_clumpy}{default}(x, y)
 
-\method{sc_clumpy}{igraph}(mymst, x)
+\method{sc_clumpy}{list}(mymst, x)
+}
+\arguments{
+\item{x}{numeric vector of x values}
+
+\item{y}{numeric vector of y values}
 }
 \description{
 Compute clumpy scagnostic measure using MST
 }
 \examples{
   require(ggplot2)
-  require(tidyr)
   require(dplyr)
-  data(anscombe_tidy)
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  sc_clumpy(anscombe$x1, anscombe$y1)
-  sc_clumpy(anscombe$x2, anscombe$y2)
-  sc_clumpy(anscombe$x3, anscombe$y3)
-  sc_clumpy(anscombe$x4, anscombe$y4)
-
-  ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~dataset, ncol=3, scales = "free")
+  ggplot(features, aes(x=x, y=y)) +
+     geom_point() +
+     facet_wrap(~feature, ncol = 5, scales = "free")
+  features \%>\% group_by(feature) \%>\% summarise(clumpy = sc_clumpy(x,y))
   sc_clumpy(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
-  sc_clumpy(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
-  sc_clumpy(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
-  sc_clumpy(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
 
 }
