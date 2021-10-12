@@ -5,6 +5,7 @@
 #' scagnostics to calculate: outlying, stringy, striated,
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
+#' @param euclid logical indicator to use Euclidean distance
 #'
 #' @seealso calc_scags
 #' @examples

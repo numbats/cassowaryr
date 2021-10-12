@@ -5,6 +5,7 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
 #' @examples
@@ -67,6 +68,7 @@ draw_mst <- function(x, y, alpha=0.5) {
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
 #' @examples

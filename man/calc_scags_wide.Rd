@@ -18,6 +18,8 @@ calc_scags_wide(
 scagnostics to calculate: outlying, stringy, striated,
 striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 skinny, monotonic, splines, dcor}
+
+\item{euclid}{logical indicator to use Euclidean distance}
 }
 \description{
 Compute scagnostics on all possible scatter plots for the given data

@@ -11,6 +11,8 @@ draw_convexhull(x, y, alpha = 0.5, clr = "black", fill = FALSE)
 
 \item{y}{numeric vector}
 
+\item{alpha}{transparency value of points}
+
 \item{clr}{optional colour of points and lines, default black}
 
 \item{fill}{Fill the polygon}
