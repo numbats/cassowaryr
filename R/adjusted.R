@@ -58,13 +58,12 @@ sc_striated2.igraph <- function(mst, x){
 #'
 #' @examples
 #'   require(ggplot2)
-#'   require(tidyr)
 #'   require(dplyr)
-#'   data(anscombe_tidy)
-#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~set, ncol=2, scales = "free")
-#'   sc_clumpy2(anscombe$x1, anscombe$y1)
+#'   ggplot(features, aes(x=x, y=y)) +
+#'      geom_point() +
+#'      facet_wrap(~feature, ncol = 5, scales = "free")
+#'   features %>% group_by(feature) %>% summarise(clumpy = sc_clumpy2(x,y))
+#'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
 sc_clumpy2 <- function(x, y) UseMethod("sc_clumpy2")
@@ -86,6 +85,11 @@ sc_clumpy2.scree <- function(x, y = NULL) {
 #' @rdname sc_clumpy2
 #' @export
 sc_clumpy2.igraph <- function(mst, sc){
+  #set stringy penalty
+  vertex_counts <- igraph::degree(mst)
+  #technically stringy calc
+  stringy <- sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
+  stringy_pen <- ifelse(stringy>0.95, (1-stringy), 1)
   # get lower triangular matrix
   mstmat <- twomstmat(mst, sc)$lowertri
 
@@ -171,12 +175,15 @@ sc_clumpy2.igraph <- function(mst, sc){
     # short_edge <- ifelse(len_c1 == len_c2, max(c(c2weights,c1weights)), short_edge)
 
     # calculate clumpy value w penalty for uneven clusters
-    uneven <- sqrt((2*c_length)/(len_c1+len_c2))
-    clumpy[j] <- uneven*(big_ew[j]/short_edge)
+    uneven_pen <- sqrt((2*c_length)/(len_c1+len_c2))
+    clumpy[j] <- stringy_pen*uneven_pen*(big_ew[j]/short_edge)
     #just setting this now will fix to something more appropriate later
     clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j]) #return 1 if all clusters are of size 1
   }
+  #threshold to be considered clumpy is above 1
   value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy))
+  #stringy penalty only for high values
+  #return clumpy
   1-(1/value)
 }
 
