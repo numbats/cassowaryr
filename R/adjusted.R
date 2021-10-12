@@ -181,7 +181,7 @@ sc_clumpy2.igraph <- function(mst, sc){
     clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j]) #return 1 if all clusters are of size 1
   }
   #threshold to be considered clumpy is above 1
-  value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy))
+  value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy)) #value <- mean(clumpy)+1
   #stringy penalty only for high values
   #return clumpy
   1-(1/value)
