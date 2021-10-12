@@ -1,4 +1,5 @@
 #' Compute angle adjusted stirated measure using MST
+#'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
 #'
@@ -51,6 +52,7 @@ sc_striated2.igraph <- function(mst, x){
 }
 
 #' Compute angle adjusted clumpy measure using MST
+#'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
 #'

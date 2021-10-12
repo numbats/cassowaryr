@@ -35,6 +35,7 @@ draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @param alpha The alpha value used to build the graph object. Larger values allow points further appart to be connected.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
