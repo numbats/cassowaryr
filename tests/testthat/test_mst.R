@@ -98,7 +98,7 @@ y1 <- c(0,5,10,10)
 x2 <- c(0,5,0,10,10, 2.5, 0)
 y2 <- c(0,5,10,10,0, 5, 5)
 
-test_that("Striated_adjusted Tests"){
+test_that("Striated_adjusted Tests", {
   expect_equal(sc_striated_adjusted(x1,y1), 1)
   expect_equal(sc_striated_adjusted(x2,y2), 0.8)
-}
+})
