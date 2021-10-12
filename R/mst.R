@@ -3,6 +3,7 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param mymst mst object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)

@@ -19,6 +19,8 @@ sc_stringy(x, y)
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{mymst}{mst object if pre-built}
 }
 \description{
 Compute stringy scagnostic measure using MST

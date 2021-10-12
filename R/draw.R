@@ -79,7 +79,7 @@ draw_mst <- function(x, y, alpha=0.5) {
 #' draw_convexhull(nl$x, nl$y)
 #' @export
 draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
-
+  x1 <- x2 <- y1 <- y2 <- NULL # happy cran checks
   # make scree and convex hull
   sc <- scree(x, y)
   chull <- gen_conv_hull(sc$del)
@@ -93,16 +93,16 @@ draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
                  y2 = chull$y[c(2:length(chull$y),1)])
 
   # plot
-  p <- ggplot() +
-    geom_point(data = d, aes(x, y), colour = "black", alpha = 0.5)
+  p <- ggplot2::ggplot() +
+    ggplot2::geom_point(data = d, ggplot2::aes(x, y), colour = "black", alpha = 0.5)
 
-  p <- p + geom_segment(data = d_ends,
-                 aes(x=x1, y=y1,
+  p <- p + ggplot2::geom_segment(data = d_ends,
+              ggplot2::aes(x=x1, y=y1,
                      xend=x2, yend=y2), colour = clr)
 
   if (fill)
-    p <- p + geom_polygon(data=d_ends,
-                          aes(x=x1, y=y1),
+    p <- p + ggplot2::geom_polygon(data=d_ends,
+                                   ggplot2::aes(x=x1, y=y1),
                           fill = clr, alpha = 0.5)
   p
 }
