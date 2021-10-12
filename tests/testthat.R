@@ -1,4 +1,4 @@
 library(testthat)
-library(vaast)
+library(cassowaryr)
 
 test_check("cassowaryr")
