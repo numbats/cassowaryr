@@ -2,16 +2,16 @@
 % Please edit documentation in R/mst.R
 \name{sc_stringy}
 \alias{sc_stringy}
-\alias{sc_stringy.scree}
 \alias{sc_stringy.default}
+\alias{sc_stringy.scree}
 \alias{sc_stringy.list}
 \title{Compute stringy scagnostic measure using MST}
 \usage{
 sc_stringy(x, y)
 
-\method{sc_stringy}{scree}(x, y = NULL)
-
 \method{sc_stringy}{default}(x, y)
+
+\method{sc_stringy}{scree}(sc)
 
 \method{sc_stringy}{list}(mst)
 }
@@ -20,7 +20,7 @@ sc_stringy(x, y)
 
 \item{y}{numeric vector of y values}
 
-\item{mymst}{mst object if pre-built}
+\item{mst}{mst object if pre-built}
 }
 \description{
 Compute stringy scagnostic measure using MST

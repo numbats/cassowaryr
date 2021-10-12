@@ -2,20 +2,24 @@
 % Please edit documentation in R/mst.R
 \name{sc_outlying}
 \alias{sc_outlying}
-\alias{sc_outlying.scree}
 \alias{sc_outlying.default}
+\alias{sc_outlying.scree}
 \title{Compute outlying scagnostic measure using MST}
 \usage{
 sc_outlying(x, y)
 
-\method{sc_outlying}{scree}(x, y = NULL)
-
 \method{sc_outlying}{default}(x, y)
+
+\method{sc_outlying}{scree}(sc)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{sc}{scree object if pre-built}
+
+\item{mst}{mst object if pre-built}
 }
 \description{
 Compute outlying scagnostic measure using MST

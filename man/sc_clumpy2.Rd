@@ -4,7 +4,7 @@
 \alias{sc_clumpy2}
 \alias{sc_clumpy2.default}
 \alias{sc_clumpy2.scree}
-\alias{sc_clumpy2.igraph}
+\alias{sc_clumpy2.list}
 \title{Compute angle adjusted clumpy measure using MST}
 \usage{
 sc_clumpy2(x, y)
@@ -13,7 +13,7 @@ sc_clumpy2(x, y)
 
 \method{sc_clumpy2}{scree}(x, y = NULL)
 
-\method{sc_clumpy2}{igraph}(mst, sc)
+\method{sc_clumpy2}{list}(mst, sc)
 }
 \arguments{
 \item{x}{numeric vector of x values}

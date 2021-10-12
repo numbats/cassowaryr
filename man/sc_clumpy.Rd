@@ -2,23 +2,27 @@
 % Please edit documentation in R/mst.R
 \name{sc_clumpy}
 \alias{sc_clumpy}
-\alias{sc_clumpy.scree}
 \alias{sc_clumpy.default}
+\alias{sc_clumpy.scree}
 \alias{sc_clumpy.list}
 \title{Compute clumpy scagnostic measure using MST}
 \usage{
 sc_clumpy(x, y)
 
-\method{sc_clumpy}{scree}(x, y = NULL)
-
 \method{sc_clumpy}{default}(x, y)
 
-\method{sc_clumpy}{list}(mymst, x)
+\method{sc_clumpy}{scree}(sc)
+
+\method{sc_clumpy}{list}(mst, sc)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{sc}{scree object if pre-built}
+
+\item{mst}{mst object if pre-built}
 }
 \description{
 Compute clumpy scagnostic measure using MST

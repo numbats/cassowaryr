@@ -2,23 +2,27 @@
 % Please edit documentation in R/mst.R
 \name{sc_sparse}
 \alias{sc_sparse}
-\alias{sc_sparse.scree}
 \alias{sc_sparse.default}
+\alias{sc_sparse.scree}
 \alias{sc_sparse.list}
 \title{Compute sparse scagnostic measure using MST}
 \usage{
 sc_sparse(x, y)
 
-\method{sc_sparse}{scree}(x, y = NULL)
-
 \method{sc_sparse}{default}(x, y)
 
-\method{sc_sparse}{list}(mymst, x)
+\method{sc_sparse}{scree}(sc)
+
+\method{sc_sparse}{list}(mst, sc)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{sc}{scree object if pre-built}
+
+\item{mst}{mst object if pre-built}
 }
 \description{
 Compute sparse scagnostic measure using MST
