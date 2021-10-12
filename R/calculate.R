@@ -132,29 +132,29 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
 
   #CALCULATE MST MEASURES
   if("stringy" %in% scags){
-    stringy <- sc_stringy.igraph(mst)
+    stringy <- sc_stringy.list(mst)
   }
   if("striated" %in% scags){
-    striated <- sc_striated.igraph(mst, sc)
+    striated <- sc_striated.list(mst, sc)
   }
   if("striated2" %in% scags){
-    striated2 <- sc_striated2.igraph(mst, sc)
+    striated2 <- sc_striated2.list(mst, sc)
   }
   if("clumpy" %in% scags){
-    clumpy <- sc_clumpy.igraph(mst, sc)
+    clumpy <- sc_clumpy.list(mst, sc)
   }
   if("clumpy2" %in% scags){
-    clumpy2 <- sc_clumpy2.igraph(mst, sc)
+    clumpy2 <- sc_clumpy2.list(mst, sc)
   }
   if("sparse" %in% scags){
-    sparse <- sc_sparse.igraph(mst, sc)
+    sparse <- sc_sparse.list(mst, sc)
   }
   if("skewed" %in% scags){
-    skewed <- sc_skewed.igraph(mst, sc)
+    skewed <- sc_skewed.list(mst, sc)
 
   }
   if("outlying" %in% scags){
-    outlying <- sc_outlying.igraph(mst_orig, sc_orig)
+    outlying <- sc_outlying.list(mst_orig, sc_orig)
   }
 
   #CALCULATE ALPHA HULL MEASURES

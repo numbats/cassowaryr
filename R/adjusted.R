@@ -19,7 +19,7 @@ sc_striated2 <- function(x, y) UseMethod("sc_striated2")
 #' @export
 sc_striated2.scree <- function(x, y = NULL) {
   mst <- gen_mst(x$del, x$weights)
-  sc_striated2.igraph(mst, x)
+  sc_striated2.list(mst, x)
 
 }
 
@@ -32,7 +32,7 @@ sc_striated2.default <- function(x, y){
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.igraph <- function(mst, x){
+sc_striated2.list <- function(mst, x){
   vertex_counts <- igraph::degree(mst)
   angs <- which(vertex_counts>=2)
   stri=0
@@ -79,12 +79,12 @@ sc_clumpy2.default <- function(x, y){
 #' @export
 sc_clumpy2.scree <- function(x, y = NULL) {
   mymst <- gen_mst(x$del, x$weights)
-  sc_clumpy2.igraph(mymst,x)
+  sc_clumpy2.list(mymst,x)
 }
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.igraph <- function(mst, sc){
+sc_clumpy2.list <- function(mst, sc){
   #set stringy penalty
   vertex_counts <- igraph::degree(mst)
   #technically stringy calc
