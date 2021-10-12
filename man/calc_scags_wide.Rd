@@ -11,6 +11,14 @@ calc_scags_wide(
   euclid = TRUE
 )
 }
+\arguments{
+\item{all_data}{tibble of multivariate data on which to compute scagnostics}
+
+\item{scags}{collection of strings matching names of
+scagnostics to calculate: outlying, stringy, striated,
+striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+skinny, monotonic, splines, dcor}
+}
 \description{
 Compute scagnostics on all possible scatter plots for the given data
 }

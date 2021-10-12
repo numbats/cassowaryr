@@ -11,6 +11,16 @@ calc_scags(
     "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
 )
 }
+\arguments{
+\item{x}{numeric vector}
+
+\item{y}{numeric vector}
+
+\item{scags}{collection of strings matching names of
+scagnostics to calculate: outlying, stringy, striated,
+striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+skinny, monotonic, splines, dcor}
+}
 \description{
 Compute selected scagnostics on subsets
 }

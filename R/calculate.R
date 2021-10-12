@@ -1,5 +1,11 @@
 #' Compute scagnostics on all possible scatter plots for the given data
 #'
+#' @param all_data tibble of multivariate data on which to compute scagnostics
+#' @param scags collection of strings matching names of
+#' scagnostics to calculate: outlying, stringy, striated,
+#' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+#' skinny, monotonic, splines, dcor
+#'
 #' @seealso calc_scags
 #' @examples
 #' # Calculate selected scagnostics
@@ -48,6 +54,13 @@ intermediate_scags <- function(vars, data, scags, pb){
 }
 
 #' Compute selected scagnostics on subsets
+#'
+#' @param x numeric vector
+#' @param y numeric vector
+#' @param scags collection of strings matching names of
+#' scagnostics to calculate: outlying, stringy, striated,
+#' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+#' skinny, monotonic, splines, dcor
 #'
 #' @seealso sc_pairwise
 #' @examples
