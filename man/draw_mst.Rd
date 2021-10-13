@@ -22,5 +22,5 @@ require(dplyr)
 require(ggplot2)
 data("features")
 nl <- features \%>\% filter(feature == "nonlinear2")
-draw_MST(nl$x, nl$y)
+draw_mst(nl$x, nl$y)
 }

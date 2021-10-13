@@ -1,42 +1,47 @@
 #' Compute robust clumpy scagnostic measure using MST
 #'
+#' @param x numeric vector of x values
+#' @param y numeric vector of y values
+#' @param mst mst object if pre-built
+#' @param sc scree object if pre-built
+#'
 #' @examples
 #'   require(ggplot2)
-#'   require(tidyr)
 #'   require(dplyr)
-#'   ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~dataset, ncol=3, scales = "free")
-#'   sc_clumpy_robust(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
-#'   sc_clumpy_robust(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
+#'   ggplot(features, aes(x=x, y=y)) +
+#'      geom_point() +
+#'      facet_wrap(~feature, ncol = 5, scales = "free")
+#'   features %>% group_by(feature) %>% summarise(clumpy = sc_clumpy_r(x,y))
+#'   sc_clumpy_r(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#'
 #' @export
-sc_clumpy_robust <- function(x, y) UseMethod("sc_clumpy_robust")
+sc_clumpy_r <- function(x, y) UseMethod("sc_clumpy_r")
 
-#' @rdname sc_clumpy_robust
+#' @rdname sc_clumpy_r
 #' @export
-sc_clumpy_robust.scree <- function(x, y = NULL) {
-  #generate vector of MST edges
-  mymst <- gen_mst(x$del, x$weights)
-  sc_clumpy_robust.igraph(mymst, x)
-}
-
-#' @rdname sc_clumpy_robust
-#' @export
-sc_clumpy_robust.default <- function(x, y){
+sc_clumpy_r.default <- function(x, y){
   sc <- scree(x, y)
-  sc_clumpy_robust.scree(sc)
+  sc_clumpy_r.scree(sc)
 }
 
-#' @rdname sc_clumpy_robust
+#' @rdname sc_clumpy_r
 #' @export
-sc_clumpy_robust.igraph <- function(mst, scr){
-  mst_lt <- twomstmat(mst,scr)$lowertri
+sc_clumpy_r.scree <- function(sc) {
+  #generate vector of MST edges
+  mst <- gen_mst(sc$del, sc$weights)
+  sc_clumpy_r.igraph(mst, sc)
+}
+
+#' @rdname sc_clumpy_r
+#' @export
+sc_clumpy_r.igraph <- function(mst, sc){
+  mst_lt <- twomstmat(mst,sc)$lowertri
   vals <- outside_cluster(mst_lt)
   n <- length(which(mst_lt>0))
   sum(vals)/n
 }
 
-# function used inside robust clumpy_robust
+# function used inside robust clumpy_r
 inner_clumpy <- function(mstmat){
   #pretty similar to original clumpy with with enough changes that I'm just making a new function
   #input: mst (lower triangular matrix) and scree

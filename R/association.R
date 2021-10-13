@@ -64,7 +64,7 @@ sc_splines <- function(x,y) {
     ky <- ifelse(ny < 20, 3, 10)
     mgam1 <- mgcv::gam(y ~ s(x, bs = "cr", k = kx))
     mgam2 <- mgcv::gam(x ~ s(y, bs = "cr", k = ky))
-    measure <- max(1 - var(residuals(mgam1), na.rm = T) / var(y, na.rm = T), 1 - var(residuals(mgam2), na.rm = T) / var(x, na.rm = T))
+    measure <- max(1 - stats::var(stats::residuals(mgam1), na.rm = T) / stats::var(y, na.rm = T), 1 - stats::var(stats::residuals(mgam2), na.rm = T) / var(x, na.rm = T))
   }
   return(measure)
 }
@@ -98,7 +98,7 @@ sc_dcor <- function(x,y) {
   if (!requireNamespace("energy", quietly = TRUE)) {
     stop("Package: energy is required to compute dcor scagnostic.")
   }
-  xy <- na.omit(data.frame(x = x, y = y))
+  xy <- stats::na.omit(data.frame(x = x, y = y))
   measure <- with(xy, energy::dcor(x, y))
   return(measure)
 }
