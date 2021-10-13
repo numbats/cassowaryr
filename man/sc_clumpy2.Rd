@@ -11,7 +11,7 @@ sc_clumpy2(x, y)
 
 \method{sc_clumpy2}{default}(x, y)
 
-\method{sc_clumpy2}{scree}(x, y = NULL)
+\method{sc_clumpy2}{scree}(sc)
 
 \method{sc_clumpy2}{list}(mst, sc)
 }
@@ -19,6 +19,10 @@ sc_clumpy2(x, y)
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{sc}{scree object if pre-built}
+
+\item{mst}{mst object if pre-built}
 }
 \description{
 Compute angle adjusted clumpy measure using MST

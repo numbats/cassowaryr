@@ -2,34 +2,38 @@
 % Please edit documentation in R/adjusted.R
 \name{sc_striated2}
 \alias{sc_striated2}
-\alias{sc_striated2.scree}
 \alias{sc_striated2.default}
+\alias{sc_striated2.scree}
 \alias{sc_striated2.list}
 \title{Compute angle adjusted striated measure using MST}
 \usage{
 sc_striated2(x, y)
 
-\method{sc_striated2}{scree}(x, y = NULL)
-
 \method{sc_striated2}{default}(x, y)
 
-\method{sc_striated2}{list}(mst, x)
+\method{sc_striated2}{scree}(sc)
+
+\method{sc_striated2}{list}(mst, sc)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{sc}{scree object if pre-built}
+
+\item{mst}{mst object if pre-built}
 }
 \description{
 Compute angle adjusted striated measure using MST
 }
 \examples{
   require(ggplot2)
-  require(tidyr)
   require(dplyr)
-  data(anscombe_tidy)
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  sc_striated2(anscombe$x1, anscombe$y1)
+  ggplot(features, aes(x=x, y=y)) +
+     geom_point() +
+     facet_wrap(~feature, ncol = 5, scales = "free")
+  features \%>\% group_by(feature) \%>\% summarise(striated = sc_striated2(x,y))
+  sc_striated2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+
 }

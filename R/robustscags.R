@@ -26,16 +26,16 @@ sc_clumpy_r.default <- function(x, y){
 
 #' @rdname sc_clumpy_r
 #' @export
-sc_clumpy_r.scree <- function(x, y = NULL) {
+sc_clumpy_r.scree <- function(sc) {
   #generate vector of MST edges
-  mymst <- gen_mst(x$del, x$weights)
-  sc_clumpy_r.igraph(mymst, x)
+  mst <- gen_mst(sc$del, sc$weights)
+  sc_clumpy_r.igraph(mst, sc)
 }
 
 #' @rdname sc_clumpy_r
 #' @export
-sc_clumpy_r.igraph <- function(mst, scr){
-  mst_lt <- twomstmat(mst,scr)$lowertri
+sc_clumpy_r.igraph <- function(mst, sc){
+  mst_lt <- twomstmat(mst,sc)$lowertri
   vals <- outside_cluster(mst_lt)
   n <- length(which(mst_lt>0))
   sum(vals)/n
