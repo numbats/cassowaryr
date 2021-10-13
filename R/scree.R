@@ -70,6 +70,6 @@ unitize <- function(x, na.rm = TRUE) {
 
 # This is the edge filter from Wilkinson 05
 psi <- function(w, q = c(0.25, 0.75)) {
-  q <- quantile(w, probs = q)
+  q <- stats::quantile(w, probs = q)
   unname(q[2] + 1.5 * diff(q))
 }

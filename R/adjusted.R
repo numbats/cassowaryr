@@ -2,26 +2,20 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param mst mst object if pre-built
+#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
-#'   require(tidyr)
 #'   require(dplyr)
-#'   data(anscombe_tidy)
-#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~set, ncol=2, scales = "free")
-#'   sc_striated2(anscombe$x1, anscombe$y1)
+#'   ggplot(features, aes(x=x, y=y)) +
+#'      geom_point() +
+#'      facet_wrap(~feature, ncol = 5, scales = "free")
+#'   features %>% group_by(feature) %>% summarise(striated = sc_striated2(x,y))
+#'   sc_striated2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#'
 #' @export
 sc_striated2 <- function(x, y) UseMethod("sc_striated2")
-
-#' @rdname sc_striated2
-#' @export
-sc_striated2.scree <- function(x, y = NULL) {
-  mst <- gen_mst(x$del, x$weights)
-  sc_striated2.list(mst, x)
-
-}
 
 #' @rdname sc_striated2
 #' @export
@@ -32,14 +26,22 @@ sc_striated2.default <- function(x, y){
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.list <- function(mst, x){
+sc_striated2.scree <- function(sc) {
+  mst <- gen_mst(x$del, x$weights)
+  sc_striated2.list(mst, x)
+
+}
+
+#' @rdname sc_striated2
+#' @export
+sc_striated2.list <- function(mst, sc){
   vertex_counts <- igraph::degree(mst)
   angs <- which(vertex_counts>=2)
   stri=0
   for(i in seq_len(length(angs))){
     adjs <- which(mst[angs[i]]>0)
-    points <- x$del$x[adjs,]
-    origin <- x$del$x[angs[i],]
+    points <- sc$del$x[adjs,]
+    origin <- sc$del$x[angs[i],]
     vects <- t(t(points)-origin)
     b =0
     for(j in seq(length(vects[,1])-1)){
@@ -55,6 +57,8 @@ sc_striated2.list <- function(mst, x){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param mst mst object if pre-built
+#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -77,9 +81,9 @@ sc_clumpy2.default <- function(x, y){
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.scree <- function(x, y = NULL) {
-  mymst <- gen_mst(x$del, x$weights)
-  sc_clumpy2.list(mymst,x)
+sc_clumpy2.scree <- function(sc) {
+  mst <- gen_mst(x$del, x$weights)
+  sc_clumpy2.list(mst,sc)
 }
 
 #' @rdname sc_clumpy2
@@ -103,7 +107,7 @@ sc_clumpy2.list <- function(mst, sc){
   # identify big edges
   edge_order <- order(mstmat[matind]) #get edge order
   ind <- which.min(diff(sort(mstmat[matind], decreasing = TRUE))) #index of maximum difference
-  big_ei <- which(mstmat[matind] %in% head(sort(mstmat, decreasing=TRUE), ind)) #index in original mst of big edges
+  big_ei <- which(mstmat[matind] %in% utils::head(sort(mstmat, decreasing=TRUE), ind)) #index in original mst of big edges
 
   #only keep index, rows and cols of between cluster indexs
   matind <- matind[big_ei]
@@ -170,7 +174,7 @@ sc_clumpy2.list <- function(mst, sc){
     # take the value of the smaller cluster (points wise)
     c_length <- ifelse(len_c1 > len_c2, len_c2, len_c1)
     # and get short edge
-    short_edge <- ifelse(len_c1 > len_c2, median(c2weights), median(c1weights))
+    short_edge <- ifelse(len_c1 > len_c2, stats::median(c2weights), stats::median(c1weights))
     # possible code for dealing with irregular clusters
     # short_edge <- ifelse(len_c1 == len_c2, max(c(c2weights,c1weights)), short_edge)
 
@@ -192,6 +196,8 @@ sc_clumpy2.list <- function(mst, sc){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ahull alphahull object if pre-built
+#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -215,9 +221,8 @@ sc_sparse2.default <- function(x, y){
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.scree <- function(x, y = NULL) {
-  stopifnot(is.null(y))
-  ahull <- gen_alpha_hull(x$del, x$alpha)
+sc_sparse2.scree <- function(sc) {
+  ahull <- gen_alpha_hull(sc$del, sc$alpha)
   sc_sparse2.list(ahull)
 }
 

@@ -17,13 +17,14 @@
 #' draw_alphahull(nl$x, nl$y)
 #' @export
 draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
+  x1 <- x2 <- y1 <- y2 <- NULL
   d_ahull <- alphahull::ahull(x, y, a=alpha)
-    p <- ggplot() +
-      geom_point(data=as_tibble(x, y), aes(x, y),
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_point(data=tibble::as_tibble(x, y), ggplot2::aes(x, y),
                  colour = "black", alpha=0.5)
 
   d_ahull_c <- d_ahull$ashape.obj
-  p <- p + geom_segment(data=as_tibble(d_ahull_c$edges),
+  p <- p + ggplot2::geom_segment(data=as_tibble(d_ahull_c$edges),
                    aes(x=x1, xend=x2, y=y1, yend=y2),
                    colour = clr)
   p
@@ -42,9 +43,10 @@ draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
 #' require(ggplot2)
 #' data("features")
 #' nl <- features %>% filter(feature == "nonlinear2")
-#' draw_MST(nl$x, nl$y)
+#' draw_mst(nl$x, nl$y)
 #' @export
 draw_mst <- function(x, y, alpha=0.5) {
+  ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
   scree <- scree(x, y)
   MST <- gen_mst(scree$del, scree$weights)
   xystartend <- tibble::as_tibble(scree[["del"]][["mesh"]])
@@ -87,7 +89,7 @@ draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
   # make data of start and end points of hull
   d <- tibble(x = sc$del$x[,1],
                  y = sc$del$x[,2])
-  d_ends <- tibble(x1 = chull$x,
+  d_ends <- tibble::tibble(x1 = chull$x,
                  y1 = chull$y,
                  x2 = chull$x[c(2:length(chull$x),1)],
                  y2 = chull$y[c(2:length(chull$y),1)])
