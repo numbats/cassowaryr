@@ -10,16 +10,17 @@
 #' @seealso calc_scags
 #' @examples
 #' # Calculate selected scagnostics
+#' data(pk)
 #' calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
 #'
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying","stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex","skinny","monotonic", "splines","dcor"), euclid = TRUE){
+calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), euclid = TRUE){
 
   # Check if variables are non-constant
-  sd <- Var1 <- Var2 <- NULL
-  std_dev <- all_data %>% dplyr::summarise_all(sd, na.rm=TRUE)
+  Var1 <- Var2 <- NULL
+  std_dev <- all_data %>% dplyr::summarise_all(stats::sd, na.rm=TRUE)
   keep <- names(std_dev)[std_dev > 0]
   drop <- names(std_dev)[!(names(std_dev) %in% keep)]
   if (length(drop) > 0) {
