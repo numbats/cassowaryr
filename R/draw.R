@@ -18,8 +18,9 @@
 #' @export
 draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
   d_ahull <- alphahull::ahull(x, y, a=alpha)
-    p <- ggplot() +
-      geom_point(data=as_tibble(x, y), aes(x, y),
+  d <- tibble(x=x, y=y)
+  p <- ggplot() +
+      geom_point(data=d, aes(x, y),
                  colour = "black", alpha=0.5)
 
   d_ahull_c <- d_ahull$ashape.obj
