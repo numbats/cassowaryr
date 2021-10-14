@@ -60,11 +60,14 @@ sc_splines <- function(x,y) {
     measure <- 0
   }
   else {
-    kx <- ifelse(nx < 20, 3, 10)
-    ky <- ifelse(ny < 20, 3, 10)
+    kx <- ifelse(nx < 40, 3, 10) # Might need to tweak these some more
+    ky <- ifelse(ny < 40, 3, 10) # number of knots used should be small
     mgam1 <- mgcv::gam(y ~ s(x, bs = "cr", k = kx))
     mgam2 <- mgcv::gam(x ~ s(y, bs = "cr", k = ky))
-    measure <- max(1 - stats::var(stats::residuals(mgam1), na.rm = T) / stats::var(y, na.rm = T), 1 - stats::var(stats::residuals(mgam2), na.rm = T) / var(x, na.rm = T))
+    measure <- max(1 - stats::var(stats::residuals(mgam1),
+                                  na.rm = T) / stats::var(y, na.rm = T),
+                   1 - stats::var(stats::residuals(mgam2), na.rm = T) /
+                     var(x, na.rm = T))
   }
   return(measure)
 }
