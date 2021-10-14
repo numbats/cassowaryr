@@ -54,14 +54,19 @@ sc_splines <- function(x,y) {
   if (!requireNamespace("mgcv", quietly = TRUE)) {
     stop("Package: mgcv must be installed to use splines scagnostic")
   }
-  nx <- length(unique(x[!is.na(x)]))
-  ny <- length(unique(y[!is.na(y)]))
-  if (nx < 4 || ny < 4) {
+  # Check for near unique small numbers
+  bx <- cut(x, 50)
+  by <- cut(y, 50)
+  nx <- length(unique(bx))
+  ny <- length(unique(by))
+  #nx <- length(unique(x[!is.na(x)]))
+  #ny <- length(unique(y[!is.na(y)]))
+  if (nx < 10 || ny < 10) {
     measure <- 0
   }
   else {
-    kx <- ifelse(nx < 40, 3, 10) # Might need to tweak these some more
-    ky <- ifelse(ny < 40, 3, 10) # number of knots used should be small
+    kx <- ifelse(nx < 30, 3, 10) # Might need to tweak these some more
+    ky <- ifelse(ny < 30, 3, 10) # number of knots used should be small
     mgam1 <- mgcv::gam(y ~ s(x, bs = "cr", k = kx))
     mgam2 <- mgcv::gam(x ~ s(y, bs = "cr", k = ky))
     measure <- max(1 - stats::var(stats::residuals(mgam1),
