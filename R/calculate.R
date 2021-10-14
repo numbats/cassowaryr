@@ -40,9 +40,10 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
   # set up progress bar (ticks in intermediate scags)
   num_ticks <- length(all_combs$Var1)
   pb <- progress_bar$new(format = "[:bar] (:percent) eta :eta", total = num_ticks)
+
   # calculate scagnostics
   all_combs %>%
-    dplyr::group_by(Var1, Var2)%>%
+    dplyr::group_by(Var1, Var2) %>%
     dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
                                         data=all_data,
                                         scags=scags, pb))
@@ -53,7 +54,7 @@ intermediate_scags <- function(vars, data, scags, pb){
   pb$tick()
   x <- dplyr::pull(data, var=vars[[1]])
   y <- dplyr::pull(data, var=vars[[2]])
-  return(calc_scags(x,y,scags))
+  return(calc_scags(x, y, scags))
 }
 
 #' Compute selected scagnostics on subsets
@@ -100,6 +101,17 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   dcor = NULL
   striped = NULL
 
+  # Remove missings
+  # TODO: Add a warning message here that reports the number of missings dropped
+  d <- tibble(x=x, y=y)
+  d <- d[complete.cases(d),]
+  message(length(complete.cases(d)), "in ", names(d), "have been removed: \n")
+  x <- d$x
+  y <- d$y
+
+  # Check for constant variance
+  stopifnot(sd(x)>0, sd(y)>0)
+
   #make original and outlying adjusted scree+mst
   sm_list <- original_and_robust(x,y)
 
@@ -126,7 +138,6 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   #scree and mst without outlier removal
   sc_orig <- sm_list$scree_ori
   mst_orig <- sm_list$mst_ori
-
 
   #scree and mst with outlier removal
   sc <- sm_list$scree_rob
