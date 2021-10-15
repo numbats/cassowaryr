@@ -5,7 +5,7 @@
 \alias{sc_skinny.scree}
 \alias{sc_skinny.default}
 \alias{sc_skinny.list}
-\title{Compute convex scagnostic measures}
+\title{Compute skinny scagnostic measure}
 \usage{
 sc_skinny(x, y)
 
@@ -19,9 +19,11 @@ sc_skinny(x, y)
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{ahull}{alpha hull object as returned by gen_alpha_hull}
 }
 \description{
-Compute convex scagnostic measures
+Compute skinny scagnostic measure
 }
 \examples{
   require(ggplot2)

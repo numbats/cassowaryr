@@ -27,7 +27,7 @@ Compute selected scagnostics on subsets
 \examples{
 # Calculate selected scagnostics on a single pair
 calc_scags(anscombe$x1, anscombe$y1,
-  scags=c("monotonic", "outlying","convex"))
+  scags=c("monotonic", "outlying", "convex"))
 
 # Calculate all large number of scagnostics together
 calc_scags(anscombe$x1, anscombe$y1)

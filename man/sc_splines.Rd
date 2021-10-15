@@ -33,4 +33,5 @@ of the data.
   sc_splines(anscombe$x1, anscombe$y1)
   sc_splines(anscombe$x2, anscombe$y2)
   sc_splines(anscombe$x3, anscombe$y3)
+
 }

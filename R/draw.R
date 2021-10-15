@@ -19,14 +19,14 @@
 draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
   x1 <- x2 <- y1 <- y2 <- NULL
   d_ahull <- alphahull::ahull(x, y, a=alpha)
-  d <- tibble(x=x, y=y)
-  p <- ggplot() +
-      geom_point(data=d, aes(x, y),
+  d <- tibble::tibble(x=x, y=y)
+  p <- ggplot2::ggplot() +
+    ggplot2::geom_point(data=d, ggplot2::aes(x, y),
                  colour = "black", alpha=0.5)
 
   d_ahull_c <- d_ahull$ashape.obj
-  p <- p + ggplot2::geom_segment(data=as_tibble(d_ahull_c$edges),
-                   aes(x=x1, xend=x2, y=y1, yend=y2),
+  p <- p + ggplot2::geom_segment(data=tibble::as_tibble(d_ahull_c$edges),
+                   ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2),
                    colour = clr)
   p
 }
@@ -88,7 +88,7 @@ draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
   chull <- gen_conv_hull(sc$del)
 
   # make data of start and end points of hull
-  d <- tibble(x = sc$del$x[,1],
+  d <- tibble::tibble(x = sc$del$x[,1],
                  y = sc$del$x[,2])
   d_ends <- tibble::tibble(x1 = chull$x,
                  y1 = chull$y,

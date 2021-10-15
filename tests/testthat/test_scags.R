@@ -13,7 +13,7 @@ s <- features %>%
 ggpairs(s, columns = 2:8)
 
 
-# Compare striated to striated adjusted
+# Compare striated to striated2
 
 # Simulated data for what it is looking for
 d1 <- sample(1:10, 1000, replace=TRUE)
@@ -24,7 +24,7 @@ c2 <- rnorm(1000)
 x3 <- c(c1, c2)
 y3 <- c(1.5*c1+1, 1.5*c2+3)
 
-#most striated_adjusted (both discrete)
+#most striated2 (both discrete)
 sc_striated2(d1,d2)
 sc_striated(d1,d2)
 plot(d1,d2)

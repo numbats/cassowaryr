@@ -12,7 +12,7 @@ sc_dcor(x, y)
 \item{y}{numeric vector}
 }
 \description{
-(Taken from tourr git repo)
+(Taken from tourr package)
 Computes the distance correlation based index on
 2D projections of the data.
 }
@@ -32,4 +32,5 @@ Computes the distance correlation based index on
   sc_dcor(anscombe$x2, anscombe$y2)
   sc_dcor(anscombe$x3, anscombe$y3)
   sc_dcor(anscombe$x4, anscombe$y4)
+
 }

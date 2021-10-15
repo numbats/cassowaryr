@@ -4,6 +4,7 @@
 \alias{sc_outlying}
 \alias{sc_outlying.default}
 \alias{sc_outlying.scree}
+\alias{sc_outlying.list}
 \title{Compute outlying scagnostic measure using MST}
 \usage{
 sc_outlying(x, y)
@@ -11,6 +12,8 @@ sc_outlying(x, y)
 \method{sc_outlying}{default}(x, y)
 
 \method{sc_outlying}{scree}(sc)
+
+\method{sc_outlying}{list}(mst, sc)
 }
 \arguments{
 \item{x}{numeric vector of x values}

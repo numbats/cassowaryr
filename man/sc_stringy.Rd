@@ -20,6 +20,8 @@ sc_stringy(x, y)
 
 \item{y}{numeric vector of y values}
 
+\item{sc}{scree object if pre-built}
+
 \item{mst}{mst object if pre-built}
 }
 \description{

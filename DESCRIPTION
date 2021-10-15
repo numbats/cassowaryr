@@ -36,7 +36,8 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
-    progress
+    progress,
+    tibble
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,

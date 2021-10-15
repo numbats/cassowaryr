@@ -70,7 +70,7 @@ intermediate_scags <- function(vars, data, scags, pb){
 #' @examples
 #' # Calculate selected scagnostics on a single pair
 #' calc_scags(anscombe$x1, anscombe$y1,
-#'   scags=c("monotonic", "outlying","convex"))
+#'   scags=c("monotonic", "outlying", "convex"))
 #'
 #' # Calculate all large number of scagnostics together
 #' calc_scags(anscombe$x1, anscombe$y1)
@@ -83,6 +83,7 @@ intermediate_scags <- function(vars, data, scags, pb){
 #'   summarise(calc_scags(x,y,
 #'     scags=c("monotonic", "outlying", "convex")))
 #'
+#' @importFrom stats complete.cases sd var
 #' @export
 calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
   #set all scagnostics to null
@@ -102,7 +103,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   striped = NULL
 
   # Remove missings
-  d <- tibble(x=x, y=y)
+  d <- tibble::tibble(x=x, y=y)
   d <- d[complete.cases(d),]
   if (length(x) > nrow(d))
     message("WARNING: ", length(x)-nrow(d), " observations in have been removed. \n")

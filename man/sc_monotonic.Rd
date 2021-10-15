@@ -33,4 +33,5 @@ Measure of Spearman Correlation
   sc_monotonic(anscombe$x2, anscombe$y2)
   sc_monotonic(anscombe$x3, anscombe$y3)
   sc_monotonic(anscombe$x4, anscombe$y4)
+
 }

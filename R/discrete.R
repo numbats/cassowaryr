@@ -10,6 +10,7 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#'
 #' @return double
 #' @examples
 #' data("datasaurus_dozen_wide")

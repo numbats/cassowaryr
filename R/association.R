@@ -3,6 +3,7 @@
 #' @param x numeric vector
 #' @param y numeric vector
 #' @return double
+#'
 #' @examples
 #'   require(ggplot2)
 #'   require(tidyr)
@@ -19,6 +20,7 @@
 #'   sc_monotonic(anscombe$x2, anscombe$y2)
 #'   sc_monotonic(anscombe$x3, anscombe$y3)
 #'   sc_monotonic(anscombe$x4, anscombe$y4)
+#'
 #' @export
 sc_monotonic <- function(x, y){
   abs(stats::cor(x, y, method='spearman'))
@@ -34,6 +36,7 @@ sc_monotonic <- function(x, y){
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#'
 #' @examples
 #'   require(ggplot2)
 #'   require(tidyr)
@@ -49,6 +52,7 @@ sc_monotonic <- function(x, y){
 #'   sc_splines(anscombe$x1, anscombe$y1)
 #'   sc_splines(anscombe$x2, anscombe$y2)
 #'   sc_splines(anscombe$x3, anscombe$y3)
+#'
 #' @export
 sc_splines <- function(x,y) {
   if (!requireNamespace("mgcv", quietly = TRUE)) {
@@ -72,19 +76,20 @@ sc_splines <- function(x,y) {
     measure <- max(1 - stats::var(stats::residuals(mgam1),
                                   na.rm = T) / stats::var(y, na.rm = T),
                    1 - stats::var(stats::residuals(mgam2), na.rm = T) /
-                     var(x, na.rm = T))
+                     stats::var(x, na.rm = T))
   }
   return(measure)
 }
 
 #' Distance correlation index.
 #'
-#' (Taken from tourr git repo)
+#' (Taken from tourr package)
 #' Computes the distance correlation based index on
 #' 2D projections of the data.
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#'
 #' @examples
 #'   require(ggplot2)
 #'   require(tidyr)
@@ -101,6 +106,7 @@ sc_splines <- function(x,y) {
 #'   sc_dcor(anscombe$x2, anscombe$y2)
 #'   sc_dcor(anscombe$x3, anscombe$y3)
 #'   sc_dcor(anscombe$x4, anscombe$y4)
+#'
 #' @export
 sc_dcor <- function(x,y) {
   if (!requireNamespace("energy", quietly = TRUE)) {

@@ -19,6 +19,10 @@ sc_convex(x, y)
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{chull}{convex hull object as returned by gen_conv_hull()}
+
+\item{ahull}{alpha hull object as returned by gen_alpha_hull}
 }
 \description{
 Compute convex scagnostic measures

@@ -4,6 +4,7 @@
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
 #' @param mst mst object if pre-built
+#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -345,7 +346,7 @@ sc_outlying.scree <- function(sc) {
   sc_outlying.list(mst, sc)
 }
 
-
+#' @rdname sc_outlying
 #' @export
 sc_outlying.list <- function(mst, sc){
   #input: original mst (mymst) and scree object (x)
@@ -416,7 +417,7 @@ original_and_robust <- function(x,y){
   if(length(outliers)>0){
     new_x <- x[-outliers]
     new_y <- y[-outliers]
-    if(sd(new_x) == 0 | stats::sd(new_y) == 0) return(NULL)
+    if(stats::sd(new_x) == 0 | stats::sd(new_y) == 0) return(NULL)
     #recalculate scree and MST
     sc_robust <- scree(new_x,new_y)
     mst_robust <- gen_mst(sc_robust$del, sc_robust$weights)

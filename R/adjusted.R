@@ -82,7 +82,7 @@ sc_clumpy2.default <- function(x, y){
 #' @rdname sc_clumpy2
 #' @export
 sc_clumpy2.scree <- function(sc) {
-  mst <- gen_mst(x$del, x$weights)
+  mst <- gen_mst(sc$del, sc$weights)
   sc_clumpy2.list(mst,sc)
 }
 

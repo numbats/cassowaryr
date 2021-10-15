@@ -3,6 +3,8 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param chull convex hull object as returned by gen_conv_hull()
+#' @param ahull alpha hull object as returned by gen_alpha_hull
 #'
 #' @examples
 #'   require(ggplot2)
@@ -42,9 +44,11 @@ sc_convex.list <- function(chull, ahull){
   ahull_area / chull_area
 }
 
-#' Compute convex scagnostic measures
+#' Compute skinny scagnostic measure
+#'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ahull alpha hull object as returned by gen_alpha_hull
 #'
 #' @examples
 #'   require(ggplot2)
