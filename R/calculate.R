@@ -102,10 +102,10 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   striped = NULL
 
   # Remove missings
-  # TODO: Add a warning message here that reports the number of missings dropped
   d <- tibble(x=x, y=y)
   d <- d[complete.cases(d),]
-  message(length(complete.cases(d)), "in ", names(d), "have been removed: \n")
+  if (length(x) > nrow(d))
+    message("WARNING: ", length(x)-nrow(d), " observations in have been removed. \n")
   x <- d$x
   y <- d$y
 
