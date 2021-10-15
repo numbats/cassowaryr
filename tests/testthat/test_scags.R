@@ -25,22 +25,22 @@ x3 <- c(c1, c2)
 y3 <- c(1.5*c1+1, 1.5*c2+3)
 
 #most striated_adjusted (both discrete)
-sc_striated_adjusted(d1,d2)
+sc_striated2(d1,d2)
 sc_striated(d1,d2)
 plot(d1,d2)
 
 #next most (one variable is discrete)
-sc_striated_adjusted(d1,c1)
+sc_striated2(d1,c1)
 sc_striated(d1,c1)
 plot(d1,c1)
 
 # least (both continuous)
-sc_striated_adjusted(c1,c2)
+sc_striated2(c1,c2)
 sc_striated(c1,c2)
 plot(c1,c2)
 
 # rotated (both continuous)
-sc_striated_adjusted(x3,y3)
+sc_striated2(x3,y3)
 sc_striated(x3,y3)
 plot(x3,y3)
 

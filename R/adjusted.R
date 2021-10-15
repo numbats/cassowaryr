@@ -27,8 +27,8 @@ sc_striated2.default <- function(x, y){
 #' @rdname sc_striated2
 #' @export
 sc_striated2.scree <- function(sc) {
-  mst <- gen_mst(x$del, x$weights)
-  sc_striated2.list(mst, x)
+  mst <- gen_mst(sc$del, sc$weights)
+  sc_striated2.list(mst, sc)
 
 }
 
