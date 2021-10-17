@@ -17,7 +17,14 @@
 #' @importFrom progress progress_bar
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), euclid = TRUE){
-
+  # Check for typos/misspellings in scags list
+  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
+  validpased <- match.arg(scags, validscags, several.ok=TRUE)
+  typo <- scags[!scags %in% validpased]
+  if(length(typo)>0){
+    warning(paste0("You passed ", typo, " to the scags option. That is not a scagnsotic, Did you make a typo?"))
+    scags <- validpased #replace scags list with only valid scags
+  }
   # Check if variables are non-constant
   Var1 <- Var2 <- NULL
   std_dev <- all_data %>% dplyr::summarise_all(stats::sd, na.rm=TRUE)
@@ -101,6 +108,15 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   splines = NULL
   dcor = NULL
   striped = NULL
+
+  # Check for typos/misspellings in scags list
+  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
+  validpased <- match.arg(scags, validscags, several.ok=TRUE)
+  typo <- scags[!scags %in% validpased]
+  if(length(typo)>0){
+    warning(paste0("You passed ", typo, " to the scags option. That is not a scagnsotic, Did you make a typo?"))
+    scags <- validpased #replace scags list with only valid scags
+  }
 
   # Remove missings
   d <- tibble::tibble(x=x, y=y)
