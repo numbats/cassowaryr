@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>datasaurus_dozen data — datasaurus_dozen • cassowaryr</title>
+<title>Parkinsons data from UCI machine learning archive — pk • cassowaryr</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,15 @@
 
 
 
-<meta property="og:title" content="datasaurus_dozen data — datasaurus_dozen" />
-<meta property="og:description" content="From the datasauRus package. A modern update of Anscombe.
-All plots have same x and y mean, variance and correlation,
-but look different visually.
-All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation." />
+<meta property="og:title" content="Parkinsons data from UCI machine learning archive — pk" />
+<meta property="og:description" content="Biomedical voice measurements from 31 people,
+23 with Parkinson's disease (PD). Each column
+in the table is a particular voice measure, and
+each row corresponds one of 195 voice recording
+from these individuals (&quot;name&quot; column). The main
+aim of the data is to discriminate healthy people
+from those with PD, according to &quot;status&quot; column
+which is set to 0 for healthy and 1 for PD." />
 
 
 
@@ -116,49 +118,52 @@ as can be seen by visualisation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>datasaurus_dozen data</h1>
+    <h1>Parkinsons data from UCI machine learning archive</h1>
     <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>datasaurus_dozen.Rd</code></div>
+    <div class="hidden name"><code>pk.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>From the datasauRus package. A modern update of Anscombe.
-All plots have same x and y mean, variance and correlation,
-but look different visually.</p>
-<p>All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation.</p>
+    <p>Biomedical voice measurements from 31 people,
+23 with Parkinson's disease (PD). Each column
+in the table is a particular voice measure, and
+each row corresponds one of 195 voice recording
+from these individuals ("name" column). The main
+aim of the data is to discriminate healthy people
+from those with PD, according to "status" column
+which is set to 0 for healthy and 1 for PD.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A tibble with 1,846 observations and 3 variables</p><dl>
-<dt>dataset</dt><dd><p>label of data set</p></dd>
-<dt>x</dt><dd><p>variable for horizontal axis</p></dd>
-<dt>y</dt><dd><p>variable for vertical axis</p></dd>
+    <p>A tibble with 1,013 observations and 3 variables</p><dl>
+<dt>name</dt><dd><p>ASCII subject name and recording number</p></dd>
+<dt><code>MDVP:Fo(Hz)</code></dt><dd><p>Average vocal fundamental frequency</p></dd>
+<dt><code>MDVP:Fhi(Hz)</code></dt><dd><p>Maximum vocal fundamental frequency</p></dd>
+<dt><code>MDVP:Flo(Hz)</code></dt><dd><p>Minimum vocal fundamental frequency</p></dd>
+<dt><code>MDVP:Jitter</code>,<code>MDVP:Jitter(Abs)</code>,<code>MDVP:RAP</code>,<code>MDVP:PPQ</code>,<code>Jitter:DDP</code></dt><dd><p>Several measures of variation in fundamental frequency</p></dd>
+<dt><code>MDVP:Shimmer</code>,<code>MDVP:Shimmer(dB)</code>,<code>Shimmer:APQ3</code>,<code>Shimmer:APQ5</code>,<code>MDVP:APQ</code>,<code>Shimmer:DDA</code></dt><dd><p>Several measures of variation in amplitude</p></dd>
+<dt><code>NHR</code>,<code>HNR</code></dt><dd><p>Two measures of ratio of noise to tonal components in the voice</p></dd>
+<dt><code>status</code></dt><dd><p>Health status of the subject (one) - Parkinson's, (zero) - healthy</p></dd>
+<dt><code>RPDE</code>,<code>D2</code></dt><dd><p>Two nonlinear dynamical complexity measures</p></dd>
+<dt><code>DFA</code></dt><dd><p>Signal fractal scaling exponent</p></dd>
+<dt><code>spread1</code>,<code>spread2</code>,<code>PPE</code></dt><dd><p>Three nonlinear measures of fundamental frequency variation</p></dd>
 
 </dl>
 
-<p>A tibble with 142 observations and 26 variables</p><dl>
-<dt>away_x, away_y</dt><dd><p>x and y variables for away data</p></dd>
-<dt>bullseye_x, bullseye_y</dt><dd><p>x and y variables for bullseye data</p></dd>
-<dt>circle_x, circle_y</dt><dd><p>x and y variables for circle data</p></dd>
-<dt>dino_x, dino_y</dt><dd><p>x and y variables for dino data</p></dd>
-<dt>dots_x, dots_y</dt><dd><p>x and y variables for dots data</p></dd>
-<dt>h_lines_x, h_lines_y</dt><dd><p>x and y variables for h_lines data</p></dd>
-<dt>high_lines_x, high_lines_y</dt><dd><p>x and y variables for high_lines data</p></dd>
-<dt>slant_down_x, slant_down_y</dt><dd><p>x and y variables for slant_down data</p></dd>
-<dt>slant_up_x, slant_up_y</dt><dd><p>x and y variables for slant_up data</p></dd>
-<dt>star_x, star_y</dt><dd><p>x and y variables for star data</p></dd>
-<dt>v_lines_x, v_lines_y</dt><dd><p>x and y variables for v_lines data</p></dd>
-<dt>wide_lines_x, wide_lines_y</dt><dd><p>x and y variables for wide_lines data</p></dd>
-<dt>star_x, star_y</dt><dd><p>x and y variables for star data</p></dd>
-<dt>x_shape_x, x_shape_y</dt><dd><p>x and y variables for x_shape data</p></dd>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-</dl>
-
+    <p>The data is available at <a href='https://archive.ics.uci.edu/ml/datasets/Parkinsons'>The UCI Machine Learning Repository</a>
+in ASCII CSV format. The rows of the CSV file contain
+an instance corresponding to one voice recording.
+There are around six recordings per patient, the name
+of the patient is identified in the first column.</p>
+<p>The data are originally analysed in:
+Max A. Little, Patrick E. McSharry, Eric J. Hunter, Lorraine O. Ramig (2008),
+'Suitability of dysphonia measurements for telemonitoring of Parkinson's disease',
+IEEE Transactions on Biomedical Engineering.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

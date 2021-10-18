@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>datasaurus_dozen data — datasaurus_dozen • cassowaryr</title>
+<title>Compute scagnostics on all possible scatter plots for the given data — calc_scags_wide • cassowaryr</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,8 @@
 
 
 
-<meta property="og:title" content="datasaurus_dozen data — datasaurus_dozen" />
-<meta property="og:description" content="From the datasauRus package. A modern update of Anscombe.
-All plots have same x and y mean, variance and correlation,
-but look different visually.
-All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation." />
+<meta property="og:title" content="Compute scagnostics on all possible scatter plots for the given data — calc_scags_wide" />
+<meta property="og:description" content="Compute scagnostics on all possible scatter plots for the given data" />
 
 
 
@@ -116,50 +111,61 @@ as can be seen by visualisation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>datasaurus_dozen data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>datasaurus_dozen.Rd</code></div>
+    <h1>Compute scagnostics on all possible scatter plots for the given data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/calculate.R'><code>R/calculate.R</code></a></small>
+    <div class="hidden name"><code>calc_scags_wide.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>From the datasauRus package. A modern update of Anscombe.
-All plots have same x and y mean, variance and correlation,
-but look different visually.</p>
-<p>All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation.</p>
+    <p>Compute scagnostics on all possible scatter plots for the given data</p>
     </div>
 
+    <pre class="usage"><span class='fu'>calc_scags_wide</span><span class='op'>(</span>
+  <span class='va'>all_data</span>,
+  scags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"outlying"</span>, <span class='st'>"stringy"</span>, <span class='st'>"striated"</span>, <span class='st'>"striated2"</span>, <span class='st'>"clumpy"</span>, <span class='st'>"clumpy2"</span>,
+    <span class='st'>"sparse"</span>, <span class='st'>"skewed"</span>, <span class='st'>"convex"</span>, <span class='st'>"skinny"</span>, <span class='st'>"monotonic"</span>, <span class='st'>"splines"</span>, <span class='st'>"dcor"</span><span class='op'>)</span>,
+  euclid <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>all_data</th>
+      <td><p>tibble of multivariate data on which to compute scagnostics</p></td>
+    </tr>
+    <tr>
+      <th>scags</th>
+      <td><p>collection of strings matching names of
+scagnostics to calculate: outlying, stringy, striated,
+striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+skinny, monotonic, splines, dcor</p></td>
+    </tr>
+    <tr>
+      <th>euclid</th>
+      <td><p>logical indicator to use Euclidean distance</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>A tibble with 1,846 observations and 3 variables</p><dl>
-<dt>dataset</dt><dd><p>label of data set</p></dd>
-<dt>x</dt><dd><p>variable for horizontal axis</p></dd>
-<dt>y</dt><dd><p>variable for vertical axis</p></dd>
+    <div class='dont-index'><p>calc_scags</p></div>
 
-</dl>
-
-<p>A tibble with 142 observations and 26 variables</p><dl>
-<dt>away_x, away_y</dt><dd><p>x and y variables for away data</p></dd>
-<dt>bullseye_x, bullseye_y</dt><dd><p>x and y variables for bullseye data</p></dd>
-<dt>circle_x, circle_y</dt><dd><p>x and y variables for circle data</p></dd>
-<dt>dino_x, dino_y</dt><dd><p>x and y variables for dino data</p></dd>
-<dt>dots_x, dots_y</dt><dd><p>x and y variables for dots data</p></dd>
-<dt>h_lines_x, h_lines_y</dt><dd><p>x and y variables for h_lines data</p></dd>
-<dt>high_lines_x, high_lines_y</dt><dd><p>x and y variables for high_lines data</p></dd>
-<dt>slant_down_x, slant_down_y</dt><dd><p>x and y variables for slant_down data</p></dd>
-<dt>slant_up_x, slant_up_y</dt><dd><p>x and y variables for slant_up data</p></dd>
-<dt>star_x, star_y</dt><dd><p>x and y variables for star data</p></dd>
-<dt>v_lines_x, v_lines_y</dt><dd><p>x and y variables for v_lines data</p></dd>
-<dt>wide_lines_x, wide_lines_y</dt><dd><p>x and y variables for wide_lines data</p></dd>
-<dt>star_x, star_y</dt><dd><p>x and y variables for star data</p></dd>
-<dt>x_shape_x, x_shape_y</dt><dd><p>x and y variables for x_shape data</p></dd>
-
-</dl>
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Calculate selected scagnostics</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pk</span><span class='op'>)</span>
+<span class='fu'>calc_scags_wide</span><span class='op'>(</span><span class='va'>pk</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>, scags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"outlying"</span>,<span class='st'>"clumpy"</span>,<span class='st'>"monotonic"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 × 5</span>
+#&gt; <span style='color: #949494;'># Groups:   Var1 [3]</span>
+#&gt;   Var1           Var2         outlying clumpy monotonic
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> MDVP:Fhi(Hz)   MDVP:Fo(Hz)     0.412  0.934    0.796 
+#&gt; <span style='color: #BCBCBC;'>2</span> MDVP:Flo(Hz)   MDVP:Fo(Hz)     0.172  0.878    0.324 
+#&gt; <span style='color: #BCBCBC;'>3</span> MDVP:Flo(Hz)   MDVP:Fhi(Hz)    0.336  0.971    0.095<span style='text-decoration: underline;'>6</span>
+#&gt; <span style='color: #BCBCBC;'>4</span> MDVP:Jitter(%) MDVP:Fo(Hz)     0.289  0.915    0.270 
+#&gt; <span style='color: #BCBCBC;'>5</span> MDVP:Jitter(%) MDVP:Fhi(Hz)    0.541  0.922    0.097<span style='text-decoration: underline;'>8</span>
+#&gt; <span style='color: #BCBCBC;'>6</span> MDVP:Jitter(%) MDVP:Flo(Hz)    0.430  0.912    0.407 </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

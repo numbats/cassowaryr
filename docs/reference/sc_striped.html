@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>datasaurus_dozen data — datasaurus_dozen • cassowaryr</title>
+<title>Measure of Discreteness — sc_striped • cassowaryr</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,14 @@
 
 
 
-<meta property="og:title" content="datasaurus_dozen data — datasaurus_dozen" />
-<meta property="og:description" content="From the datasauRus package. A modern update of Anscombe.
-All plots have same x and y mean, variance and correlation,
-but look different visually.
-All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation." />
+<meta property="og:title" content="Measure of Discreteness — sc_striped" />
+<meta property="og:description" content="This metric computes the 1-(ratio between the
+number of unique values to total data values)
+on number of rotations of the data, and
+returns the smallest value. If this value is
+large it means that there are only a few unique
+data values, and hence the distribution is
+discrete" />
 
 
 
@@ -116,50 +117,47 @@ as can be seen by visualisation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>datasaurus_dozen data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>datasaurus_dozen.Rd</code></div>
+    <h1>Measure of Discreteness</h1>
+    <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/discrete.R'><code>R/discrete.R</code></a></small>
+    <div class="hidden name"><code>sc_striped.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>From the datasauRus package. A modern update of Anscombe.
-All plots have same x and y mean, variance and correlation,
-but look different visually.</p>
-<p>All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation.</p>
+    <p>This metric computes the 1-(ratio between the
+number of unique values to total data values)
+on number of rotations of the data, and
+returns the smallest value. If this value is
+large it means that there are only a few unique
+data values, and hence the distribution is
+discrete</p>
     </div>
 
+    <pre class="usage"><span class='fu'>sc_striped</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>numeric vector</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>numeric vector</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with 1,846 observations and 3 variables</p><dl>
-<dt>dataset</dt><dd><p>label of data set</p></dd>
-<dt>x</dt><dd><p>variable for horizontal axis</p></dd>
-<dt>y</dt><dd><p>variable for vertical axis</p></dd>
+    <p>double</p>
 
-</dl>
-
-<p>A tibble with 142 observations and 26 variables</p><dl>
-<dt>away_x, away_y</dt><dd><p>x and y variables for away data</p></dd>
-<dt>bullseye_x, bullseye_y</dt><dd><p>x and y variables for bullseye data</p></dd>
-<dt>circle_x, circle_y</dt><dd><p>x and y variables for circle data</p></dd>
-<dt>dino_x, dino_y</dt><dd><p>x and y variables for dino data</p></dd>
-<dt>dots_x, dots_y</dt><dd><p>x and y variables for dots data</p></dd>
-<dt>h_lines_x, h_lines_y</dt><dd><p>x and y variables for h_lines data</p></dd>
-<dt>high_lines_x, high_lines_y</dt><dd><p>x and y variables for high_lines data</p></dd>
-<dt>slant_down_x, slant_down_y</dt><dd><p>x and y variables for slant_down data</p></dd>
-<dt>slant_up_x, slant_up_y</dt><dd><p>x and y variables for slant_up data</p></dd>
-<dt>star_x, star_y</dt><dd><p>x and y variables for star data</p></dd>
-<dt>v_lines_x, v_lines_y</dt><dd><p>x and y variables for v_lines data</p></dd>
-<dt>wide_lines_x, wide_lines_y</dt><dd><p>x and y variables for wide_lines data</p></dd>
-<dt>star_x, star_y</dt><dd><p>x and y variables for star data</p></dd>
-<dt>x_shape_x, x_shape_y</dt><dd><p>x and y variables for x_shape data</p></dd>
-
-</dl>
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"datasaurus_dozen_wide"</span><span class='op'>)</span>
+<span class='fu'>sc_striped</span><span class='op'>(</span><span class='va'>datasaurus_dozen_wide</span><span class='op'>$</span><span class='va'>v_lines_x</span>,
+           <span class='va'>datasaurus_dozen_wide</span><span class='op'>$</span><span class='va'>v_lines_y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.9</div><div class='input'><span class='fu'>sc_striped</span><span class='op'>(</span><span class='va'>datasaurus_dozen_wide</span><span class='op'>$</span><span class='va'>dino_x</span>,
+           <span class='va'>datasaurus_dozen_wide</span><span class='op'>$</span><span class='va'>dino_y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.14</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
