@@ -103,9 +103,17 @@ draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
               ggplot2::aes(x=x1, y=y1,
                      xend=x2, yend=y2), colour = clr)
 
-  if (fill)
+  if (fill) # re-draws points on top of fill
     p <- p + ggplot2::geom_polygon(data=d_ends,
                                    ggplot2::aes(x=x1, y=y1),
-                          fill = clr, alpha = 0.5)
+                          fill = clr, alpha = 0.5) +
+         ggplot2::geom_segment(data = d_ends,
+                          ggplot2::aes(x=x1, y=y1,
+                                       xend=x2, yend=y2),
+                          colour = clr) +
+         ggplot2::geom_point(data = d,
+                             ggplot2::aes(x, y),
+                             colour = "black", alpha = 0.5)
+
   p
 }
