@@ -5,7 +5,7 @@
 \alias{sc_convex.scree}
 \alias{sc_convex.default}
 \alias{sc_convex.list}
-\title{Compute convex scagnostic measures}
+\title{Compute convex scagnostic measure}
 \usage{
 sc_convex(x, y)
 
@@ -25,7 +25,7 @@ sc_convex(x, y)
 \item{ahull}{alpha hull object as returned by gen_alpha_hull}
 }
 \description{
-Compute convex scagnostic measures
+Compute convex scagnostic measure
 }
 \examples{
   require(ggplot2)

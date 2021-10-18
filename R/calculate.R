@@ -73,7 +73,7 @@ intermediate_scags <- function(vars, data, scags, pb){
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #'
-#' @seealso sc_pairwise
+#' @seealso calc_scags_wide
 #' @examples
 #' # Calculate selected scagnostics on a single pair
 #' calc_scags(anscombe$x1, anscombe$y1,

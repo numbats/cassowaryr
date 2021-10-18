@@ -1,5 +1,5 @@
 
-#' Compute convex scagnostic measures
+#' Compute convex scagnostic measure
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values

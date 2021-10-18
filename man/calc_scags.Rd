@@ -42,5 +42,5 @@ datasaurus_dozen \%>\%
 
 }
 \seealso{
-sc_pairwise
+calc_scags_wide
 }
