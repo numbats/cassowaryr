@@ -53,7 +53,7 @@ sc_striated2.list <- function(mst, sc){
   stri/(0.5*sum(vertex_counts) - 1)
 }
 
-#' Compute angle adjusted clumpy measure using MST
+#' Compute adjusted clumpy measure using MST
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
@@ -192,7 +192,7 @@ sc_clumpy2.list <- function(mst, sc){
 }
 
 
-#' Compute angle adjusted sparse measure using the Alpha Hull
+#' Compute  adjusted sparse measure using the alpha hull
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
