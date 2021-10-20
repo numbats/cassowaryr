@@ -179,7 +179,7 @@ sc_clumpy2.list <- function(mst, sc){
     # short_edge <- ifelse(len_c1 == len_c2, max(c(c2weights,c1weights)), short_edge)
 
     # calculate clumpy value w penalty for uneven clusters
-    uneven_pen <- sqrt((2*c_length)/(len_c1+len_c2))
+    uneven_pen <- (2*c_length)/(len_c1+len_c2) #sqrt((2*c_length)/(len_c1+len_c2))
     clumpy[j] <- stringy_pen*uneven_pen*(big_ew[j]/short_edge)
     #just setting this now will fix to something more appropriate later
     clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j]) #return 1 if all clusters are of size 1
