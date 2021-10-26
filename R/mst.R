@@ -38,12 +38,12 @@ sc_stringy.scree <- function(sc) {
 
 #' @rdname sc_stringy
 #' @export
-sc_stringy.list <- function(mst){
+sc_stringy.list <- function(mst) {
   vertex_counts <- igraph::degree(mst)
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
 }
 
-#' Compute stirated scagnostic measure using MST
+#' Compute striated scagnostic measure using MST
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
@@ -398,12 +398,12 @@ outlying_identify <- function(mst, sc){
   which(rowsum==0)
 }
 
-original_and_robust <- function(x,y){
+original_and_robust <- function(x, y){
   #input: data for 2 variables x and y
   #output: list of scree and MST objects
 
   #construct original scree and MST
-  sc_original <- scree(x,y)
+  sc_original <- scree(x, y)
   mst_original <- gen_mst(sc_original$del, sc_original$weights)
 
   #identify outliers
@@ -419,7 +419,7 @@ original_and_robust <- function(x,y){
     new_y <- y[-outliers]
     if(stats::sd(new_x) == 0 | stats::sd(new_y) == 0) return(NULL)
     #recalculate scree and MST
-    sc_robust <- scree(new_x,new_y)
+    sc_robust <- scree(new_x, new_y)
     mst_robust <- gen_mst(sc_robust$del, sc_robust$weights)
   }
 

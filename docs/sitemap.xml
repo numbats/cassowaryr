@@ -1,90 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://numbats.github.io/cassowaryr//index.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/404.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/anscombe_tidy.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/calc_scags.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/calc_scags_wide.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/datasaurus_dozen.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/articles/cassowaryr.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/draw_alphahull.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/draw_convexhull.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/articles/vaast.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/draw_mst.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/authors.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/features.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/index.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/numbat.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/anscombe_tidy.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/pk.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/calc_scags.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_clumpy.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/calc_scags_wide.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_clumpy2.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/datasaurus_dozen.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_clumpy_r.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/datasaurus_dozen_wide.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_convex.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/draw_alphahull.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_dcor.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/draw_convexhull.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_monotonic.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/draw_mst.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_outlying.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/features.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_skewed.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_skinny.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/numbat.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_sparse.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/pk.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_sparse2.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_clumpy.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_splines.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_clumpy2.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_striated.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_clumpy_r.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_striated2.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_convex.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_stringy.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_dcor.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/sc_striped.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_monotonic.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//reference/scree.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_outlying.html</loc>
   </url>
   <url>
-    <loc>https://numbats.github.io/cassowaryr//articles/cassowaryr.html</loc>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_pairwise.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_skewed.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_skinny.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_sparse.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_sparse2.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_splines.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_striated.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_striated2.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_striated_adjusted.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_stringy.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/sc_striped.html</loc>
+  </url>
+  <url>
+    <loc>https://numbats.github.io/cassowaryr/reference/scree.html</loc>
   </url>
 </urlset>

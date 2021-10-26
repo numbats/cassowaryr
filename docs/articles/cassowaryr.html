@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,12 +40,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/cassowaryr.html">Get started</a>
 </li>
 <li>
@@ -52,7 +48,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/numbats/cassowaryr/">
+  <a href="https://github.com/numbats/cassowaryr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -73,7 +69,7 @@
       <h1 data-toc-skip>An introduction to the cassowaryr package</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/numbats/cassowaryr/blob/master/vignettes/cassowaryr.Rmd"><code>vignettes/cassowaryr.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/numbats/cassowaryr/blob/master/vignettes/cassowaryr.Rmd" class="external-link"><code>vignettes/cassowaryr.Rmd</code></a></small>
       <div class="hidden name"><code>cassowaryr.Rmd</code></div>
 
     </div>
@@ -82,7 +78,7 @@
     
 <div id="about" class="section level1">
 <h1 class="hasAnchor">
-<a href="#about" class="anchor"></a>About</h1>
+<a href="#about" class="anchor" aria-hidden="true"></a>About</h1>
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
@@ -90,19 +86,19 @@
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h1>
+<a href="#examples" class="anchor" aria-hidden="true"></a>Examples</h1>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr">cassowaryr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr" class="external-link">cassowaryr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Attache Paket: 'dplyr'</span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     filter, lag</span>
@@ -111,30 +107,33 @@
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 
 <span class="co"># pick examples</span>
-<span class="va">exampledata</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"v_lines"</span>, <span class="st">"circle"</span>, <span class="st">"dots"</span>, <span class="st">"away"</span><span class="op">)</span><span class="op">)</span> 
-<span class="co">#&gt; Warning in dataset == c("v_lines", "circle", "dots", "away"): Länge des längeren Objektes</span>
-<span class="co">#&gt;       ist kein Vielfaches der Länge des kürzeren Objektes</span>
+<span class="va">exampledata</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v_lines"</span>, <span class="st">"circle"</span>, <span class="st">"dots"</span>, <span class="st">"away"</span><span class="op">)</span><span class="op">)</span> 
+<span class="co">#&gt; Warning in dataset == c("v_lines", "circle", "dots", "away"): longer object</span>
+<span class="co">#&gt; length is not a multiple of shorter object length</span>
 
 <span class="co">#plot them</span>
-<span class="va">exampledata</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span>, colour<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span></code></pre></div>
+<span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span>, colour<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span></code></pre></div>
 <p><img src="cassowaryr_files/figure-html/setup-1.png" width="700"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#compute scagnostics</span>
-<span class="va">exampledata</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>monotonic<span class="op">=</span><span class="fu"><a href="../reference/sc_monotonic.html">sc_monotonic</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>, 
+<span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>monotonic<span class="op">=</span><span class="fu"><a href="../reference/sc_monotonic.html">sc_monotonic</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>, 
             dcor<span class="op">=</span><span class="fu"><a href="../reference/sc_dcor.html">sc_dcor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>, 
             splines<span class="op">=</span><span class="fu"><a href="../reference/sc_splines.html">sc_splines</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
             skinny <span class="op">=</span> <span class="fu"><a href="../reference/sc_skinny.html">sc_skinny</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
             convex <span class="op">=</span> <span class="fu"><a href="../reference/sc_convex.html">sc_convex</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
             striated <span class="op">=</span> <span class="fu"><a href="../reference/sc_striated.html">sc_striated</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
             stringy <span class="op">=</span> <span class="fu"><a href="../reference/sc_stringy.html">sc_stringy</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
-            <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
+            <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'spatstat.geom':</span>
+<span class="co">#&gt;   method     from</span>
+<span class="co">#&gt;   print.boxx cli</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">dataset</th>
@@ -203,11 +202,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
+  <p></p>
+<p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -215,6 +216,8 @@
 
   
 
+
+  
 
   </body>
 </html>
