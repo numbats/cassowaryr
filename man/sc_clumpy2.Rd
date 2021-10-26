@@ -5,7 +5,7 @@
 \alias{sc_clumpy2.default}
 \alias{sc_clumpy2.scree}
 \alias{sc_clumpy2.list}
-\title{Compute angle adjusted clumpy measure using MST}
+\title{Compute adjusted clumpy measure using MST}
 \usage{
 sc_clumpy2(x, y)
 
@@ -25,7 +25,7 @@ sc_clumpy2(x, y)
 \item{mst}{mst object if pre-built}
 }
 \description{
-Compute angle adjusted clumpy measure using MST
+Compute adjusted clumpy measure using MST
 }
 \examples{
   require(ggplot2)

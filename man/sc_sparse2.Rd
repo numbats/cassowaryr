@@ -5,7 +5,7 @@
 \alias{sc_sparse2.default}
 \alias{sc_sparse2.scree}
 \alias{sc_sparse2.list}
-\title{Compute angle adjusted sparse measure using the Alpha Hull}
+\title{Compute  adjusted sparse measure using the alpha hull}
 \usage{
 sc_sparse2(x, y)
 
@@ -25,7 +25,7 @@ sc_sparse2(x, y)
 \item{ahull}{alphahull object if pre-built}
 }
 \description{
-Compute angle adjusted sparse measure using the Alpha Hull
+Compute  adjusted sparse measure using the alpha hull
 }
 \examples{
   require(ggplot2)
