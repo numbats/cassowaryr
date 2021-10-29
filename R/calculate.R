@@ -90,7 +90,6 @@ intermediate_scags <- function(vars, data, scags, pb){
 #'   summarise(calc_scags(x,y,
 #'     scags=c("monotonic", "outlying", "convex")))
 #'
-#' @importFrom stats complete.cases sd var
 #' @export
 calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
   #set all scagnostics to null
@@ -120,14 +119,14 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
 
   # Remove missings
   d <- tibble::tibble(x=x, y=y)
-  d <- d[complete.cases(d),]
+  d <- d[stats::complete.cases(d),]
   if (length(x) > nrow(d))
     message("WARNING: ", length(x)-nrow(d), " observations in have been removed. \n")
   x <- d$x
   y <- d$y
 
   # Check for constant variance
-  stopifnot(sd(x)>0, sd(y)>0)
+  stopifnot(stats::sd(x)>0, stats::sd(y)>0)
 
   #make original and outlying adjusted scree+mst
   sm_list <- original_and_robust(x,y)
