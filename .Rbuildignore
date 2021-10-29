@@ -8,3 +8,5 @@ data-raw
 _pkgdown.yml
 docs
 README.Rmd
+^codecov\.yml$
+^\.github$
