@@ -1,7 +1,5 @@
 # Load Libraries
 library(dplyr)
-library(cassowaryr)
-library(usethis)
 
 set.seed(4213)
 

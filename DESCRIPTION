@@ -37,17 +37,18 @@ Imports:
     ggplot2,
     magrittr,
     progress,
-    tibble
+    tibble,
+    stats
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
     knitr,
     mgcv,
     energy,
-    usethis,
     GGally,
     tidyr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)

@@ -1,7 +1,3 @@
-library(dplyr)
-library(cassowaryr)
-library(usethis)
-
 #generate sin wave test
 x <- seq(-pi, pi, 0.01)
 y <- sin(x)
