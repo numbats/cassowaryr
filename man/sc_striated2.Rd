@@ -11,18 +11,14 @@ sc_striated2(x, y)
 
 \method{sc_striated2}{default}(x, y)
 
-\method{sc_striated2}{scree}(sc)
+\method{sc_striated2}{scree}(x, y = NULL)
 
-\method{sc_striated2}{list}(mst, sc)
+\method{sc_striated2}{list}(x, y)
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x}{numeric vector of x values, or an mst object}
 
-\item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
+\item{y}{numeric vector of y values, or a scree object}
 }
 \description{
 Compute angle adjusted striated measure using MST
