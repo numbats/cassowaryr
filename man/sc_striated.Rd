@@ -5,7 +5,7 @@
 \alias{sc_striated.default}
 \alias{sc_striated.scree}
 \alias{sc_striated.list}
-\title{Compute stirated scagnostic measure using MST}
+\title{Compute striated scagnostic measure using MST}
 \usage{
 sc_striated(x, y)
 
@@ -25,7 +25,7 @@ sc_striated(x, y)
 \item{mst}{mst object if pre-built}
 }
 \description{
-Compute stirated scagnostic measure using MST
+Compute striated scagnostic measure using MST
 }
 \examples{
   require(ggplot2)
