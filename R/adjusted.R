@@ -1,9 +1,7 @@
 #' Compute angle adjusted striated measure using MST
 #'
-#' @param x numeric vector of x values
-#' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
+#' @param x numeric vector of x values, or an mst object
+#' @param y numeric vector of y values, or a scree object
 #'
 #' @examples
 #'   require(ggplot2)
@@ -26,22 +24,23 @@ sc_striated2.default <- function(x, y){
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.scree <- function(sc) {
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_striated2.list(mst, sc)
+sc_striated2.scree <- function(x, y = NULL) {
+  stopifnot(is.null(y))
+  y <- gen_mst(x$del, x$weights)
+  sc_striated2.list(y, x)
 
 }
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.list <- function(mst, sc){
-  vertex_counts <- igraph::degree(mst)
+sc_striated2.list <- function(x, y){
+  vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts>=2)
   stri=0
   for(i in seq_len(length(angs))){
-    adjs <- which(mst[angs[i]]>0)
-    points <- sc$del$x[adjs,]
-    origin <- sc$del$x[angs[i],]
+    adjs <- which(x[angs[i]]>0)
+    points <- y$del$x[adjs,]
+    origin <- y$del$x[angs[i],]
     vects <- t(t(points)-origin)
     b =0
     for(j in seq(length(vects[,1])-1)){
