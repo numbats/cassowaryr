@@ -4,6 +4,10 @@
 # About
 
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/numbats/cassowaryr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/numbats/cassowaryr?branch=master)
+[![R-CMD-check](https://github.com/numbats/cassowaryr/workflows/R-CMD-check/badge.svg)](https://github.com/numbats/cassowaryr/actions)
 <!-- badges: end -->
 
 The `cassowaryr` package provides functions to compute scagnostics on
