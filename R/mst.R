@@ -25,21 +25,24 @@ sc_stringy <- function(x, y) UseMethod("sc_stringy")
 #' @rdname sc_stringy
 #' @export
 sc_stringy.default <- function(x, y){
+  #input: x and y are vectors
   sc <- scree(x, y)
   sc_stringy.scree(sc)
 }
 
 #' @rdname sc_stringy
 #' @export
-sc_stringy.scree <- function(sc) {
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_stringy.list(mst)
+sc_stringy.scree <- function(x, y=NULL) {
+  #input: x is a scree, no y
+  mst <- gen_mst(x$del, x$weights)
+  sc_stringy.igraph(mst)
 }
 
 #' @rdname sc_stringy
 #' @export
-sc_stringy.list <- function(mst) {
-  vertex_counts <- igraph::degree(mst)
+sc_stringy.igraph <- function(x, y=NULL) {
+  #input: x is the MST igraph object
+  vertex_counts <- igraph::degree(x)
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
 }
 
