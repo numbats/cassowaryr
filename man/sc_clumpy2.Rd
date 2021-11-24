@@ -4,25 +4,21 @@
 \alias{sc_clumpy2}
 \alias{sc_clumpy2.default}
 \alias{sc_clumpy2.scree}
-\alias{sc_clumpy2.list}
+\alias{sc_clumpy2.igraph}
 \title{Compute adjusted clumpy measure using MST}
 \usage{
 sc_clumpy2(x, y)
 
 \method{sc_clumpy2}{default}(x, y)
 
-\method{sc_clumpy2}{scree}(sc)
+\method{sc_clumpy2}{scree}(x, y = NULL)
 
-\method{sc_clumpy2}{list}(mst, sc)
+\method{sc_clumpy2}{igraph}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
 }
 \description{
 Compute adjusted clumpy measure using MST

@@ -4,25 +4,21 @@
 \alias{sc_skewed}
 \alias{sc_skewed.default}
 \alias{sc_skewed.scree}
-\alias{sc_skewed.list}
+\alias{sc_skewed.igraph}
 \title{Compute skewed scagnostic measure using MST}
 \usage{
 sc_skewed(x, y)
 
 \method{sc_skewed}{default}(x, y)
 
-\method{sc_skewed}{scree}(sc)
+\method{sc_skewed}{scree}(x, y = NULL)
 
-\method{sc_skewed}{list}(mst, sc)
+\method{sc_skewed}{igraph}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
 }
 \description{
 Compute skewed scagnostic measure using MST

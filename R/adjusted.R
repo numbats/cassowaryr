@@ -27,13 +27,13 @@ sc_striated2.default <- function(x, y){
 sc_striated2.scree <- function(x, y = NULL) {
   stopifnot(is.null(y))
   y <- gen_mst(x$del, x$weights)
-  sc_striated2.list(y, x)
+  sc_striated2.igraph(y, x)
 
 }
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.list <- function(x, y){
+sc_striated2.igraph <- function(x, y){
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts>=2)
   stri=0
@@ -56,8 +56,6 @@ sc_striated2.list <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -80,21 +78,21 @@ sc_clumpy2.default <- function(x, y){
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.scree <- function(sc) {
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_clumpy2.list(mst,sc)
+sc_clumpy2.scree <- function(x, y=NULL) {
+  mst <- gen_mst(x$del, x$weights)
+  sc_clumpy2.igraph(mst,x)
 }
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.list <- function(mst, sc){
+sc_clumpy2.igraph <- function(x, y){
   #set stringy penalty
-  vertex_counts <- igraph::degree(mst)
+  vertex_counts <- igraph::degree(x)
   #technically stringy calc
   stringy <- sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
   stringy_pen <- ifelse(stringy>0.95, (1-stringy), 1)
   # get lower triangular matrix
-  mstmat <- twomstmat(mst, sc)$lowertri
+  mstmat <- twomstmat(x, y)$lowertri
 
   #get the index of all the edges in the mst
   matind <- which(mstmat>0) # in whole matrix
@@ -195,8 +193,6 @@ sc_clumpy2.list <- function(mst, sc){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param ahull alphahull object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -220,16 +216,16 @@ sc_sparse2.default <- function(x, y){
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.scree <- function(sc) {
-  ahull <- gen_alpha_hull(sc$del, sc$alpha)
+sc_sparse2.scree <- function(x, y=NULL) {
+  ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_sparse2.list(ahull)
 }
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.list <- function(ahull){
-  if (ahull$length > 0)
-    ahull_area <- alphahull::areaahull(ahull)
+sc_sparse2.list <- function(x, y=NULL){
+  if (x$length > 0)
+    ahull_area <- alphahull::areaahull(x)
   else
     ahull_area <- 0
   1- ahull_area

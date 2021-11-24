@@ -4,25 +4,21 @@
 \alias{sc_stringy}
 \alias{sc_stringy.default}
 \alias{sc_stringy.scree}
-\alias{sc_stringy.list}
+\alias{sc_stringy.igraph}
 \title{Compute stringy scagnostic measure using MST}
 \usage{
 sc_stringy(x, y)
 
 \method{sc_stringy}{default}(x, y)
 
-\method{sc_stringy}{scree}(sc)
+\method{sc_stringy}{scree}(x, y = NULL)
 
-\method{sc_stringy}{list}(mst)
+\method{sc_stringy}{igraph}(x, y = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
 }
 \description{
 Compute stringy scagnostic measure using MST

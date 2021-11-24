@@ -2,27 +2,23 @@
 % Please edit documentation in R/alphahull.R
 \name{sc_convex}
 \alias{sc_convex}
-\alias{sc_convex.scree}
 \alias{sc_convex.default}
+\alias{sc_convex.scree}
 \alias{sc_convex.list}
 \title{Compute convex scagnostic measure}
 \usage{
 sc_convex(x, y)
 
-\method{sc_convex}{scree}(x, y = NULL)
-
 \method{sc_convex}{default}(x, y)
 
-\method{sc_convex}{list}(chull, ahull)
+\method{sc_convex}{scree}(x, y = NULL)
+
+\method{sc_convex}{list}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{chull}{convex hull object as returned by gen_conv_hull()}
-
-\item{ahull}{alpha hull object as returned by gen_alpha_hull}
 }
 \description{
 Compute convex scagnostic measure

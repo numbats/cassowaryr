@@ -4,25 +4,21 @@
 \alias{sc_outlying}
 \alias{sc_outlying.default}
 \alias{sc_outlying.scree}
-\alias{sc_outlying.list}
+\alias{sc_outlying.igraph}
 \title{Compute outlying scagnostic measure using MST}
 \usage{
 sc_outlying(x, y)
 
 \method{sc_outlying}{default}(x, y)
 
-\method{sc_outlying}{scree}(sc)
+\method{sc_outlying}{scree}(x, y = NULL)
 
-\method{sc_outlying}{list}(mst, sc)
+\method{sc_outlying}{igraph}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
 }
 \description{
 Compute outlying scagnostic measure using MST

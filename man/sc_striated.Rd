@@ -4,25 +4,21 @@
 \alias{sc_striated}
 \alias{sc_striated.default}
 \alias{sc_striated.scree}
-\alias{sc_striated.list}
+\alias{sc_striated.igraph}
 \title{Compute striated scagnostic measure using MST}
 \usage{
 sc_striated(x, y)
 
 \method{sc_striated}{default}(x, y)
 
-\method{sc_striated}{scree}(sc)
+\method{sc_striated}{scree}(x, y = NULL)
 
-\method{sc_striated}{list}(mst, sc)
+\method{sc_striated}{igraph}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
 }
 \description{
 Compute striated scagnostic measure using MST

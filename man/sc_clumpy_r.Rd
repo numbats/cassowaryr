@@ -11,18 +11,14 @@ sc_clumpy_r(x, y)
 
 \method{sc_clumpy_r}{default}(x, y)
 
-\method{sc_clumpy_r}{scree}(sc)
+\method{sc_clumpy_r}{scree}(x, y = NULL)
 
-\method{sc_clumpy_r}{igraph}(mst, sc)
+\method{sc_clumpy_r}{igraph}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{mst}{mst object if pre-built}
 }
 \description{
 Compute robust clumpy scagnostic measure using MST

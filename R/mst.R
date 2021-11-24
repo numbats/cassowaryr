@@ -3,8 +3,6 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -50,8 +48,6 @@ sc_stringy.igraph <- function(x, y=NULL) {
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -74,24 +70,26 @@ sc_striated.default <- function(x, y){
 
 #' @rdname sc_striated
 #' @export
-sc_striated.scree <- function(sc) {
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_striated.list(mst, sc)
+sc_striated.scree <- function(x, y=NULL) {
+  #input: x is scree
+  mst <- gen_mst(x$del, x$weights)
+  sc_striated.igraph(mst, x)
 }
 
 
 #' @rdname sc_striated
 #' @export
-sc_striated.list <- function(mst, sc){
-  vertex_counts <- igraph::degree(mst)
+sc_striated.igraph <- function(x, y){
+  #input: x is MST, y is scree
+  vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts==2)
   angles_vect <- numeric(length(angs))
   for(i in seq_len(length(angs))){
-    adjs <- which(mst[angs[i]]>0)
-    points <- sc$del$x[adjs,]
-    origin <- sc$del$x[angs[i],]
+    adjs <- which(x[angs[i]]>0)
+    points <- y$del$x[adjs,]
+    origin <- y$del$x[angs[i],]
     vects <- t(t(points)-origin)
-    angles_vect[i] <- (vects[1,]%*%vects[2,])/(prod(mst[angs[i]][adjs]))
+    angles_vect[i] <- (vects[1,]%*%vects[2,])/(prod(x[angs[i]][adjs]))
   }
   (sum(ifelse(angles_vect<(-0.75),1,0)))/length(vertex_counts)
 }
@@ -100,8 +98,6 @@ sc_striated.list <- function(mst, sc){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -124,18 +120,19 @@ sc_clumpy.default <- function(x, y){
 
 #' @rdname sc_clumpy
 #' @export
-sc_clumpy.scree <- function(sc) {
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_clumpy.list(mst,sc)
+sc_clumpy.scree <- function(x, y=NULL) {
+  #input: x is a scree
+  mst <- gen_mst(x$del, x$weights)
+  sc_clumpy.igraph(mst,x)
 }
 
 
 #' @rdname sc_clumpy
 #' @export
-sc_clumpy.list <- function(mst, sc){
-
+sc_clumpy.igraph <- function(x, y){
+  #input: x is the MST, y is the scree
   #lower triangular matrix
-  mstmat <- twomstmat(mst,sc)$lowertri
+  mstmat <- twomstmat(x,y)$lowertri
 
   #make index variables to iterate through
   matind <- which(mstmat>0)
@@ -216,8 +213,6 @@ sc_clumpy.list <- function(mst, sc){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -242,17 +237,18 @@ sc_sparse.default <- function(x, y){
 
 #' @rdname sc_sparse
 #' @export
-sc_sparse.scree <- function(sc) {
+sc_sparse.scree <- function(x, y=NULL) {
   #generate vector of MST edges
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_sparse.list(mst,sc)
+  mst <- gen_mst(x$del, x$weights)
+  sc_sparse.igraph(mst,x)
 }
 
 
 #' @rdname sc_sparse
 #' @export
-sc_sparse.list <- function(mst, sc){
-  mstmat <- twomstmat(mst,sc)$lowertri
+sc_sparse.igraph <- function(x, y){
+  #input: x is MST, y is scree
+  mstmat <- twomstmat(x,y)$lowertri
   edges <- mstmat[which(mstmat>0)]
   #calculate sparse value
   sort(edges)[floor(0.9*length( edges))]
@@ -263,8 +259,6 @@ sc_sparse.list <- function(mst, sc){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -290,16 +284,16 @@ sc_skewed.default <- function(x, y){
 
 #' @rdname sc_skewed
 #' @export
-sc_skewed.scree <- function(sc) {
+sc_skewed.scree <- function(x, y=NULL) {
   #generate vector of MST edges
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_skewed.list(mst, sc)
+  mst <- gen_mst(x$del, x$weights)
+  sc_skewed.igraph(mst, x)
 }
 
 #' @rdname sc_skewed
 #' @export
-sc_skewed.list <- function(mst, sc){
-  mstmat <- twomstmat(mst,sc)$lowertri
+sc_skewed.igraph <- function(x, y){
+  mstmat <- twomstmat(x,y)$lowertri
   edges <- mstmat[which(mstmat>0)]
 
   # find quantiles
@@ -317,8 +311,6 @@ sc_skewed.list <- function(mst, sc){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -343,25 +335,25 @@ sc_outlying.default <- function(x, y){
 
 #' @rdname sc_outlying
 #' @export
-sc_outlying.scree <- function(sc) {
+sc_outlying.scree <- function(x, y=NULL) {
   #generate vector of MST edges
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_outlying.list(mst, sc)
+  mst <- gen_mst(x$del, x$weights)
+  sc_outlying.igraph(mst, x)
 }
 
 #' @rdname sc_outlying
 #' @export
-sc_outlying.list <- function(mst, sc){
-  #input: original mst (mymst) and scree object (x)
+sc_outlying.igraph <- function(x, y){
+  #input: x orig mst (mymst) and y scree object
   #output: outlying mst value
 
   #make into matrix
-  twomst <- twomstmat(mst,sc)
+  twomst <- twomstmat(x,y)
   mstmat <- twomst$mat
   mstlowertri <- twomst$lowertri
 
   #identify outliers
-  outliers <- outlying_identify(mst, sc)
+  outliers <- outlying_identify(x, y)
 
   #calculate outlying value
   outlier_e <- sum(mstmat[outliers,]) #sum of edges of outlying points

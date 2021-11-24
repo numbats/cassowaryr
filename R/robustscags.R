@@ -2,8 +2,6 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param mst mst object if pre-built
-#' @param sc scree object if pre-built
 #'
 #' @examples
 #'   require(ggplot2)
@@ -26,16 +24,16 @@ sc_clumpy_r.default <- function(x, y){
 
 #' @rdname sc_clumpy_r
 #' @export
-sc_clumpy_r.scree <- function(sc) {
+sc_clumpy_r.scree <- function(x, y=NULL) {
   #generate vector of MST edges
-  mst <- gen_mst(sc$del, sc$weights)
-  sc_clumpy_r.igraph(mst, sc)
+  mst <- gen_mst(x$del, x$weights)
+  sc_clumpy_r.igraph(mst, x)
 }
 
 #' @rdname sc_clumpy_r
 #' @export
-sc_clumpy_r.igraph <- function(mst, sc){
-  mst_lt <- twomstmat(mst,sc)$lowertri
+sc_clumpy_r.igraph <- function(x, y){
+  mst_lt <- twomstmat(x,y)$lowertri
   vals <- outside_cluster(mst_lt)
   n <- length(which(mst_lt>0))
   sum(vals)/n

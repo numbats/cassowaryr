@@ -17,6 +17,7 @@
 #' @importFrom progress progress_bar
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), euclid = TRUE){
+
   # Check for typos/misspellings in scags list
   validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
   validpased <- match.arg(scags, validscags, several.ok=TRUE)
@@ -25,6 +26,7 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
     warning(paste0("You passed ", typo, " to the scags option. That is not a scagnsotic, Did you make a typo?"))
     scags <- validpased #replace scags list with only valid scags
   }
+
   # Check if variables are non-constant
   Var1 <- Var2 <- NULL
   std_dev <- all_data %>% dplyr::summarise_all(stats::sd, na.rm=TRUE)
@@ -161,29 +163,29 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
 
   #CALCULATE MST MEASURES
   if("stringy" %in% scags){
-    stringy <- sc_stringy.list(mst)
+    stringy <- sc_stringy(mst)
   }
   if("striated" %in% scags){
-    striated <- sc_striated.list(mst, sc)
+    striated <- sc_striated(mst, sc)
   }
   if("striated2" %in% scags){
-    striated2 <- sc_striated2.list(mst, sc)
+    striated2 <- sc_striated2(mst, sc)
   }
   if("clumpy" %in% scags){
-    clumpy <- sc_clumpy.list(mst, sc)
+    clumpy <- sc_clumpy(mst, sc)
   }
   if("clumpy2" %in% scags){
-    clumpy2 <- sc_clumpy2.list(mst, sc)
+    clumpy2 <- sc_clumpy2(mst, sc)
   }
   if("sparse" %in% scags){
-    sparse <- sc_sparse.list(mst, sc)
+    sparse <- sc_sparse(mst, sc)
   }
   if("skewed" %in% scags){
-    skewed <- sc_skewed.list(mst, sc)
+    skewed <- sc_skewed(mst, sc)
 
   }
   if("outlying" %in% scags){
-    outlying <- sc_outlying.list(mst_orig, sc_orig)
+    outlying <- sc_outlying(mst_orig, sc_orig)
   }
 
   #CALCULATE ALPHA HULL MEASURES
@@ -191,10 +193,10 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
     chull <- gen_conv_hull(sc$del)
     ahull <- gen_alpha_hull(sc$del, sc$alpha)
     if("convex" %in% scags){
-      convex <- sc_convex.list(chull,ahull)
+      convex <- sc_convex(chull,ahull)
     }
     if("skinny" %in% scags){
-      skinny <- sc_skinny.list(ahull)
+      skinny <- sc_skinny(ahull)
     }}
 
   #CALCULATE ASSOCIATION MEASURES

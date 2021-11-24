@@ -3,8 +3,6 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param chull convex hull object as returned by gen_conv_hull()
-#' @param ahull alpha hull object as returned by gen_alpha_hull
 #'
 #' @examples
 #'   require(ggplot2)
@@ -19,6 +17,13 @@ sc_convex <- function(x, y) UseMethod("sc_convex")
 
 #' @rdname sc_convex
 #' @export
+sc_convex.default <- function(x, y){
+  sc <- scree(x, y)
+  sc_convex.scree(sc)
+}
+
+#' @rdname sc_convex
+#' @export
 sc_convex.scree <- function(x,y = NULL) {
   stopifnot(is.null(y))
   chull <- gen_conv_hull(x$del)
@@ -28,17 +33,10 @@ sc_convex.scree <- function(x,y = NULL) {
 
 #' @rdname sc_convex
 #' @export
-sc_convex.default <- function(x, y){
-  sc <- scree(x, y)
-  sc_convex.scree(sc)
-}
-
-#' @rdname sc_convex
-#' @export
-sc_convex.list <- function(chull, ahull){
-  chull_area <- splancs::areapl(cbind(chull$x, chull$y))
-  if (ahull$length > 0)
-    ahull_area <- alphahull::areaahull(ahull)
+sc_convex.list <- function(x, y){
+  chull_area <- splancs::areapl(cbind(x$x, x$y))
+  if (y$length > 0)
+    ahull_area <- alphahull::areaahull(y)
   else
     ahull_area <- 0
   ahull_area / chull_area
@@ -48,7 +46,6 @@ sc_convex.list <- function(chull, ahull){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @param ahull alpha hull object as returned by gen_alpha_hull
 #'
 #' @examples
 #'   require(ggplot2)
@@ -63,14 +60,6 @@ sc_skinny <- function(x, y) UseMethod("sc_skinny")
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.scree <- function(x, y = NULL) {
-  stopifnot(is.null(y))
-  ahull <- gen_alpha_hull(x$del, x$alpha)
-  sc_skinny.list(ahull)
-}
-
-#' @rdname sc_skinny
-#' @export
 sc_skinny.default <- function(x, y){
   sc <- scree(x, y)
   sc_skinny.scree(sc)
@@ -78,10 +67,18 @@ sc_skinny.default <- function(x, y){
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.list <- function(ahull){
-  if (ahull$length > 0) {
-    ahull_area <- alphahull::areaahull(ahull)
-    s <- 1 - sqrt(4*pi * ahull_area) / ahull$length
+sc_skinny.scree <- function(x, y = NULL) {
+  stopifnot(is.null(y))
+  ahull <- gen_alpha_hull(x$del, x$alpha)
+  sc_skinny.ahull(ahull)
+}
+
+#' @rdname sc_skinny
+#' @export
+sc_skinny.ahull <- function(x, y=NULL){
+  if (x$length > 0) {
+    ahull_area <- alphahull::areaahull(x)
+    s <- 1 - sqrt(4*pi * ahull_area) / x$length
   }
   else
     s <- 1

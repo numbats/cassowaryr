@@ -2,25 +2,23 @@
 % Please edit documentation in R/alphahull.R
 \name{sc_skinny}
 \alias{sc_skinny}
-\alias{sc_skinny.scree}
 \alias{sc_skinny.default}
-\alias{sc_skinny.list}
+\alias{sc_skinny.scree}
+\alias{sc_skinny.ahull}
 \title{Compute skinny scagnostic measure}
 \usage{
 sc_skinny(x, y)
 
-\method{sc_skinny}{scree}(x, y = NULL)
-
 \method{sc_skinny}{default}(x, y)
 
-\method{sc_skinny}{list}(ahull)
+\method{sc_skinny}{scree}(x, y = NULL)
+
+\method{sc_skinny}{ahull}(x, y = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{ahull}{alpha hull object as returned by gen_alpha_hull}
 }
 \description{
 Compute skinny scagnostic measure

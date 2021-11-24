@@ -4,7 +4,7 @@
 \alias{sc_striated2}
 \alias{sc_striated2.default}
 \alias{sc_striated2.scree}
-\alias{sc_striated2.list}
+\alias{sc_striated2.igraph}
 \title{Compute angle adjusted striated measure using MST}
 \usage{
 sc_striated2(x, y)
@@ -13,7 +13,7 @@ sc_striated2(x, y)
 
 \method{sc_striated2}{scree}(x, y = NULL)
 
-\method{sc_striated2}{list}(x, y)
+\method{sc_striated2}{igraph}(x, y)
 }
 \arguments{
 \item{x}{numeric vector of x values, or an mst object}

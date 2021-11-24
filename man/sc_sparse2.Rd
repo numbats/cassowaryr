@@ -11,18 +11,14 @@ sc_sparse2(x, y)
 
 \method{sc_sparse2}{default}(x, y)
 
-\method{sc_sparse2}{scree}(sc)
+\method{sc_sparse2}{scree}(x, y = NULL)
 
-\method{sc_sparse2}{list}(ahull)
+\method{sc_sparse2}{list}(x, y = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
-
-\item{sc}{scree object if pre-built}
-
-\item{ahull}{alphahull object if pre-built}
 }
 \description{
 Compute  adjusted sparse measure using the alpha hull
