@@ -40,15 +40,17 @@ test_that("Striated Scagnotist", {
 # Sparse Test
 x1 <- c(0,9,17,22,26,26,0,0,0,0,2)
 y1 <- c(0,0,0,0,0,2,10,17,23,26,26)
-#plot(x1,y1)
+#sample size adjustment
+n = 11/500
+w = 0.7 + 0.3/(1+n^2)
+
 test_that("Sparse Scagnotist", {
-  expect_equal(sc_sparse(x1,y1), (9/26))
+  expect_equal(sc_sparse(x1,y1), w*(9/26), tolerance=0.001)
 })
 
 # Skewed Test
-#plot(x1,y1)
 test_that("Skewed Scagnotist", {
-  expect_equal(sc_skewed(x1,y1), (4/7))
+  expect_equal(sc_skewed(x1,y1), w*(4/7), tolerance=0.001)
 })
 
 # Oulying Tests

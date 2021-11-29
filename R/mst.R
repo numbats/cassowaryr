@@ -252,7 +252,7 @@ sc_sparse.igraph <- function(x, y){
   edges <- mstmat[which(mstmat>0)]
   #calculate sample size weight
   n = length(x)/500
-  w = 0.7 + 0.3/(1+t^2)
+  w = 0.7 + 0.3/(1+n^2)
   #calculate sparse value
   w*(sort(edges)[floor(0.9*length( edges))])
 }
@@ -306,7 +306,7 @@ sc_skewed.igraph <- function(x, y){
 
   #calculate sample size weight
   n = length(x)/500
-  w = 0.7 + 0.3/(1+t^2)
+  w = 0.7 + 0.3/(1+n^2)
 
   # calculate skewed value
   w*((q90-q50)/(q90-q10))

@@ -42,7 +42,7 @@ sc_convex.list <- function(x, y){
 
   #calculate sample size weight
   n = length(x)/500
-  w = 0.7 + 0.3/(1+t^2)
+  w = 0.7 + 0.3/(1+n^2)
 
   w*(ahull_area / chull_area)
 }
