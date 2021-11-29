@@ -8,6 +8,7 @@ calc_scags_wide(
   all_data,
   scags = c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2",
     "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"),
+  out.rm = TRUE,
   euclid = TRUE
 )
 }
@@ -18,6 +19,8 @@ calc_scags_wide(
 scagnostics to calculate: outlying, stringy, striated,
 striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 skinny, monotonic, splines, dcor}
+
+\item{out.rm}{logical indicator to indicate if outliers should be removed before caclulating non outlying measures}
 
 \item{euclid}{logical indicator to use Euclidean distance}
 }

@@ -8,7 +8,8 @@ calc_scags(
   x,
   y,
   scags = c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2",
-    "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
+    "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"),
+  out.rm = TRUE
 )
 }
 \arguments{
@@ -37,8 +38,7 @@ calc_scags(anscombe$x1, anscombe$y1)
 require(dplyr)
 datasaurus_dozen \%>\%
   group_by(dataset) \%>\%
-  summarise(calc_scags(x,y,
-    scags=c("monotonic", "outlying", "convex")))
+  summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 
 }
 \seealso{

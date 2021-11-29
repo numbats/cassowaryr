@@ -75,6 +75,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, pb){
 #' scagnostics to calculate: outlying, stringy, striated,
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
+#' @param out.rm logical indicator to indicate if outliers should be removed before caclulating non outlying measures
 #'
 #' @seealso calc_scags_wide
 #' @examples
