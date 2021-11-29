@@ -6,6 +6,7 @@
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #' @param euclid logical indicator to use Euclidean distance
+#' @param out.rm logical indicator to indicate if outliers should be removed before caclulating non outlying measures
 #'
 #' @seealso calc_scags
 #' @examples
@@ -16,7 +17,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), euclid = TRUE){
+calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = TRUE){
 
   # Check for typos/misspellings in scags list
   validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
@@ -55,15 +56,15 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
     dplyr::group_by(Var1, Var2) %>%
     dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
                                         data=all_data,
-                                        scags=scags, pb))
+                                        scags=scags, out.rm, pb))
 
 }
 
-intermediate_scags <- function(vars, data, scags, pb){
+intermediate_scags <- function(vars, data, scags, out.rm, pb){
   pb$tick()
   x <- dplyr::pull(data, var=vars[[1]])
   y <- dplyr::pull(data, var=vars[[2]])
-  return(calc_scags(x, y, scags))
+  return(calc_scags(x, y, scags, out.rm))
 }
 
 #' Compute selected scagnostics on subsets
@@ -89,11 +90,10 @@ intermediate_scags <- function(vars, data, scags, pb){
 #' require(dplyr)
 #' datasaurus_dozen %>%
 #'   group_by(dataset) %>%
-#'   summarise(calc_scags(x,y,
-#'     scags=c("monotonic", "outlying", "convex")))
+#'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")){
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm=TRUE){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
@@ -161,6 +161,17 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   sc <- sm_list$scree_rob
   mst <- sm_list$mst_rob
 
+  #calculate outlying meausre
+  if("outlying" %in% scags){
+    outlying <- sc_outlying(mst_orig, sc_orig)
+  }
+
+  #check is outliers should be removed
+  if(out.rm == FALSE){
+    sc <- sc_orig
+    mst <- mst_orig
+  }
+
   #CALCULATE MST MEASURES
   if("stringy" %in% scags){
     stringy <- sc_stringy(mst)
@@ -183,9 +194,6 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   if("skewed" %in% scags){
     skewed <- sc_skewed(mst, sc)
 
-  }
-  if("outlying" %in% scags){
-    outlying <- sc_outlying(mst_orig, sc_orig)
   }
 
   #CALCULATE ALPHA HULL MEASURES
