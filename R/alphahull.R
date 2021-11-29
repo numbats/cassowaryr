@@ -39,7 +39,12 @@ sc_convex.list <- function(x, y){
     ahull_area <- alphahull::areaahull(y)
   else
     ahull_area <- 0
-  ahull_area / chull_area
+
+  #calculate sample size weight
+  n = length(x)/500
+  w = 0.7 + 0.3/(1+t^2)
+
+  w*(ahull_area / chull_area)
 }
 
 #' Compute skinny scagnostic measure

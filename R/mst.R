@@ -250,8 +250,11 @@ sc_sparse.igraph <- function(x, y){
   #input: x is MST, y is scree
   mstmat <- twomstmat(x,y)$lowertri
   edges <- mstmat[which(mstmat>0)]
+  #calculate sample size weight
+  n = length(x)/500
+  w = 0.7 + 0.3/(1+t^2)
   #calculate sparse value
-  sort(edges)[floor(0.9*length( edges))]
+  w*(sort(edges)[floor(0.9*length( edges))])
 }
 
 
@@ -301,8 +304,12 @@ sc_skewed.igraph <- function(x, y){
   q50 <- sort(edges)[floor(0.5*length( edges))]
   q90 <- sort(edges)[floor(0.9*length( edges))]
 
+  #calculate sample size weight
+  n = length(x)/500
+  w = 0.7 + 0.3/(1+t^2)
+
   # calculate skewed value
-  (q90-q50)/(q90-q10)
+  w*((q90-q50)/(q90-q10))
 
 }
 
@@ -442,4 +449,3 @@ twomstmat <- function(mst, scr){
     list(mat = mst_mat,
          lowertri = mst_uppertri))
 }
-
