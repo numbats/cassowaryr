@@ -17,7 +17,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = TRUE){
+calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = TRUE){
 
   # Check for typos/misspellings in scags list
   validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
@@ -94,7 +94,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, pb){
 #'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm=TRUE){
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm=TRUE){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
