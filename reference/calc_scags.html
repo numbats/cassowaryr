@@ -126,9 +126,10 @@
     <pre class="usage"><span class='fu'>calc_scags</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>y</span>,
-  scags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"outlying"</span>, <span class='st'>"stringy"</span>, <span class='st'>"striated"</span>, <span class='st'>"striated2"</span>, <span class='st'>"clumpy"</span>, <span class='st'>"clumpy2"</span>,
-    <span class='st'>"sparse"</span>, <span class='st'>"skewed"</span>, <span class='st'>"convex"</span>, <span class='st'>"skinny"</span>, <span class='st'>"monotonic"</span>, <span class='st'>"splines"</span>, <span class='st'>"dcor"</span><span class='op'>)</span>,
-  out.rm <span class='op'>=</span> <span class='cn'>TRUE</span>
+  scags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"outlying"</span>, <span class='st'>"stringy"</span>, <span class='st'>"striated2"</span>, <span class='st'>"clumpy2"</span>, <span class='st'>"sparse"</span>, <span class='st'>"skewed"</span>,
+    <span class='st'>"convex"</span>, <span class='st'>"skinny"</span>, <span class='st'>"monotonic"</span>, <span class='st'>"splines"</span>, <span class='st'>"dcor"</span><span class='op'>)</span>,
+  out.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  euclid <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -152,6 +153,10 @@ skinny, monotonic, splines, dcor</p></td>
     <tr>
       <th>out.rm</th>
       <td><p>logical indicator to indicate if outliers should be removed before caclulating non outlying measures</p></td>
+    </tr>
+    <tr>
+      <th>euclid</th>
+      <td><p>logical indicator to use Euclidean distance</p></td>
     </tr>
     </table>
 
