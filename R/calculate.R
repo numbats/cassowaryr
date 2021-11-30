@@ -76,7 +76,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #' @param out.rm logical indicator to indicate if outliers should be removed before caclulating non outlying measures
-#'
+#' @param euclid logical indicator to use Euclidean distance
 #' @seealso calc_scags_wide
 #' @examples
 #' # Calculate selected scagnostics on a single pair
