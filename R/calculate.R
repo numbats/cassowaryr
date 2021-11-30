@@ -110,9 +110,10 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
   splines = NULL
   dcor = NULL
   striped = NULL
+  euclid = NULL
 
   # Check for typos/misspellings in scags list
-  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
+  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   validpased <- match.arg(scags, validscags, several.ok=TRUE)
   typo <- scags[!scags %in% validpased]
   if(length(typo)>0){
