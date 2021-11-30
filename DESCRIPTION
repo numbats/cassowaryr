@@ -1,6 +1,6 @@
 Package: cassowaryr
 Title: Compute Scagnostics on Pairs of Numeric Variables in a Data Set
-Version: 0.1.9999
+Version: 1.0.0
 Authors@R: 
     c(person(given = "Harriet",
              family = "Mason",
@@ -21,13 +21,13 @@ Authors@R:
              email = "dicook@monash.edu", 
              role = "aut", 
              comment = c(ORCID = "0000-0002-3813-7155")))
-Description: This package computes a range of scatterplot diagnostics (scagnostics) on pairs of numerical variables in a data set. It has both graph-based, and association-based metrics. 
-License: MIT + file LICENSE
+Description: Computes a range of scatterplot diagnostics (scagnostics) on pairs of numerical variables in a data set. The scagnostics vary between graph-based, association-based and other foundations. 
+License: ACM | file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/numbats/cassowaryr
 BugReports: https://github.com/numbats/cassowaryr/issues
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.0.0)
 Imports: 
     igraph,
     alphahull,
