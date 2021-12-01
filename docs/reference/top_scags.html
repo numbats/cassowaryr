@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Data from Anscombe's famous example in tidy format — anscombe_tidy • cassowaryr</title>
+<title>Calculate the top pair of variables or group for each scagnostic — top_scags • cassowaryr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Data from Anscombe's famous example in tidy format — anscombe_tidy" />
-<meta property="og:description" content="All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation." />
+<meta property="og:title" content="Calculate the top pair of variables or group for each scagnostic — top_scags" />
+<meta property="og:description" content="Calculate the top pair of variables or group for each scagnostic" />
 
 
 
@@ -116,29 +114,45 @@ as can be seen by visualisation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Data from Anscombe's famous example in tidy format</h1>
-    <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>anscombe_tidy.Rd</code></div>
+    <h1>Calculate the top pair of variables or group for each scagnostic</h1>
+    <small class="dont-index">Source: <a href='https://github.com/numbats/cassowaryr/blob/master/R/calculate.R'><code>R/calculate.R</code></a></small>
+    <div class="hidden name"><code>top_scags.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>All variables and pairs of variables have same
-summary statistics but are very different data,
-as can be seen by visualisation.</p>
+    <p>Calculate the top pair of variables or group for each scagnostic</p>
     </div>
 
+    <pre class="usage"><span class='fu'>top_scags</span><span class='op'>(</span><span class='va'>scags_data</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>scags_data</th>
+      <td><p>A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with 44 observations and 3 variables</p><dl>
-<dt>set</dt><dd><p>label of the data set, each set has 11 observations</p></dd>
-<dt>x</dt><dd><p>variable for horizontal axis</p></dd>
-<dt>y</dt><dd><p>variable for vertical axis</p></dd>
+    <p>A data frame where each row is a scagnostic with its highest pair and the associated value</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-</dl>
+    <div class='dont-index'><p>calc_scags calc_scags_wide top_pairs</p></div>
 
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>#an example using calc_scags</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='va'>datasaurus_dozen</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>dataset</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='calc_scags.html'>calc_scags</a></span><span class='op'>(</span><span class='va'>x</span>,<span class='va'>y</span>, scags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"monotonic"</span>, <span class='st'>"outlying"</span>, <span class='st'>"convex"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>top_scags</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in top_scags(.): could not find function "top_scags"</span></div><div class='input'> <span class='co'>#an example using calc_scags_wide</span>
+ <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pk</span><span class='op'>)</span>
+ <span class='va'>scags_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='calc_scags_wide.html'>calc_scags_wide</a></span><span class='op'>(</span><span class='va'>pk</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>, scags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"outlying"</span>,<span class='st'>"clumpy"</span>,<span class='st'>"monotonic"</span><span class='op'>)</span><span class='op'>)</span>
+ <span class='fu'>top_scags</span><span class='op'>(</span><span class='va'>scags_data</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in top_scags(scags_data): could not find function "top_scags"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

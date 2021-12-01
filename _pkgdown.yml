@@ -19,6 +19,8 @@ reference:
   contents:
   - calc_scags
   - calc_scags_wide
+  - top_pairs
+  - top_scags
 - title: data
   desc: Sample data sets for illustration and testing
   contents:

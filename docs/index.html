@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,6 +37,12 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="articles/cassowaryr.html">Get started</a>
 </li>
@@ -70,22 +74,23 @@
   <div class="contents col-md-9">
 <div id="about" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#about" class="anchor" aria-hidden="true"></a>About</h1></div>
+<a href="#about" class="anchor"></a>About</h1></div>
 <!-- badges: start -->
 
 <p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
-<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.</p>
+<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure</p>
+<p>R.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
+<a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#examples" class="anchor" aria-hidden="true"></a>Examples</h2>
+<a href="#examples" class="anchor"></a>Examples</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"anscombe_tidy"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"anscombe_tidy"</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x1</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y1</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x2</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y2</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x3</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y3</span><span class="op">)</span>
@@ -93,17 +98,17 @@
 </div>
 <div id="about-the-name" class="section level2">
 <h2 class="hasAnchor">
-<a href="#about-the-name" class="anchor" aria-hidden="true"></a>About the name</h2>
+<a href="#about-the-name" class="anchor"></a>About the name</h2>
 <p>CAlculate Scagnostics on Scatterplots Over Wads of Associated Real numberYs in R</p>
 </div>
 <div id="about-the-calculations" class="section level2">
 <h2 class="hasAnchor">
-<a href="#about-the-calculations" class="anchor" aria-hidden="true"></a>About the calculations</h2>
+<a href="#about-the-calculations" class="anchor"></a>About the calculations</h2>
 <div id="graph-based-measures" class="section level3">
 <h3 class="hasAnchor">
-<a href="#graph-based-measures" class="anchor" aria-hidden="true"></a>Graph-based measures</h3>
+<a href="#graph-based-measures" class="anchor"></a>Graph-based measures</h3>
 <p>A 2-d scatter plot can be represented by a combination of three graphs which are computed directly from the Delauney-Voroni tesselation.</p>
-<ol style="list-style-type: decimal">
+<ol>
 <li>A <strong>minimum spanning tree</strong> weighted by the lengths of the Delauney triangles</li>
 <li>The <strong>convex hull</strong> of the points i.e. the outer segments of the triangulation</li>
 <li>The <strong>alpha hull</strong> (also called concave hull) i.e. formed by connect the outer edges of triangles that are enclosed within a ball of radius <em>alpha</em>.</li>
@@ -116,7 +121,7 @@ There are also opportunities to experiment with the preprocessing here.</p>
 </div>
 <div id="association-based-measures" class="section level3">
 <h3 class="hasAnchor">
-<a href="#association-based-measures" class="anchor" aria-hidden="true"></a>Association-based measures</h3>
+<a href="#association-based-measures" class="anchor"></a>Association-based measures</h3>
 <p>These are computed directly from the 2-d point clouds, and do not need to be constructed from the graph.</p>
 </div>
 </div>
@@ -125,7 +130,7 @@ There are also opportunities to experiment with the preprocessing here.</p>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2 data-toc-skip>Links</h2>
+<h2>Links</h2>
 <ul class="list-unstyled">
 <li>Browse source code at <br><a href="https://github.com/numbats/cassowaryr/">https://​github.com/​numbats/​cassowaryr/​</a>
 </li>
@@ -133,24 +138,21 @@ There are also opportunities to experiment with the preprocessing here.</p>
 </li>
 </ul>
 </div>
-
 <div class="license">
-<h2 data-toc-skip>License</h2>
+<h2>License</h2>
 <ul class="list-unstyled">
 <li>ACM | file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
-
 <div class="community">
-<h2 data-toc-skip>Community</h2>
+<h2>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
-
 <div class="developers">
-<h2 data-toc-skip>Developers</h2>
+<h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Harriet Mason <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Stuart Lee <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-1179-8436" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
@@ -159,26 +161,23 @@ There are also opportunities to experiment with the preprocessing here.</p>
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
+  <div class="dev-status">
+<h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://app.codecov.io/gh/numbats/cassowaryr?branch=master" class="external-link"><img src="https://codecov.io/gh/numbats/cassowaryr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/numbats/cassowaryr/actions" class="external-link"><img src="https://github.com/numbats/cassowaryr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/numbats/cassowaryr?branch=master"><img src="https://codecov.io/gh/numbats/cassowaryr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/numbats/cassowaryr/actions"><img src="https://github.com/numbats/cassowaryr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
-
-  </div>
+</div>
 </div>
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
+  <p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -186,8 +185,6 @@ There are also opportunities to experiment with the preprocessing here.</p>
 
   
 
-
-  
 
   </body>
 </html>
