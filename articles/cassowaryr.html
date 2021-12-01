@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cassowaryr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/cassowaryr.html">Get started</a>
 </li>
@@ -55,7 +51,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/numbats/cassowaryr/">
+  <a href="https://github.com/numbats/cassowaryr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -76,34 +72,41 @@
       <h1 data-toc-skip>An introduction to the cassowaryr package</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/numbats/cassowaryr/blob/master/vignettes/cassowaryr.Rmd"><code>vignettes/cassowaryr.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/numbats/cassowaryr/blob/HEAD/vignettes/cassowaryr.Rmd" class="external-link"><code>vignettes/cassowaryr.Rmd</code></a></small>
       <div class="hidden name"><code>cassowaryr.Rmd</code></div>
 
     </div>
 
     
     
-<div id="about" class="section level1">
-<h1 class="hasAnchor">
-<a href="#about" class="anchor"></a>About</h1>
+<div class="section level1">
+<h1 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
+</h1>
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
 <p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.</p>
 </div>
-<div id="installation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
+<p>The package can be installed from CRAN using</p>
+<blockquote>
+<p><code>install.packages("cassowaryr")</code></p>
+</blockquote>
+<p>and from GitHub using</p>
+<blockquote>
+<p><code>remotes::install_github("numbats/cassowaryr")</code></p>
+</blockquote>
+<p>to install the development version.</p>
 </div>
-<div id="examples" class="section level1">
-<h1 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h1>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr">cassowaryr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<div class="section level1">
+<h1 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h1>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr" class="external-link">cassowaryr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -114,81 +117,150 @@
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 
 <span class="co"># pick examples</span>
-<span class="va">exampledata</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"v_lines"</span>, <span class="st">"circle"</span>, <span class="st">"dots"</span>, <span class="st">"away"</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">exampledata</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v_lines"</span>, <span class="st">"circle"</span>, <span class="st">"dots"</span>, <span class="st">"away"</span><span class="op">)</span><span class="op">)</span> 
 <span class="co">#&gt; Warning in dataset == c("v_lines", "circle", "dots", "away"): longer object</span>
 <span class="co">#&gt; length is not a multiple of shorter object length</span>
 
 <span class="co">#plot them</span>
-<span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span>, colour<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span></code></pre></div>
-<p><img src="cassowaryr_files/figure-html/setup-1.png" width="700"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span>, colour<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<p><img src="cassowaryr_files/figure-html/setup-1.png" width="700"> We can calculate a select group of scagnostic for every group in a dataset.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#compute scagnostics</span>
-<span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>monotonic<span class="op">=</span><span class="fu"><a href="../reference/sc_monotonic.html">sc_monotonic</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>, 
-            dcor<span class="op">=</span><span class="fu"><a href="../reference/sc_dcor.html">sc_dcor</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>, 
-            splines<span class="op">=</span><span class="fu"><a href="../reference/sc_splines.html">sc_splines</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
-            skinny <span class="op">=</span> <span class="fu"><a href="../reference/sc_skinny.html">sc_skinny</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
-            convex <span class="op">=</span> <span class="fu"><a href="../reference/sc_convex.html">sc_convex</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
-            striated <span class="op">=</span> <span class="fu"><a href="../reference/sc_striated.html">sc_striated</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
-            stringy <span class="op">=</span> <span class="fu"><a href="../reference/sc_stringy.html">sc_stringy</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>,
-            <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
+<span class="va">scag_data</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"outlying"</span>, <span class="st">"monotonic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> 
+
+<span class="va">scag_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">dataset</th>
+<th align="center">outlying</th>
+<th align="center">clumpy2</th>
 <th align="center">monotonic</th>
-<th align="center">dcor</th>
-<th align="center">splines</th>
-<th align="center">skinny</th>
-<th align="center">convex</th>
-<th align="center">striated</th>
-<th align="center">stringy</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center">away</td>
+<td align="center">0.0000</td>
+<td align="center">0.1501</td>
 <td align="center">0.0875</td>
-<td align="center">0.2417</td>
-<td align="center">0.089</td>
-<td align="center">0.1821</td>
-<td align="center">0.8561</td>
-<td align="center">0.3333</td>
-<td align="center">0.8276</td>
 </tr>
 <tr class="even">
 <td align="center">circle</td>
+<td align="center">0.0000</td>
+<td align="center">0.0000</td>
 <td align="center">0.0499</td>
-<td align="center">0.2597</td>
-<td align="center">0.004</td>
-<td align="center">0.8383</td>
-<td align="center">0.0003</td>
-<td align="center">0.8611</td>
-<td align="center">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="center">dots</td>
+<td align="center">0.3487</td>
+<td align="center">0.9829</td>
 <td align="center">0.0391</td>
-<td align="center">0.1570</td>
-<td align="center">0.000</td>
-<td align="center">0.1338</td>
-<td align="center">0.9203</td>
-<td align="center">0.3333</td>
-<td align="center">0.8276</td>
 </tr>
 <tr class="even">
 <td align="center">v_lines</td>
+<td align="center">0.0000</td>
+<td align="center">0.4876</td>
 <td align="center">0.0801</td>
-<td align="center">0.1757</td>
-<td align="center">0.000</td>
-<td align="center">0.0868</td>
-<td align="center">0.9292</td>
-<td align="center">0.5714</td>
-<td align="center">0.7778</td>
+</tr>
+</tbody>
+</table>
+<p>We can also a select group of scagnostics for every pairwise variable combination of a data set.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pk</span><span class="op">)</span>
+<span class="fu"><a href="../reference/calc_scags_wide.html">calc_scags_wide</a></span><span class="op">(</span><span class="va">pk</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"outlying"</span>,<span class="st">"clumpy"</span>,<span class="st">"monotonic"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="center">Var1</th>
+<th align="center">Var2</th>
+<th align="center">outlying</th>
+<th align="center">clumpy</th>
+<th align="center">monotonic</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">MDVP:Fhi(Hz)</td>
+<td align="center">MDVP:Fo(Hz)</td>
+<td align="center">0.4119</td>
+<td align="center">0.9339</td>
+<td align="center">0.7956</td>
+</tr>
+<tr class="even">
+<td align="center">MDVP:Flo(Hz)</td>
+<td align="center">MDVP:Fo(Hz)</td>
+<td align="center">0.1722</td>
+<td align="center">0.8784</td>
+<td align="center">0.3236</td>
+</tr>
+<tr class="odd">
+<td align="center">MDVP:Flo(Hz)</td>
+<td align="center">MDVP:Fhi(Hz)</td>
+<td align="center">0.3361</td>
+<td align="center">0.9707</td>
+<td align="center">0.0956</td>
+</tr>
+<tr class="even">
+<td align="center">MDVP:Jitter(%)</td>
+<td align="center">MDVP:Fo(Hz)</td>
+<td align="center">0.2888</td>
+<td align="center">0.9153</td>
+<td align="center">0.2697</td>
+</tr>
+<tr class="odd">
+<td align="center">MDVP:Jitter(%)</td>
+<td align="center">MDVP:Fhi(Hz)</td>
+<td align="center">0.5414</td>
+<td align="center">0.9217</td>
+<td align="center">0.0978</td>
+</tr>
+<tr class="even">
+<td align="center">MDVP:Jitter(%)</td>
+<td align="center">MDVP:Flo(Hz)</td>
+<td align="center">0.4300</td>
+<td align="center">0.9117</td>
+<td align="center">0.4067</td>
+</tr>
+</tbody>
+</table>
+<p>We can use either of these generated data sets to find the top scagnostic for each variable, or the top variable for each scagnostic. This is an example of the top scagnsotic for each pair.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">scag_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/top_pairs.html">top_pairs</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="center">dataset</th>
+<th align="center">scag</th>
+<th align="center">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">away</td>
+<td align="center">clumpy2</td>
+<td align="center">0.1501</td>
+</tr>
+<tr class="even">
+<td align="center">circle</td>
+<td align="center">monotonic</td>
+<td align="center">0.0499</td>
+</tr>
+<tr class="odd">
+<td align="center">dots</td>
+<td align="center">clumpy2</td>
+<td align="center">0.9829</td>
+</tr>
+<tr class="even">
+<td align="center">v_lines</td>
+<td align="center">clumpy2</td>
+<td align="center">0.4876</td>
 </tr>
 </tbody>
 </table>
@@ -206,11 +278,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
+  <p></p>
+<p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
 </div>
 
       </footer>
@@ -218,6 +292,8 @@
 
   
 
+
+  
 
   </body>
 </html>

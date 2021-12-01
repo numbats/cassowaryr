@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cassowaryr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/cassowaryr.html">Get started</a>
 </li>
@@ -55,7 +51,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/numbats/cassowaryr/">
+  <a href="https://github.com/numbats/cassowaryr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -72,43 +68,42 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="about" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#about" class="anchor"></a>About</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
-<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure</p>
-<p>R.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"anscombe_tidy"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"anscombe_tidy"</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x1</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y1</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x2</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y2</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x3</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y3</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x4</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y4</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="about-the-name" class="section level2">
-<h2 class="hasAnchor">
-<a href="#about-the-name" class="anchor"></a>About the name</h2>
+<div class="section level2">
+<h2 id="about-the-name">About the name<a class="anchor" aria-label="anchor" href="#about-the-name"></a>
+</h2>
 <p>CAlculate Scagnostics on Scatterplots Over Wads of Associated Real numberYs in R</p>
 </div>
-<div id="about-the-calculations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#about-the-calculations" class="anchor"></a>About the calculations</h2>
-<div id="graph-based-measures" class="section level3">
-<h3 class="hasAnchor">
-<a href="#graph-based-measures" class="anchor"></a>Graph-based measures</h3>
+<div class="section level2">
+<h2 id="about-the-calculations">About the calculations<a class="anchor" aria-label="anchor" href="#about-the-calculations"></a>
+</h2>
+<div class="section level3">
+<h3 id="graph-based-measures">Graph-based measures<a class="anchor" aria-label="anchor" href="#graph-based-measures"></a>
+</h3>
 <p>A 2-d scatter plot can be represented by a combination of three graphs which are computed directly from the Delauney-Voroni tesselation.</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>A <strong>minimum spanning tree</strong> weighted by the lengths of the Delauney triangles</li>
 <li>The <strong>convex hull</strong> of the points i.e. the outer segments of the triangulation</li>
 <li>The <strong>alpha hull</strong> (also called concave hull) i.e. formed by connect the outer edges of triangles that are enclosed within a ball of radius <em>alpha</em>.</li>
@@ -119,9 +114,9 @@ There are also opportunities to experiment with the preprocessing here.</p>
 <p>Two MST measures “clumpy” and “outlying” are known to cause problems.</p>
 <p>As all the graph based measures rely on the triangulation, they could be computed lazily. More concretely, if you are only interested in computing “skinny” you don’t need to compute the spanning tree. If you computed “skinny” but wanted to then compute “convex” you shouldn’t need to reconstruct the alpha-hull and so on… To begin let’s not worry about that and focus on implementations of each measure.</p>
 </div>
-<div id="association-based-measures" class="section level3">
-<h3 class="hasAnchor">
-<a href="#association-based-measures" class="anchor"></a>Association-based measures</h3>
+<div class="section level3">
+<h3 id="association-based-measures">Association-based measures<a class="anchor" aria-label="anchor" href="#association-based-measures"></a>
+</h3>
 <p>These are computed directly from the 2-d point clouds, and do not need to be constructed from the graph.</p>
 </div>
 </div>
@@ -130,54 +125,65 @@ There are also opportunities to experiment with the preprocessing here.</p>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/numbats/cassowaryr/">https://​github.com/​numbats/​cassowaryr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/numbats/cassowaryr/issues">https://​github.com/​numbats/​cassowaryr/​issues</a>
-</li>
+<li><a href="https://github.com/numbats/cassowaryr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/numbats/cassowaryr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>ACM | file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Harriet Mason <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Stuart Lee <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-1179-8436" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Ursula Laa <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0249-6439" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Di Cook <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3813-7155" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing cassowaryr</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://app.codecov.io/gh/numbats/cassowaryr?branch=master"><img src="https://codecov.io/gh/numbats/cassowaryr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/numbats/cassowaryr/actions"><img src="https://github.com/numbats/cassowaryr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li>Harriet Mason <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Stuart Lee <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-1179-8436" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Ursula Laa <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0249-6439" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Di Cook <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3813-7155" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://app.codecov.io/gh/numbats/cassowaryr?branch=master" class="external-link"><img src="https://codecov.io/gh/numbats/cassowaryr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/numbats/cassowaryr/actions" class="external-link"><img src="https://github.com/numbats/cassowaryr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
+  <p></p>
+<p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Di Cook.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
 </div>
 
       </footer>
@@ -185,6 +191,8 @@ There are also opportunities to experiment with the preprocessing here.</p>
 
   
 
+
+  
 
   </body>
 </html>
