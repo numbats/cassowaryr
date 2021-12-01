@@ -25,9 +25,15 @@ The term __scagnostics__ refers to scatter plot diagnostics, originally describe
 
 # Installation
 
-``` r
-remotes::install_github("numbats/cassowaryr")
-```
+The package can be installed from CRAN using 
+
+> ```install.packages("cassowaryr")```
+
+and from GitHub using 
+
+> ```remotes::install_github("numbats/cassowaryr")```
+
+to install the development version.
 
 # Examples 
 
@@ -44,21 +50,33 @@ exampledata <- datasaurus_dozen %>%
 exampledata %>%
   ggplot(aes(x=x,y=y, colour=dataset))+
   geom_point() +
-  facet_wrap("dataset")
+  facet_wrap("dataset") +
+  theme_minimal() +
+  theme(legend.position = "none")
 ```
-
+We can calculate a select group of scagnostic for every group in a dataset.
 ```{r scag}
 #compute scagnostics
-exampledata %>%
+scag_data <- exampledata %>%
   group_by(dataset) %>%
-  summarise(monotonic=sc_monotonic(x,y), 
-            dcor=sc_dcor(x,y), 
-            splines=sc_splines(x,y),
-            skinny = sc_skinny(x,y),
-            convex = sc_convex(x,y),
-            striated = sc_striated(x,y),
-            stringy = sc_stringy(x,y),
-            ) %>%
+  summarise(calc_scags(x,y, scags=c("clumpy2", "outlying", "monotonic"))) 
+
+scag_data %>%
   knitr::kable(digits=4, align="c")
 ```
 
+We can also a select group of scagnostics for every pairwise variable combination of a data set.
+
+```{r}
+data(pk)
+calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic")) %>%
+  knitr::kable(digits=4, align="c")
+```
+
+We can use either of these generated data sets to find the top scagnostic for each variable, or the top variable for each scagnostic. This is an example of the top scagnsotic for each pair.
+
+```{r}
+scag_data %>%
+  top_pairs() %>%
+  knitr::kable(digits=4, align="c")
+```
