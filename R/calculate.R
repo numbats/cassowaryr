@@ -252,7 +252,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
 
 #' Calculate the top pair of variables or group for each scagnostic
 #' @param scags_data A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide
-#' @return A data frame of each scatter plot with its highest valued scagnostic and its respective value
+#' @return A data frame where each row is a scagnostic with its highest pair and the associated value
 #' @examples
 #' #an example using calc_scags
 #' require(dplyr)
@@ -264,7 +264,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
 #'  data(pk)
 #'  scags_data <- calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
 #'  top_scags(scags_data)
-#' @seealso calc_scags calc_scags_wide
+#' @seealso calc_scags calc_scags_wide top_pairs
 #' @importFrom magrittr %>%
 #' @export
 top_scags <- function(scags_data){
@@ -275,4 +275,31 @@ top_scags <- function(scags_data){
     dplyr::group_by(scag) %>%
     dplyr::slice_head(n=1)
 }
+
+#' Calculate the top scagnostic for each pair of variables
+#' @param scags_data A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide
+#' @return A data frame of each scatter plot with its highest valued scagnostic and its respective value
+#' @examples
+#' #an example using calc_scags
+#' require(dplyr)
+#' datasaurus_dozen %>%
+#'   group_by(dataset) %>%
+#'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex"))) %>%
+#'   top_pairs()
+#'  #an example using calc_scags_wide
+#'  data(pk)
+#'  scags_data <- calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
+#'  top_pairs(scags_data)
+#' @seealso calc_scags calc_scags_wide top_scags
+#' @importFrom magrittr %>%
+#' @export
+top_pairs <- function(scags_data){
+  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
+  scags_data %>%
+    tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
+    arrange(desc(value)) %>%
+    group_by(across(-c(scag,value))) %>%
+    slice_head(n=1)
+}
+
 
