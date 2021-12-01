@@ -38,7 +38,8 @@ Imports:
     magrittr,
     progress,
     tibble,
-    stats
+    stats,
+    tidyselect
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,

@@ -268,10 +268,11 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
 #' @importFrom magrittr %>%
 #' @export
 top_scags <- function(scags_data){
+  value <- scag <- NULL
   validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   scags_data %>%
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
-    dplyr::arrange(desc(value)) %>%
+    dplyr::arrange(dplyr::desc(value)) %>%
     dplyr::group_by(scag) %>%
     dplyr::slice_head(n=1)
 }
@@ -294,12 +295,13 @@ top_scags <- function(scags_data){
 #' @importFrom magrittr %>%
 #' @export
 top_pairs <- function(scags_data){
+  value <- scag <- NULL
   validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   scags_data %>%
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
-    arrange(desc(value)) %>%
-    group_by(across(-c(scag,value))) %>%
-    slice_head(n=1)
+    dplyr::arrange(dplyr::desc(value)) %>%
+    dplyr::group_by(dplyr::across(-c(scag,value))) %>%
+    dplyr::slice_head(n=1)
 }
 
 
