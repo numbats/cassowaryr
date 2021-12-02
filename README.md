@@ -22,18 +22,59 @@ R.
 
 ## Installation
 
-``` r
-remotes::install_github("numbats/cassowaryr")
-```
+The package can be installed from CRAN using
+
+> `install.packages("cassowaryr")`
+
+and from GitHub using
+
+> `remotes::install_github("numbats/cassowaryr")`
+
+to install the development version.
 
 ## Examples
 
 ``` r
+library(cassowaryr)
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+# A single scagnostic on two vectors
 data("anscombe_tidy")
 sc_outlying(anscombe$x1, anscombe$y1)
-sc_outlying(anscombe$x2, anscombe$y2)
-sc_outlying(anscombe$x3, anscombe$y3)
-sc_outlying(anscombe$x4, anscombe$y4)
+#> [1] 0
+```
+
+``` r
+data("datasaurus_dozen")
+datasaurus_dozen %>%
+  dplyr::group_by(dataset)%>%
+  dplyr::summarise(calc_scags(x, y, scags=c("clumpy2", "monotonic")))
+#> Registered S3 method overwritten by 'cli':
+#>   method     from         
+#>   print.boxx spatstat.geom
+#> # A tibble: 13 x 3
+#>    dataset    clumpy2 monotonic
+#>    <chr>        <dbl>     <dbl>
+#>  1 away        0        0.0573 
+#>  2 bullseye    0.811    0.0787 
+#>  3 circle      0        0.0773 
+#>  4 dino        0.0122   0.0651 
+#>  5 dots        0.993    0.126  
+#>  6 h_lines     0.912    0.0520 
+#>  7 high_lines  0.914    0.00287
+#>  8 slant_down  0.888    0.0669 
+#>  9 slant_up    0.862    0.0861 
+#> 10 star        0.919    0.0514 
+#> 11 v_lines     0.941    0.0566 
+#> 12 wide_lines  0.920    0.0522 
+#> 13 x_shape     0.882    0.0205
 ```
 
 ## About the name
