@@ -52,7 +52,7 @@ exampledata %>%
   geom_point() +
   facet_wrap("dataset") +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none", aspect.ratio=1)
 ```
 We can calculate a select group of scagnostic for every group in a dataset.
 ```{r scag}
