@@ -19,9 +19,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `cassowaryr` package provides functions to compute scagnostics on pairs of numeric variables in a data set.
+The `cassowaryr` package provides functions to compute scagnostics on pairs of numeric variables in a data set.  
 
-The term __scagnostics__ refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.  
+The term __scagnostics__ refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R and is designed to be easily integrated into a tidy data workflow.  
+
+The package's primary use is as a step in exploratory data analysis, to give users an idea of the shape of their data and identify interesting pairwise relationships. 
 
 # Installation
 
@@ -36,6 +38,8 @@ and from GitHub using
 to install the development version.
 
 # Examples 
+## Calculating the scagnostics
+Here we will go through an example on the datasaurus dozen data (which comes loaded with the package). This data has several pairwise plots variables with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the `cassowaryr` package. Here is a plot of the selected datasaurus dozen plots:
 
 ```{r setup}
 library(cassowaryr)
@@ -44,7 +48,8 @@ library(dplyr)
 
 # pick examples
 exampledata <- datasaurus_dozen %>%
-  filter(dataset==c("v_lines", "circle", "dots", "away")) 
+  filter(dataset %in% c("slant_up", "circle", "dots", "away"))
+
 
 #plot them
 exampledata %>%
@@ -54,29 +59,65 @@ exampledata %>%
   theme_minimal() +
   theme(legend.position = "none", aspect.ratio=1)
 ```
-We can calculate a select group of scagnostic for every group in a dataset.
-```{r scag}
-#compute scagnostics
-scag_data <- exampledata %>%
+
+From a data frame, there are several ways to calculate scagnostics. If we simply have two variables we wish to calculate several scagnostics on, we use the `calc_scags` function and pass through the two variables as vectors.
+
+```{r}
+calc_scags(exampledata$x, exampledata$y, scags=c("clumpy2", "convex", "striated2", "dcor")) %>%
+  knitr::kable(digits=4, align="c")
+```
+
+If instead we have a data frame with two variables and a grouping variable (a long form of a data set) then we can use the `calc_scags` function to get the scagnostics for each group.
+
+```{r}
+longscags <- exampledata %>%
   group_by(dataset) %>%
-  summarise(calc_scags(x,y, scags=c("clumpy2", "outlying", "monotonic"))) 
-
-scag_data %>%
+  summarise(calc_scags(x, y, scags=c("clumpy2", "convex", "striated2", "dcor")))
+longscags %>%
   knitr::kable(digits=4, align="c")
 ```
-
-We can also a select group of scagnostics for every pairwise variable combination of a data set.
+Finally, if we have a wide data set consisting of only numerical variables, we can use the `calc_scags_wide` to find the scagnostics on every pairwise combination of variables.
 
 ```{r}
-data(pk)
-calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic")) %>%
+exampledata_wide <- datasaurus_dozen_wide[,c(1:2,5:6,9:10,17:18)]
+widescags<- calc_scags_wide(exampledata_wide, scags=c("clumpy2", "convex", "striated2", "dcor"))
+head(widescags, 4) %>%
   knitr::kable(digits=4, align="c")
 ```
 
-We can use either of these generated data sets to find the top scagnostic for each variable, or the top variable for each scagnostic. This is an example of the top scagnsotic for each pair.
+## Using the scagnostics
+If the resulting scagnostic data set is small enough, we can find interesting scatter plots by simply looking at the table, however this is often not the case. If we want to find pairwise plots that are different to the others, we can find outliers on combinations of the scagnostics using an interactive scatter plot matrix (SPLOM). The code (but not the output) on how to do this is shown below:
+
+```{r, eval=FALSE}
+library(GGally)
+library(plotly)
+
+splom_data <- widescags %>%
+  ungroup() %>%
+  mutate(lab = paste0(Var1, " , ", Var2)) %>%
+  select(-c(Var1, Var2))
+
+p <- ggpairs(splom_data, columns=c(1:4), aes(label=lab)) +
+  theme_minimal()
+ggplotly(p) 
+```
+
+There are also a handful of functions that can summarise the scagnostic data. Using `top_pairs` allows us to find the top scagnostic for each pair of variables, while `top_scags` finds the top pair of variables for each scagnostic. Their usage is identical and shown below:
 
 ```{r}
-scag_data %>%
-  top_pairs() %>%
+top_scags(widescags) %>%
   knitr::kable(digits=4, align="c")
 ```
+
+
+## Diagnosing strange results
+Occasionally we will get unexpected results for a scagnostic. To allow users to diagnose their own scagnostics, the package has several draw functions that will plot the graph based objects that were used to construct the measures. There is a draw function for the alpha hull, convex hull and MST. Below is an example of the MST function `draw_mst`.
+
+```{r}
+drawexample <- exampledata %>%
+  filter(dataset== "dots")
+
+draw_mst(drawexample$x, drawexample$y, alpha=0.2) + theme_minimal()
+```
+
+
