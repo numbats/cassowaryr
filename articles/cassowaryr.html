@@ -85,7 +85,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
-<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R.</p>
+<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R and is designed to be easily integrated into a tidy data workflow.</p>
+<p>The package’s primary use is as a step in exploratory data analysis, to give users an idea of the shape of their data and identify interesting pairwise relationships.</p>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -103,6 +104,10 @@
 <div class="section level1">
 <h1 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h1>
+<div class="section level2">
+<h2 id="calculating-the-scagnostics">Calculating the scagnostics<a class="anchor" aria-label="anchor" href="#calculating-the-scagnostics"></a>
+</h2>
+<p>Here we will go through an example on the datasaurus dozen data (which comes loaded with the package). This data has several pairwise plots variables with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the <code>cassowaryr</code> package. Here is a plot of the selected datasaurus dozen plots:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr" class="external-link">cassowaryr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
@@ -118,9 +123,8 @@
 
 <span class="co"># pick examples</span>
 <span class="va">exampledata</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v_lines"</span>, <span class="st">"circle"</span>, <span class="st">"dots"</span>, <span class="st">"away"</span><span class="op">)</span><span class="op">)</span> 
-<span class="co">#&gt; Warning in dataset == c("v_lines", "circle", "dots", "away"): longer object</span>
-<span class="co">#&gt; length is not a multiple of shorter object length</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"slant_up"</span>, <span class="st">"circle"</span>, <span class="st">"dots"</span>, <span class="st">"away"</span><span class="op">)</span><span class="op">)</span>
+
 
 <span class="co">#plot them</span>
 <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -128,142 +132,189 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
-<p><img src="cassowaryr_files/figure-html/setup-1.png" width="700"> We can calculate a select group of scagnostic for every group in a dataset.</p>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, aspect.ratio<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p><img src="cassowaryr_files/figure-html/setup-1.png" width="700"></p>
+<p>From a data frame, there are several ways to calculate scagnostics. If we simply have two variables we wish to calculate several scagnostics on, we use the <code>calc_scags</code> function and pass through the two variables as vectors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#compute scagnostics</span>
-<span class="va">scag_data</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">exampledata</span><span class="op">$</span><span class="va">x</span>, <span class="va">exampledata</span><span class="op">$</span><span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span>, <span class="st">"dcor"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="center">striated2</th>
+<th align="center">clumpy2</th>
+<th align="center">convex</th>
+<th align="center">dcor</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="center">0.1853</td>
+<td align="center">0</td>
+<td align="center">0.7955</td>
+<td align="center">0.136</td>
+</tr></tbody>
+</table>
+<p>If instead we have a data frame with two variables and a grouping variable (a long form of a data set) then we can use the <code>calc_scags</code> function to get the scagnostics for each group.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">longscags</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"outlying"</span>, <span class="st">"monotonic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> 
-
-<span class="va">scag_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span>, <span class="st">"dcor"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">longscags</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">dataset</th>
-<th align="center">outlying</th>
+<th align="center">striated2</th>
 <th align="center">clumpy2</th>
-<th align="center">monotonic</th>
+<th align="center">convex</th>
+<th align="center">dcor</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center">away</td>
+<td align="center">0.0956</td>
 <td align="center">0.0000</td>
-<td align="center">0.1501</td>
-<td align="center">0.0875</td>
+<td align="center">0.7950</td>
+<td align="center">0.1326</td>
 </tr>
 <tr class="even">
 <td align="center">circle</td>
+<td align="center">0.5255</td>
 <td align="center">0.0000</td>
-<td align="center">0.0000</td>
-<td align="center">0.0499</td>
+<td align="center">0.0117</td>
+<td align="center">0.2292</td>
 </tr>
 <tr class="odd">
 <td align="center">dots</td>
-<td align="center">0.3487</td>
-<td align="center">0.9829</td>
-<td align="center">0.0391</td>
+<td align="center">0.1654</td>
+<td align="center">0.9932</td>
+<td align="center">0.0009</td>
+<td align="center">0.1266</td>
 </tr>
 <tr class="even">
-<td align="center">v_lines</td>
-<td align="center">0.0000</td>
-<td align="center">0.4876</td>
-<td align="center">0.0801</td>
+<td align="center">slant_up</td>
+<td align="center">0.0942</td>
+<td align="center">0.8623</td>
+<td align="center">0.9144</td>
+<td align="center">0.1932</td>
 </tr>
 </tbody>
 </table>
-<p>We can also a select group of scagnostics for every pairwise variable combination of a data set.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pk</span><span class="op">)</span>
-<span class="fu"><a href="../reference/calc_scags_wide.html">calc_scags_wide</a></span><span class="op">(</span><span class="va">pk</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"outlying"</span>,<span class="st">"clumpy"</span>,<span class="st">"monotonic"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+<p>Finally, if we have a wide data set consisting of only numerical variables, we can use the <code>calc_scags_wide</code> to find the scagnostics on every pairwise combination of variables.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">exampledata_wide</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen_wide</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">6</span>,<span class="fl">9</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">17</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">]</span>
+<span class="va">widescags</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_scags_wide.html">calc_scags_wide</a></span><span class="op">(</span><span class="va">exampledata_wide</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span>, <span class="st">"dcor"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">widescags</span>, <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">Var1</th>
 <th align="center">Var2</th>
-<th align="center">outlying</th>
-<th align="center">clumpy</th>
-<th align="center">monotonic</th>
+<th align="center">striated2</th>
+<th align="center">clumpy2</th>
+<th align="center">convex</th>
+<th align="center">dcor</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="center">MDVP:Fhi(Hz)</td>
-<td align="center">MDVP:Fo(Hz)</td>
-<td align="center">0.4119</td>
-<td align="center">0.9339</td>
-<td align="center">0.7956</td>
-</tr>
-<tr class="even">
-<td align="center">MDVP:Flo(Hz)</td>
-<td align="center">MDVP:Fo(Hz)</td>
-<td align="center">0.1722</td>
-<td align="center">0.8784</td>
-<td align="center">0.3236</td>
-</tr>
-<tr class="odd">
-<td align="center">MDVP:Flo(Hz)</td>
-<td align="center">MDVP:Fhi(Hz)</td>
-<td align="center">0.3361</td>
-<td align="center">0.9707</td>
+<td align="center">away_y</td>
+<td align="center">away_x</td>
 <td align="center">0.0956</td>
+<td align="center">0.0000</td>
+<td align="center">0.7950</td>
+<td align="center">0.1326</td>
 </tr>
 <tr class="even">
-<td align="center">MDVP:Jitter(%)</td>
-<td align="center">MDVP:Fo(Hz)</td>
-<td align="center">0.2888</td>
-<td align="center">0.9153</td>
-<td align="center">0.2697</td>
+<td align="center">circle_x</td>
+<td align="center">away_x</td>
+<td align="center">0.1111</td>
+<td align="center">0.5222</td>
+<td align="center">0.8561</td>
+<td align="center">0.3839</td>
 </tr>
 <tr class="odd">
-<td align="center">MDVP:Jitter(%)</td>
-<td align="center">MDVP:Fhi(Hz)</td>
-<td align="center">0.5414</td>
-<td align="center">0.9217</td>
-<td align="center">0.0978</td>
+<td align="center">circle_x</td>
+<td align="center">away_y</td>
+<td align="center">0.0857</td>
+<td align="center">0.2211</td>
+<td align="center">0.8642</td>
+<td align="center">0.1142</td>
 </tr>
 <tr class="even">
-<td align="center">MDVP:Jitter(%)</td>
-<td align="center">MDVP:Flo(Hz)</td>
-<td align="center">0.4300</td>
-<td align="center">0.9117</td>
-<td align="center">0.4067</td>
+<td align="center">circle_y</td>
+<td align="center">away_x</td>
+<td align="center">0.1103</td>
+<td align="center">0.8403</td>
+<td align="center">0.7089</td>
+<td align="center">0.0818</td>
 </tr>
 </tbody>
 </table>
-<p>We can use either of these generated data sets to find the top scagnostic for each variable, or the top variable for each scagnostic. This is an example of the top scagnsotic for each pair.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">scag_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/top_pairs.html">top_pairs</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+</div>
+<div class="section level2">
+<h2 id="using-the-scagnostics">Using the scagnostics<a class="anchor" aria-label="anchor" href="#using-the-scagnostics"></a>
+</h2>
+<p>If the resulting scagnostic data set is small enough, we can find interesting scatter plots by simply looking at the table, however this is often not the case. If we want to find pairwise plots that are different to the others, we can find outliers on combinations of the scagnostics using an interactive scatter plot matrix (SPLOM). The code (but not the output) on how to do this is shown below:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/" class="external-link">GGally</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span>
+
+<span class="va">splom_data</span> <span class="op">&lt;-</span> <span class="va">widescags</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">Var1</span>, <span class="st">" , "</span>, <span class="va">Var2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Var1</span>, <span class="va">Var2</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">ggpairs</a></span><span class="op">(</span><span class="va">splom_data</span>, columns<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">lab</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu">ggplotly</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> </code></pre></div>
+<p>There are also a handful of functions that can summarise the scagnostic data. Using <code>top_pairs</code> allows us to find the top scagnostic for each pair of variables, while <code>top_scags</code> finds the top pair of variables for each scagnostic. Their usage is identical and shown below:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/top_scags.html">top_scags</a></span><span class="op">(</span><span class="va">widescags</span><span class="op">)</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="center">dataset</th>
+<th align="center">Var1</th>
+<th align="center">Var2</th>
 <th align="center">scag</th>
 <th align="center">value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="center">away</td>
+<td align="center">dots_y</td>
+<td align="center">circle_y</td>
 <td align="center">clumpy2</td>
-<td align="center">0.1501</td>
+<td align="center">0.9948</td>
 </tr>
 <tr class="even">
-<td align="center">circle</td>
-<td align="center">monotonic</td>
-<td align="center">0.0499</td>
+<td align="center">slant_up_y</td>
+<td align="center">slant_up_x</td>
+<td align="center">convex</td>
+<td align="center">0.9144</td>
 </tr>
 <tr class="odd">
-<td align="center">dots</td>
-<td align="center">clumpy2</td>
-<td align="center">0.9829</td>
+<td align="center">slant_up_y</td>
+<td align="center">dots_y</td>
+<td align="center">dcor</td>
+<td align="center">0.9167</td>
 </tr>
 <tr class="even">
-<td align="center">v_lines</td>
-<td align="center">clumpy2</td>
-<td align="center">0.4876</td>
+<td align="center">circle_y</td>
+<td align="center">circle_x</td>
+<td align="center">striated2</td>
+<td align="center">0.5255</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level2">
+<h2 id="diagnosing-strange-results">Diagnosing strange results<a class="anchor" aria-label="anchor" href="#diagnosing-strange-results"></a>
+</h2>
+<p>Occasionally we will get unexpected results for a scagnostic. To allow users to diagnose their own scagnostics, the package has several draw functions that will plot the graph based objects that were used to construct the measures. There is a draw function for the alpha hull, convex hull and MST. Below is an example of the MST function <code>draw_mst</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">drawexample</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span> <span class="st">"dots"</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/draw_mst.html">draw_mst</a></span><span class="op">(</span><span class="va">drawexample</span><span class="op">$</span><span class="va">x</span>, <span class="va">drawexample</span><span class="op">$</span><span class="va">y</span>, alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="cassowaryr_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+</div>
 </div>
   </div>
 

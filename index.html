@@ -78,18 +78,58 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"numbats/cassowaryr"</span><span class="op">)</span></code></pre></div>
+<p>The package can be installed from CRAN using</p>
+<blockquote>
+<p><code>install.packages("cassowaryr")</code></p>
+</blockquote>
+<p>and from GitHub using</p>
+<blockquote>
+<p><code>remotes::install_github("numbats/cassowaryr")</code></p>
+</blockquote>
+<p>to install the development version.</p>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"anscombe_tidy"</span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr" class="external-link">cassowaryr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="co"># A single scagnostic on two vectors</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"anscombe_tidy"</span><span class="op">)</span>
 <span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x1</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y1</span><span class="op">)</span>
-<span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x2</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y2</span><span class="op">)</span>
-<span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x3</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y3</span><span class="op">)</span>
-<span class="fu"><a href="reference/sc_outlying.html">sc_outlying</a></span><span class="op">(</span><span class="va">anscombe</span><span class="op">$</span><span class="va">x4</span>, <span class="va">anscombe</span><span class="op">$</span><span class="va">y4</span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt; [1] 0</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"datasaurus_dozen"</span><span class="op">)</span>
+<span class="va">datasaurus_dozen</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"monotonic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
+<span class="co">#&gt;   method     from         </span>
+<span class="co">#&gt;   print.boxx spatstat.geom</span>
+<span class="co">#&gt; # A tibble: 13 x 3</span>
+<span class="co">#&gt;    dataset    clumpy2 monotonic</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 away        0        0.0573 </span>
+<span class="co">#&gt;  2 bullseye    0.811    0.0787 </span>
+<span class="co">#&gt;  3 circle      0        0.0773 </span>
+<span class="co">#&gt;  4 dino        0.0122   0.0651 </span>
+<span class="co">#&gt;  5 dots        0.993    0.126  </span>
+<span class="co">#&gt;  6 h_lines     0.912    0.0520 </span>
+<span class="co">#&gt;  7 high_lines  0.914    0.00287</span>
+<span class="co">#&gt;  8 slant_down  0.888    0.0669 </span>
+<span class="co">#&gt;  9 slant_up    0.862    0.0861 </span>
+<span class="co">#&gt; 10 star        0.919    0.0514 </span>
+<span class="co">#&gt; 11 v_lines     0.941    0.0566 </span>
+<span class="co">#&gt; 12 wide_lines  0.920    0.0522 </span>
+<span class="co">#&gt; 13 x_shape     0.882    0.0205</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="about-the-name">About the name<a class="anchor" aria-label="anchor" href="#about-the-name"></a>
