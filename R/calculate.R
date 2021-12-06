@@ -12,7 +12,7 @@
 #' @examples
 #' # Calculate selected scagnostics
 #' data(pk)
-#' calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
+#' calc_scags_wide(pk[,2:5], scags=c("outlying","monotonic"))
 #'
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
@@ -81,11 +81,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' @seealso calc_scags_wide
 #' @examples
 #' # Calculate selected scagnostics on a single pair
-#' calc_scags(anscombe$x1, anscombe$y1,
-#'   scags=c("monotonic", "outlying", "convex"))
-#'
-#' # Calculate all large number of scagnostics together
-#' calc_scags(anscombe$x1, anscombe$y1)
+#' calc_scags(anscombe$x1, anscombe$y1, scags=c("monotonic", "outlying"))
 #'
 #' # Compute on long form data, or subsets
 #' # defined by a categorical variable

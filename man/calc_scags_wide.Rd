@@ -30,7 +30,7 @@ Compute scagnostics on all possible scatter plots for the given data
 \examples{
 # Calculate selected scagnostics
 data(pk)
-calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
+calc_scags_wide(pk[,2:5], scags=c("outlying","monotonic"))
 
 }
 \seealso{

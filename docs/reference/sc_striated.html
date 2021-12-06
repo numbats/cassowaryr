@@ -154,26 +154,9 @@
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>features</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>x</span>, y<span class='op'>=</span><span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
      <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
      <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>feature</span>, ncol <span class='op'>=</span> <span class='fl'>5</span>, scales <span class='op'>=</span> <span class='st'>"free"</span><span class='op'>)</span>
-</div><div class='img'><img src='sc_striated-1.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='va'>features</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>feature</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>striated <span class='op'>=</span> <span class='fu'>sc_striated</span><span class='op'>(</span><span class='va'>x</span>,<span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: success: collinearities reduced through jitter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: dataset started with 3 colinear points, jitter added!</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 2</span>
-#&gt;    feature    striated
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> barrier       0.231
-#&gt; <span style='color: #BCBCBC;'> 2</span> clusters      0.28 
-#&gt; <span style='color: #BCBCBC;'> 3</span> discrete      0.281
-#&gt; <span style='color: #BCBCBC;'> 4</span> disk          0.307
-#&gt; <span style='color: #BCBCBC;'> 5</span> gaps          0.287
-#&gt; <span style='color: #BCBCBC;'> 6</span> l-shape       0.29 
-#&gt; <span style='color: #BCBCBC;'> 7</span> line          0.987
-#&gt; <span style='color: #BCBCBC;'> 8</span> nonlinear1    0.987
-#&gt; <span style='color: #BCBCBC;'> 9</span> nonlinear2    0.32 
-#&gt; <span style='color: #BCBCBC;'>10</span> outliers      0.276
-#&gt; <span style='color: #BCBCBC;'>11</span> outliers2     0.253
-#&gt; <span style='color: #BCBCBC;'>12</span> positive      0.24 
-#&gt; <span style='color: #BCBCBC;'>13</span> ring          0.307
-#&gt; <span style='color: #BCBCBC;'>14</span> vlines        0.933
-#&gt; <span style='color: #BCBCBC;'>15</span> weak          0.24 </div><div class='input'>  <span class='fu'>sc_striated</span><span class='op'>(</span><span class='va'>datasaurus_dozen_wide</span><span class='op'>$</span><span class='va'>away_x</span>, <span class='va'>datasaurus_dozen_wide</span><span class='op'>$</span><span class='va'>away_y</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.2957746</div><div class='input'>
+</div><div class='img'><img src='sc_striated-1.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'>sc_striated</span><span class='op'>(</span><span class='va'>anscombe</span><span class='op'>$</span><span class='va'>x1</span>, <span class='va'>anscombe</span><span class='op'>$</span><span class='va'>y1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>  <span class='fu'>sc_striated</span><span class='op'>(</span><span class='va'>anscombe</span><span class='op'>$</span><span class='va'>x2</span>, <span class='va'>anscombe</span><span class='op'>$</span><span class='va'>y2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.8181818</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

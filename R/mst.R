@@ -55,8 +55,8 @@ sc_stringy.igraph <- function(x, y=NULL) {
 #'   ggplot(features, aes(x=x, y=y)) +
 #'      geom_point() +
 #'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features %>% group_by(feature) %>% summarise(striated = sc_striated(x,y))
-#'   sc_striated(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#'   sc_striated(anscombe$x1, anscombe$y1)
+#'   sc_striated(anscombe$x2, anscombe$y2)
 #'
 #' @export
 sc_striated <- function(x, y) UseMethod("sc_striated")
