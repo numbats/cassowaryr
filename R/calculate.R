@@ -6,7 +6,7 @@
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #' @param euclid logical indicator to use Euclidean distance
-#' @param out.rm logical indicator to indicate if outliers should be removed before caclulating non outlying measures
+#' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
 #'
 #' @seealso calc_scags
 #' @examples
@@ -56,7 +56,8 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated2"
     dplyr::group_by(Var1, Var2) %>%
     dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
                                         data=all_data,
-                                        scags=scags, out.rm, euclid, pb))
+                                        scags=scags, out.rm, euclid, pb)) %>%
+    dplyr::ungroup()
 
 }
 
@@ -75,7 +76,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' scagnostics to calculate: outlying, stringy, striated,
 #' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
-#' @param out.rm logical indicator to indicate if outliers should be removed before caclulating non outlying measures
+#' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
 #' @param euclid logical indicator to use Euclidean distance
 #' @seealso calc_scags_wide
 #' @examples

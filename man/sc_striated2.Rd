@@ -16,7 +16,7 @@ sc_striated2(x, y)
 \method{sc_striated2}{igraph}(x, y)
 }
 \arguments{
-\item{x}{numeric vector of x values, or an mst object}
+\item{x}{numeric vector of x values, or an MST object}
 
 \item{y}{numeric vector of y values, or a scree object}
 }

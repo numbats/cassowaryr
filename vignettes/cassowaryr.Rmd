@@ -39,7 +39,7 @@ to install the development version.
 
 # Examples 
 ## Calculating the scagnostics
-Here we will go through an example on the datasaurus dozen data (which comes loaded with the package). This data has several pairwise plots variables with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the `cassowaryr` package. Here is a plot of the selected datasaurus dozen plots:
+Here we will go through an example on the datasauRus dozen data (which comes loaded with the package). This data has several pairwise plots variables with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the `cassowaryr` package. Here is a plot of the selected datasauRus dozen plots:
 
 ```{r setup}
 library(cassowaryr)

@@ -1,6 +1,6 @@
 #' Compute angle adjusted striated measure using MST
 #'
-#' @param x numeric vector of x values, or an mst object
+#' @param x numeric vector of x values, or an MST object
 #' @param y numeric vector of y values, or a scree object
 #'
 #' @examples
