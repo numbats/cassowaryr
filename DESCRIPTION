@@ -1,6 +1,6 @@
 Package: cassowaryr
 Title: Compute Scagnostics on Pairs of Numeric Variables in a Data Set
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     c(person(given = "Harriet",
              family = "Mason",
