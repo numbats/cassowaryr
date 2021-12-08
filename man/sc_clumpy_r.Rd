@@ -20,6 +20,9 @@ sc_clumpy_r(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's robust clumpy score.
+}
 \description{
 Compute robust clumpy scagnostic measure using MST
 }

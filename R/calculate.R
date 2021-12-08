@@ -7,7 +7,7 @@
 #' skinny, monotonic, splines, dcor
 #' @param euclid logical indicator to use Euclidean distance
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
-#'
+#' @return A data frame that gives the data's scagnostic scores for each possible variable combination.
 #' @seealso calc_scags
 #' @examples
 #' # Calculate selected scagnostics
@@ -78,6 +78,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' skinny, monotonic, splines, dcor
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
 #' @param euclid logical indicator to use Euclidean distance
+#' @return A data frame that gives the single plot's scagnostic score.
 #' @seealso calc_scags_wide
 #' @examples
 #' # Calculate selected scagnostics on a single pair
@@ -200,10 +201,10 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
     chull <- gen_conv_hull(sc$del)
     ahull <- gen_alpha_hull(sc$del, sc$alpha)
     if("convex" %in% scags){
-      convex <- sc_convex(chull,ahull)
+      convex <- sc_convex.list(chull,ahull)
     }
     if("skinny" %in% scags){
-      skinny <- sc_skinny(ahull)
+      skinny <- sc_skinny.list(ahull)
     }}
 
   #CALCULATE ASSOCIATION MEASURES
@@ -271,12 +272,13 @@ top_scags <- function(scags_data){
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
     dplyr::arrange(dplyr::desc(value)) %>%
     dplyr::group_by(scag) %>%
-    dplyr::slice_head(n=1)
+    dplyr::slice_head(n=1) %>%
+    ungroup()
 }
 
 #' Calculate the top scagnostic for each pair of variables
 #' @param scags_data A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide
-#' @return A data frame of each scatter plot with its highest valued scagnostic and its respective value
+#' @return A data frame where each row is a each scatter plot, its highest valued scagnostic, and its respective value
 #' @examples
 #' #an example using calc_scags
 #' require(dplyr)
@@ -298,7 +300,8 @@ top_pairs <- function(scags_data){
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
     dplyr::arrange(dplyr::desc(value)) %>%
     dplyr::group_by(dplyr::across(-c(scag,value))) %>%
-    dplyr::slice_head(n=1)
+    dplyr::slice_head(n=1) %>%
+    ungroup()
 }
 
 

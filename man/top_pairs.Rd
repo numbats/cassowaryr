@@ -10,7 +10,7 @@ top_pairs(scags_data)
 \item{scags_data}{A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide}
 }
 \value{
-A data frame of each scatter plot with its highest valued scagnostic and its respective value
+A data frame where each row is a each scatter plot, its highest valued scagnostic, and its respective value
 }
 \description{
 Calculate the top scagnostic for each pair of variables

@@ -11,6 +11,9 @@ sc_dcor(x, y)
 
 \item{y}{numeric vector}
 }
+\value{
+A "numeric" object that gives the plot's dcor score.
+}
 \description{
 (Taken from tourr package)
 Computes the distance correlation based index on

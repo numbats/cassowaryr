@@ -20,6 +20,9 @@ sc_striated(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's striated score.
+}
 \description{
 Compute striated scagnostic measure using MST
 }

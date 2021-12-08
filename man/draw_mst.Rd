@@ -13,6 +13,9 @@ draw_mst(x, y, alpha = 0.5)
 
 \item{alpha}{The alpha value used to build the graph object. Larger values allow points further apart to be connected.}
 }
+\value{
+A "gg" object that draws the plot's MST.
+}
 \description{
 This function will draw the MST for a
 scatterplot.

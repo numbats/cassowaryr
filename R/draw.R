@@ -8,6 +8,7 @@
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
+#' @return A "gg" object that draws the plot's alpha hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
@@ -39,6 +40,7 @@ draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
 #' @param x numeric vector
 #' @param y numeric vector
 #' @param alpha The alpha value used to build the graph object. Larger values allow points further apart to be connected.
+#' @return A "gg" object that draws the plot's MST.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
@@ -74,6 +76,7 @@ draw_mst <- function(x, y, alpha=0.5) {
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
+#' @return A "gg" object that draws the plot's convex hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)

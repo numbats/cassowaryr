@@ -20,6 +20,9 @@ sc_convex(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's convex score.
+}
 \description{
 Compute convex scagnostic measure
 }

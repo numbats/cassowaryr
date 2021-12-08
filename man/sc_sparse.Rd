@@ -20,6 +20,9 @@ sc_sparse(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's sparse score.
+}
 \description{
 Compute sparse scagnostic measure using MST
 }

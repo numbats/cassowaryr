@@ -27,6 +27,9 @@ skinny, monotonic, splines, dcor}
 
 \item{euclid}{logical indicator to use Euclidean distance}
 }
+\value{
+A data frame that gives the single plot's scagnostic score.
+}
 \description{
 Compute selected scagnostics on subsets
 }

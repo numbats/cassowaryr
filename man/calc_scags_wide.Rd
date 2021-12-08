@@ -24,6 +24,9 @@ skinny, monotonic, splines, dcor}
 
 \item{euclid}{logical indicator to use Euclidean distance}
 }
+\value{
+A data frame that gives the data's scagnostic scores for each possible variable combination.
+}
 \description{
 Compute scagnostics on all possible scatter plots for the given data
 }

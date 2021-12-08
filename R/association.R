@@ -2,7 +2,7 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
-#' @return double
+#' @return A "numeric" object that gives the plot's monotonic score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -36,6 +36,7 @@ sc_monotonic <- function(x, y){
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @return A "numeric" object that gives the plot's spines score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -89,6 +90,7 @@ sc_splines <- function(x,y) {
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @return A "numeric" object that gives the plot's dcor score.
 #'
 #' @examples
 #'   require(ggplot2)

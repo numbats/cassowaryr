@@ -2,6 +2,7 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's robust clumpy score.
 #'
 #' @examples
 #'   require(ggplot2)

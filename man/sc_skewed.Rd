@@ -20,6 +20,9 @@ sc_skewed(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's skewed score.
+}
 \description{
 Compute skewed scagnostic measure using MST
 }

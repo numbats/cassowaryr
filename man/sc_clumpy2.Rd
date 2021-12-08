@@ -20,6 +20,9 @@ sc_clumpy2(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's clumpy2 score.
+}
 \description{
 Compute adjusted clumpy measure using MST
 }

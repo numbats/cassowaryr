@@ -20,6 +20,9 @@ sc_outlying(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's outlying score.
+}
 \description{
 Compute outlying scagnostic measure using MST
 }

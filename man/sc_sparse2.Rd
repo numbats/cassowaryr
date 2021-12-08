@@ -20,6 +20,9 @@ sc_sparse2(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's sparse2 score.
+}
 \description{
 Compute  adjusted sparse measure using the alpha hull
 }

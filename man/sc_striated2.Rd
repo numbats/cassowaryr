@@ -20,6 +20,9 @@ sc_striated2(x, y)
 
 \item{y}{numeric vector of y values, or a scree object}
 }
+\value{
+A "numeric" object that gives the plot's striated2 score.
+}
 \description{
 Compute angle adjusted striated measure using MST
 }

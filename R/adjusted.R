@@ -2,6 +2,7 @@
 #'
 #' @param x numeric vector of x values, or an MST object
 #' @param y numeric vector of y values, or a scree object
+#' @return A "numeric" object that gives the plot's striated2 score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -56,6 +57,7 @@ sc_striated2.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's clumpy2 score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -193,6 +195,7 @@ sc_clumpy2.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's sparse2 score.
 #'
 #' @examples
 #'   require(ggplot2)

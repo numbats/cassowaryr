@@ -17,6 +17,9 @@ draw_convexhull(x, y, alpha = 0.5, clr = "black", fill = FALSE)
 
 \item{fill}{Fill the polygon}
 }
+\value{
+A "gg" object that draws the plot's convex hull.
+}
 \description{
 This function will draw the Convex Hull for a
 scatterplot.

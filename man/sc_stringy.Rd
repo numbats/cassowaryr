@@ -20,6 +20,9 @@ sc_stringy(x, y)
 
 \item{y}{numeric vector of y values}
 }
+\value{
+A "numeric" object that gives the plot's stringy score.
+}
 \description{
 Compute stringy scagnostic measure using MST
 }

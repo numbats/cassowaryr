@@ -12,7 +12,7 @@ sc_monotonic(x, y)
 \item{y}{numeric vector}
 }
 \value{
-double
+A "numeric" object that gives the plot's monotonic score.
 }
 \description{
 Measure of Spearman Correlation

@@ -11,6 +11,9 @@ sc_splines(x, y)
 
 \item{y}{numeric vector}
 }
+\value{
+A "numeric" object that gives the plot's spines score.
+}
 \description{
 (Taken from tourr git repo)
 Compares the variance in residuals of a fitted

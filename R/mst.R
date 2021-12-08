@@ -3,6 +3,7 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's stringy score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -48,6 +49,7 @@ sc_stringy.igraph <- function(x, y=NULL) {
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's striated score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -98,6 +100,7 @@ sc_striated.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's clumpy score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -213,6 +216,7 @@ sc_clumpy.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's sparse score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -262,6 +266,7 @@ sc_sparse.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's skewed score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -318,6 +323,7 @@ sc_skewed.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's outlying score.
 #'
 #' @examples
 #'   require(ggplot2)

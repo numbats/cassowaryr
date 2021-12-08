@@ -17,6 +17,9 @@ draw_alphahull(x, y, alpha = 0.2, clr = "black", fill = FALSE)
 
 \item{fill}{Fill the polygon}
 }
+\value{
+A "gg" object that draws the plot's alpha hull.
+}
 \description{
 This function will draw the alphahull for a
 scatterplot.

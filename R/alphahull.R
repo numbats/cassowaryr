@@ -3,6 +3,7 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's convex score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -51,6 +52,7 @@ sc_convex.list <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @return A "numeric" object that gives the plot's skinny score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -75,12 +77,12 @@ sc_skinny.default <- function(x, y){
 sc_skinny.scree <- function(x, y = NULL) {
   stopifnot(is.null(y))
   ahull <- gen_alpha_hull(x$del, x$alpha)
-  sc_skinny.ahull(ahull)
+  sc_skinny.list(ahull)
 }
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.ahull <- function(x, y=NULL){
+sc_skinny.list <- function(x, y=NULL){
   if (x$length > 0) {
     ahull_area <- alphahull::areaahull(x)
     s <- 1 - sqrt(4*pi * ahull_area) / x$length
