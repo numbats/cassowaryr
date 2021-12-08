@@ -93,7 +93,6 @@ library(GGally)
 library(plotly)
 
 splom_data <- widescags %>%
-  ungroup() %>%
   mutate(lab = paste0(Var1, " , ", Var2)) %>%
   select(-c(Var1, Var2))
 
