@@ -42,10 +42,9 @@ sc_convex.list <- function(x, y){
     ahull_area <- 0
 
   #calculate sample size weight
-  n = length(x)/500
-  w = 0.7 + 0.3/(1+n^2)
-
-  w*(ahull_area / chull_area)
+  #n = length(x)/500
+  #w = 0.7 + 0.3/(1+n^2)
+  (ahull_area / chull_area) # w*(ahull_area / chull_area)
 }
 
 #' Compute skinny scagnostic measure
