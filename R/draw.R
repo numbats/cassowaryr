@@ -23,7 +23,7 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
   #make scree
   sc_objs <- original_and_robust(x,y)
   scr <- sc_objs$scree_ori
-  if(out.rm==FALSE) scr <- sc_objs$scree_rob
+  if(out.rm) scr <- sc_objs$scree_rob
 
   #make alpha hull
   #d_ahull <- alphahull::ahull(x, y, a=alpha)
@@ -70,6 +70,7 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #' @param x numeric vector
 #' @param y numeric vector
 #' @param alpha The alpha value used to build the graph object. Larger values allow points further apart to be connected.
+#' @param out.rm option to return the outlier removed alphahull
 #' @return A "gg" object that draws the plot's MST.
 #' @examples
 #' require(dplyr)
@@ -78,10 +79,18 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_mst(nl$x, nl$y)
 #' @export
-draw_mst <- function(x, y, alpha=0.5) {
+draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE) {
   ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
-  scree <- scree(x, y)
+  #build scree
+  scree_obj <- original_and_robust(x, y)
+  scree <- scree_obj$scree_ori
+  if(out.rm) scree <- scree_obj$scree_rob
+
+  #get mst
   MST <- gen_mst(scree$del, scree$weights)
+  MST <- scree_obj$mst_ori
+  if(out.rm) MST <- scree_obj$mst_rob
+
   xystartend <- tibble::as_tibble(scree[["del"]][["mesh"]])
   MST_mat <- twomstmat(MST, scree)$mat
   d_MST <- xystartend %>%
@@ -106,18 +115,21 @@ draw_mst <- function(x, y, alpha=0.5) {
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
+#' @param out.rm option to return the outlier removed alphahull
 #' @return A "gg" object that draws the plot's convex hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
 #' data("features")
-#' nl <- features %>% filter(feature == "nonlinear2")
-#' draw_convexhull(nl$x, nl$y)
+#' nl <- features %>% filter(feature == "clusters")
+#' draw_convexhull(nl$x, nl$y, fill=TRUE, out.rm=FALSE)
 #' @export
-draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE) {
+draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL # happy cran checks
   # make scree and convex hull
-  sc <- scree(x, y)
+  scree_obj <- original_and_robust(x, y)
+  sc <- scree_obj$scree_ori
+  if(out.rm) sc <- scree_obj$scree_rob
   chull <- gen_conv_hull(sc$del)
 
   # make data of start and end points of hull
