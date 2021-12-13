@@ -8,27 +8,57 @@
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
-#' @return A "gg" object that draws the plot's alpha hull.
+#' @param out.rm option to return the outlier removed alphahull
+#' @return A alphahull::ahull(del, alpha = alpha)"gg" object that draws the plot's alpha hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
 #' require(alphahull)
 #' data("features")
-#' nl <- features %>% filter(feature == "nonlinear2")
-#' draw_alphahull(nl$x, nl$y)
+#' nl <- features %>% filter(feature == "clusters")
+#' draw_alphahull(nl$x, nl$y, fill=TRUE)
 #' @export
-draw_alphahull <- function(x, y, alpha=0.2, clr = "black", fill = FALSE) {
+draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL
-  d_ahull <- alphahull::ahull(x, y, a=alpha)
-  d <- tibble::tibble(x=x, y=y)
-  p <- ggplot2::ggplot() +
-    ggplot2::geom_point(data=d, ggplot2::aes(x, y),
-                 colour = "black", alpha=0.5)
+  #make scree
+  sc_objs <- original_and_robust(x,y)
+  scr <- sc_objs$scree_ori
+  if(out.rm==FALSE) scr <- sc_objs$scree_rob
 
-  d_ahull_c <- d_ahull$ashape.obj
-  p <- p + ggplot2::geom_segment(data=tibble::as_tibble(d_ahull_c$edges),
+  #make alpha hull
+  #d_ahull <- alphahull::ahull(x, y, a=alpha)
+  ahull <- alphahull::ahull(scr$del, alpha=scr$alpha)
+  #d_ahull <- tibble::as_tibble(ahull$ashape.obj$edges)
+
+  d_ahull <- tibble::tibble(x1 = ahull[["xahull"]][,1][ahull[["arcs"]][,7]],
+                           y1 = ahull[["xahull"]][,2][ahull[["arcs"]][,7]],
+                           x2 = ahull[["xahull"]][,1][ahull[["arcs"]][,8]],
+                           y2 = ahull[["xahull"]][,2][ahull[["arcs"]][,8]])
+  #scaled tibble
+  d <- tibble::tibble(x=ahull[["xahull"]][,1], y=ahull[["xahull"]][,2])
+  #d <- tibble::tibble(x=scr$del$x[,1], y=scr$del$x[,2])
+  # d <- tibble::tibble(x=x, y=y)
+
+  #make plot
+  if(!fill){
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_point(data=d, ggplot2::aes(x, y),
+                 colour = "black", alpha=alpha)+
+      ggplot2::geom_segment(data=d_ahull,
                    ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2),
                    colour = clr)
+  }
+  if (fill){ #draws points on top of fill
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_polygon(data=d_ahull,
+                                   ggplot2::aes(x=x1, y=y1),
+                                   fill = clr, alpha = 0.5) +
+      ggplot2::geom_point(data=d, ggplot2::aes(x, y),
+                          colour = "black", alpha=alpha)+
+      ggplot2::geom_segment(data=d_ahull,
+                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2),
+                            colour = clr)
+  }
   p
 }
 
