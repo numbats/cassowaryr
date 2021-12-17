@@ -273,7 +273,7 @@ top_scags <- function(scags_data){
     dplyr::arrange(dplyr::desc(value)) %>%
     dplyr::group_by(scag) %>%
     dplyr::slice_head(n=1) %>%
-    ungroup()
+    dplyr::ungroup()
 }
 
 #' Calculate the top scagnostic for each pair of variables
@@ -301,7 +301,7 @@ top_pairs <- function(scags_data){
     dplyr::arrange(dplyr::desc(value)) %>%
     dplyr::group_by(dplyr::across(-c(scag,value))) %>%
     dplyr::slice_head(n=1) %>%
-    ungroup()
+    dplyr::ungroup()
 }
 
 
