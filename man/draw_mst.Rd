@@ -4,7 +4,7 @@
 \alias{draw_mst}
 \title{Drawing the MST}
 \usage{
-draw_mst(x, y, alpha = 0.5)
+draw_mst(x, y, alpha = 0.5, out.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -12,6 +12,8 @@ draw_mst(x, y, alpha = 0.5)
 \item{y}{numeric vector}
 
 \item{alpha}{The alpha value used to build the graph object. Larger values allow points further apart to be connected.}
+
+\item{out.rm}{option to return the outlier removed MST}
 }
 \value{
 A "gg" object that draws the plot's MST.

@@ -4,7 +4,7 @@
 \alias{draw_alphahull}
 \title{Drawing the alphahull}
 \usage{
-draw_alphahull(x, y, alpha = 0.2, clr = "black", fill = FALSE)
+draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -16,9 +16,11 @@ draw_alphahull(x, y, alpha = 0.2, clr = "black", fill = FALSE)
 \item{clr}{optional colour of points and lines, default black}
 
 \item{fill}{Fill the polygon}
+
+\item{out.rm}{option to return the outlier removed alphahull}
 }
 \value{
-A "gg" object that draws the plot's alpha hull.
+A alphahull::ahull(del, alpha = alpha)"gg" object that draws the plot's alpha hull.
 }
 \description{
 This function will draw the alphahull for a
@@ -29,6 +31,6 @@ require(dplyr)
 require(ggplot2)
 require(alphahull)
 data("features")
-nl <- features \%>\% filter(feature == "nonlinear2")
-draw_alphahull(nl$x, nl$y)
+nl <- features \%>\% filter(feature == "clusters")
+draw_alphahull(nl$x, nl$y, fill=TRUE)
 }

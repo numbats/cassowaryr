@@ -4,7 +4,7 @@
 \alias{draw_convexhull}
 \title{Drawing the Convex Hull}
 \usage{
-draw_convexhull(x, y, alpha = 0.5, clr = "black", fill = FALSE)
+draw_convexhull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -16,6 +16,8 @@ draw_convexhull(x, y, alpha = 0.5, clr = "black", fill = FALSE)
 \item{clr}{optional colour of points and lines, default black}
 
 \item{fill}{Fill the polygon}
+
+\item{out.rm}{option to return the outlier removed convex hull}
 }
 \value{
 A "gg" object that draws the plot's convex hull.
@@ -28,6 +30,6 @@ scatterplot.
 require(dplyr)
 require(ggplot2)
 data("features")
-nl <- features \%>\% filter(feature == "nonlinear2")
-draw_convexhull(nl$x, nl$y)
+nl <- features \%>\% filter(feature == "clusters")
+draw_convexhull(nl$x, nl$y, fill=TRUE, out.rm=FALSE)
 }

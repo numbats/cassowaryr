@@ -70,7 +70,7 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #' @param x numeric vector
 #' @param y numeric vector
 #' @param alpha The alpha value used to build the graph object. Larger values allow points further apart to be connected.
-#' @param out.rm option to return the outlier removed alphahull
+#' @param out.rm option to return the outlier removed MST
 #' @return A "gg" object that draws the plot's MST.
 #' @examples
 #' require(dplyr)
@@ -115,7 +115,7 @@ draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE) {
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
-#' @param out.rm option to return the outlier removed alphahull
+#' @param out.rm option to return the outlier removed convex hull
 #' @return A "gg" object that draws the plot's convex hull.
 #' @examples
 #' require(dplyr)
