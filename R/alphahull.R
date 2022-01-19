@@ -4,6 +4,7 @@
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
 #' @return A "numeric" object that gives the plot's convex score.
+#' @param ...  other args
 #'
 #' @examples
 #'   require(ggplot2)
@@ -14,27 +15,27 @@
 #'   features %>% group_by(feature) %>% summarise(convex = sc_convex(x,y))
 #'   sc_convex(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_convex <- function(x, y) UseMethod("sc_convex")
+sc_convex <- function(x, y, ...) UseMethod("sc_convex")
 
 #' @rdname sc_convex
 #' @export
-sc_convex.default <- function(x, y){
-  sc <- scree(x, y)
-  sc_convex.scree(sc)
+sc_convex.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
+  sc_convex.scree(sc, ...)
 }
 
 #' @rdname sc_convex
 #' @export
-sc_convex.scree <- function(x,y = NULL) {
+sc_convex.scree <- function(x,y = NULL, ...) {
   stopifnot(is.null(y))
   chull <- gen_conv_hull(x$del)
   ahull <- gen_alpha_hull(x$del, x$alpha)
-  sc_convex.list(chull, ahull)
+  sc_convex.list(chull, ahull, ...)
 }
 
 #' @rdname sc_convex
 #' @export
-sc_convex.list <- function(x, y){
+sc_convex.list <- function(x, y, ...){
   chull_area <- splancs::areapl(cbind(x$x, x$y))
   if (y$length > 0)
     ahull_area <- alphahull::areaahull(y)
@@ -52,6 +53,7 @@ sc_convex.list <- function(x, y){
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
 #' @return A "numeric" object that gives the plot's skinny score.
+#' @param ...  other args
 #'
 #' @examples
 #'   require(ggplot2)
@@ -62,18 +64,18 @@ sc_convex.list <- function(x, y){
 #'   features %>% group_by(feature) %>% summarise(skinny = sc_skinny(x,y))
 #'   sc_skinny(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_skinny <- function(x, y) UseMethod("sc_skinny")
+sc_skinny <- function(x, y, ...) UseMethod("sc_skinny")
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.default <- function(x, y){
-  sc <- scree(x, y)
-  sc_skinny.scree(sc)
+sc_skinny.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
+  sc_skinny.scree(sc, ...)
 }
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.scree <- function(x, y = NULL) {
+sc_skinny.scree <- function(x, y = NULL, ...) {
   stopifnot(is.null(y))
   ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_skinny.list(ahull)
@@ -81,7 +83,7 @@ sc_skinny.scree <- function(x, y = NULL) {
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.list <- function(x, y=NULL){
+sc_skinny.list <- function(x, y=NULL, ...){
   if (x$length > 0) {
     ahull_area <- alphahull::areaahull(x)
     s <- 1 - sqrt(4*pi * ahull_area) / x$length
