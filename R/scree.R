@@ -3,6 +3,8 @@
 #' @param x,y numeric vectors
 #' @param binner an optional function that bins the x and y vectors prior
 #' to triangulation
+#' @param global_rng an optional vector c(min, max) that specifies the global
+#' range of the data set if you want all variables one the same scale
 #' @param ...  other args
 #'
 #' @return An object of class "scree" that consists of three elements:
@@ -18,7 +20,7 @@
 #' scree(x,y)
 #'
 #' @export
-scree <- function(x, y, binner = NULL, ...) {
+scree <- function(x, y, binner = NULL, global_rng = NULL, ...) {
   # checks on x,y
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
@@ -28,7 +30,8 @@ scree <- function(x, y, binner = NULL, ...) {
     stop("binner must be a function")
 
   # cast to a matrix
-  xy <- cbind(unitize(x), unitize(y))
+  if (is.numeric(global_rng)) xy <- cbind(unitize(x, global_rng), unitize(y, global_rng))
+  else xy <- cbind(unitize(x), unitize(y))
 
   # Check for duplicates and remove
   xy <- xy[!duplicated(xy),]
@@ -63,8 +66,26 @@ gen_edge_lengths <- function(del) {
 }
 
 # rescale input to lie in unit interval
-unitize <- function(x, na.rm = TRUE) {
+unitize <- function(x, global_rng = NULL, na.rm = TRUE) {
+  # set range of x
   rng <- range(x, na.rm = na.rm)
+
+  # if a global range has been specified
+  if (is.numeric(global_rng)){
+
+    # stopping criteria
+    if (!length(global_rng)==2 | global_rng[1] > global_rng[2]){
+      stop("The global range must be a vector with two values, c(min,max).")
+    }
+    if (rng[1]<global_rng[1] | rng[2]>global_rng[2]){
+      stop("The range of x is not a subset of the global range")
+    }
+
+    # reset x range
+    rng <- global_rng
+  }
+
+  # scale 0 to 1
   (x - rng[1]) / diff(rng)
 }
 

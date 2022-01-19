@@ -4,13 +4,16 @@
 \alias{scree}
 \title{Pre-processing to generate scagnostic measures}
 \usage{
-scree(x, y, binner = NULL, ...)
+scree(x, y, binner = NULL, global_rng = NULL, ...)
 }
 \arguments{
 \item{x, y}{numeric vectors}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation}
+
+\item{global_rng}{an optional vector c(min, max) that specifies the global
+range of the data set if you want all variables one the same scale}
 
 \item{...}{other args}
 }
