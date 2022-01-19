@@ -2,6 +2,7 @@
 #'
 #' @param x numeric vector of x values, or an MST object
 #' @param y numeric vector of y values, or a scree object
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's striated2 score.
 #'
 #' @examples
@@ -14,18 +15,18 @@
 #'   sc_striated2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_striated2 <- function(x, y) UseMethod("sc_striated2")
+sc_striated2 <- function(x, y, ...) UseMethod("sc_striated2")
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.default <- function(x, y){
-  sc <- scree(x, y)
+sc_striated2.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_striated2.scree(sc)
 }
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.scree <- function(x, y = NULL) {
+sc_striated2.scree <- function(x, y = NULL, ...) {
   stopifnot(is.null(y))
   y <- gen_mst(x$del, x$weights)
   sc_striated2.igraph(y, x)
@@ -34,7 +35,7 @@ sc_striated2.scree <- function(x, y = NULL) {
 
 #' @rdname sc_striated2
 #' @export
-sc_striated2.igraph <- function(x, y){
+sc_striated2.igraph <- function(x, y, ...){
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts>=2)
   stri=0
@@ -57,6 +58,7 @@ sc_striated2.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's clumpy2 score.
 #'
 #' @examples
@@ -69,25 +71,25 @@ sc_striated2.igraph <- function(x, y){
 #'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_clumpy2 <- function(x, y) UseMethod("sc_clumpy2")
+sc_clumpy2 <- function(x, y, ...) UseMethod("sc_clumpy2")
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.default <- function(x, y){
-  sc <- scree(x, y)
+sc_clumpy2.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_clumpy2.scree(sc)
 }
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.scree <- function(x, y=NULL) {
+sc_clumpy2.scree <- function(x, y=NULL, ...) {
   mst <- gen_mst(x$del, x$weights)
   sc_clumpy2.igraph(mst,x)
 }
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.igraph <- function(x, y){
+sc_clumpy2.igraph <- function(x, y, ...){
   #set stringy penalty
   vertex_counts <- igraph::degree(x)
   #technically stringy calc
@@ -195,6 +197,7 @@ sc_clumpy2.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's sparse2 score.
 #'
 #' @examples
@@ -208,25 +211,25 @@ sc_clumpy2.igraph <- function(x, y){
 #'   sc_sparse2(anscombe$x1, anscombe$y1)
 #'
 #' @export
-sc_sparse2 <- function(x, y) UseMethod("sc_sparse2")
+sc_sparse2 <- function(x, y, ...) UseMethod("sc_sparse2")
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.default <- function(x, y){
-  sc <- scree(x, y)
+sc_sparse2.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_sparse2.scree(sc)
 }
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.scree <- function(x, y=NULL) {
+sc_sparse2.scree <- function(x, y=NULL, ...) {
   ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_sparse2.list(ahull)
 }
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.list <- function(x, y=NULL){
+sc_sparse2.list <- function(x, y=NULL, ...){
   if (x$length > 0)
     ahull_area <- alphahull::areaahull(x)
   else
