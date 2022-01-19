@@ -3,6 +3,7 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's stringy score.
 #'
 #' @examples
@@ -19,19 +20,19 @@
 #'   sc_stringy(anscombe$x4, anscombe$y4)
 #'
 #' @export
-sc_stringy <- function(x, y) UseMethod("sc_stringy")
+sc_stringy <- function(x, y, ...) UseMethod("sc_stringy")
 
 #' @rdname sc_stringy
 #' @export
-sc_stringy.default <- function(x, y){
+sc_stringy.default <- function(x, y, ...){
   #input: x and y are vectors
-  sc <- scree(x, y)
+  sc <- scree(x, y, ...)
   sc_stringy.scree(sc)
 }
 
 #' @rdname sc_stringy
 #' @export
-sc_stringy.scree <- function(x, y=NULL) {
+sc_stringy.scree <- function(x, y=NULL, ...) {
   #input: x is a scree, no y
   mst <- gen_mst(x$del, x$weights)
   sc_stringy.igraph(mst)
@@ -39,7 +40,7 @@ sc_stringy.scree <- function(x, y=NULL) {
 
 #' @rdname sc_stringy
 #' @export
-sc_stringy.igraph <- function(x, y=NULL) {
+sc_stringy.igraph <- function(x, y=NULL, ...) {
   #input: x is the MST igraph object
   vertex_counts <- igraph::degree(x)
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
@@ -49,6 +50,7 @@ sc_stringy.igraph <- function(x, y=NULL) {
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's striated score.
 #'
 #' @examples
@@ -61,18 +63,18 @@ sc_stringy.igraph <- function(x, y=NULL) {
 #'   sc_striated(anscombe$x2, anscombe$y2)
 #'
 #' @export
-sc_striated <- function(x, y) UseMethod("sc_striated")
+sc_striated <- function(x, y, ...) UseMethod("sc_striated")
 
 #' @rdname sc_striated
 #' @export
-sc_striated.default <- function(x, y){
-  sc <- scree(x, y)
+sc_striated.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_striated.scree(sc)
 }
 
 #' @rdname sc_striated
 #' @export
-sc_striated.scree <- function(x, y=NULL) {
+sc_striated.scree <- function(x, y=NULL, ...) {
   #input: x is scree
   mst <- gen_mst(x$del, x$weights)
   sc_striated.igraph(mst, x)
@@ -81,7 +83,7 @@ sc_striated.scree <- function(x, y=NULL) {
 
 #' @rdname sc_striated
 #' @export
-sc_striated.igraph <- function(x, y){
+sc_striated.igraph <- function(x, y, ...){
   #input: x is MST, y is scree
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts==2)
@@ -100,6 +102,7 @@ sc_striated.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's clumpy score.
 #'
 #' @examples
@@ -112,18 +115,18 @@ sc_striated.igraph <- function(x, y){
 #'   sc_clumpy(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_clumpy <- function(x, y) UseMethod("sc_clumpy")
+sc_clumpy <- function(x, y, ...) UseMethod("sc_clumpy")
 
 #' @rdname sc_clumpy
 #' @export
-sc_clumpy.default <- function(x, y){
-  sc <- scree(x, y)
+sc_clumpy.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_clumpy.scree(sc)
 }
 
 #' @rdname sc_clumpy
 #' @export
-sc_clumpy.scree <- function(x, y=NULL) {
+sc_clumpy.scree <- function(x, y=NULL, ...) {
   #input: x is a scree
   mst <- gen_mst(x$del, x$weights)
   sc_clumpy.igraph(mst,x)
@@ -132,7 +135,7 @@ sc_clumpy.scree <- function(x, y=NULL) {
 
 #' @rdname sc_clumpy
 #' @export
-sc_clumpy.igraph <- function(x, y){
+sc_clumpy.igraph <- function(x, y, ...){
   #input: x is the MST, y is the scree
   #lower triangular matrix
   mstmat <- twomstmat(x,y)$lowertri
@@ -216,6 +219,7 @@ sc_clumpy.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's sparse score.
 #'
 #' @examples
@@ -230,18 +234,18 @@ sc_clumpy.igraph <- function(x, y){
 #'   sc_sparse(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
 #'
 #' @export
-sc_sparse <- function(x, y) UseMethod("sc_sparse")
+sc_sparse <- function(x, y, ...) UseMethod("sc_sparse")
 
 #' @rdname sc_sparse
 #' @export
-sc_sparse.default <- function(x, y){
-  sc <- scree(x, y)
+sc_sparse.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_sparse.scree(sc)
 }
 
 #' @rdname sc_sparse
 #' @export
-sc_sparse.scree <- function(x, y=NULL) {
+sc_sparse.scree <- function(x, y=NULL, ...) {
   #generate vector of MST edges
   mst <- gen_mst(x$del, x$weights)
   sc_sparse.igraph(mst,x)
@@ -250,7 +254,7 @@ sc_sparse.scree <- function(x, y=NULL) {
 
 #' @rdname sc_sparse
 #' @export
-sc_sparse.igraph <- function(x, y){
+sc_sparse.igraph <- function(x, y, ...){
   #input: x is MST, y is scree
   mstmat <- twomstmat(x,y)$lowertri
   edges <- mstmat[which(mstmat>0)]
@@ -266,6 +270,7 @@ sc_sparse.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's skewed score.
 #'
 #' @examples
@@ -281,18 +286,18 @@ sc_sparse.igraph <- function(x, y){
 #'   sc_skewed(datasaurus_dozen_wide$x_shape_x, datasaurus_dozen_wide$x_shape_y)
 #'
 #' @export
-sc_skewed <- function(x, y) UseMethod("sc_skewed")
+sc_skewed <- function(x, y, ...) UseMethod("sc_skewed")
 
 #' @rdname sc_skewed
 #' @export
-sc_skewed.default <- function(x, y){
-  sc <- scree(x, y)
+sc_skewed.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_skewed.scree(sc)
 }
 
 #' @rdname sc_skewed
 #' @export
-sc_skewed.scree <- function(x, y=NULL) {
+sc_skewed.scree <- function(x, y=NULL, ...) {
   #generate vector of MST edges
   mst <- gen_mst(x$del, x$weights)
   sc_skewed.igraph(mst, x)
@@ -300,7 +305,7 @@ sc_skewed.scree <- function(x, y=NULL) {
 
 #' @rdname sc_skewed
 #' @export
-sc_skewed.igraph <- function(x, y){
+sc_skewed.igraph <- function(x, y, ...){
   mstmat <- twomstmat(x,y)$lowertri
   edges <- mstmat[which(mstmat>0)]
 
@@ -323,6 +328,7 @@ sc_skewed.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param ...  other args
 #' @return A "numeric" object that gives the plot's outlying score.
 #'
 #' @examples
@@ -337,18 +343,18 @@ sc_skewed.igraph <- function(x, y){
 #'   sc_outlying(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
 #'
 #' @export
-sc_outlying <- function(x, y) UseMethod("sc_outlying")
+sc_outlying <- function(x, y, ...) UseMethod("sc_outlying")
 
 #' @rdname sc_outlying
 #' @export
-sc_outlying.default <- function(x, y){
-  sc <- scree(x, y)
+sc_outlying.default <- function(x, y, ...){
+  sc <- scree(x, y, ...)
   sc_outlying.scree(sc)
 }
 
 #' @rdname sc_outlying
 #' @export
-sc_outlying.scree <- function(x, y=NULL) {
+sc_outlying.scree <- function(x, y=NULL, ...) {
   #generate vector of MST edges
   mst <- gen_mst(x$del, x$weights)
   sc_outlying.igraph(mst, x)
@@ -356,7 +362,7 @@ sc_outlying.scree <- function(x, y=NULL) {
 
 #' @rdname sc_outlying
 #' @export
-sc_outlying.igraph <- function(x, y){
+sc_outlying.igraph <- function(x, y, ...){
   #input: x orig mst (mymst) and y scree object
   #output: outlying mst value
 
