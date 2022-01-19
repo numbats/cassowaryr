@@ -3,8 +3,8 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @return A "numeric" object that gives the plot's convex score.
 #' @param ...  other args
+#' @return A "numeric" object that gives the plot's convex score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -21,7 +21,7 @@ sc_convex <- function(x, y, ...) UseMethod("sc_convex")
 #' @export
 sc_convex.default <- function(x, y, ...){
   sc <- scree(x, y, ...)
-  sc_convex.scree(sc, ...)
+  sc_convex.scree(sc)
 }
 
 #' @rdname sc_convex
@@ -30,7 +30,7 @@ sc_convex.scree <- function(x,y = NULL, ...) {
   stopifnot(is.null(y))
   chull <- gen_conv_hull(x$del)
   ahull <- gen_alpha_hull(x$del, x$alpha)
-  sc_convex.list(chull, ahull, ...)
+  sc_convex.list(chull, ahull)
 }
 
 #' @rdname sc_convex
@@ -52,8 +52,8 @@ sc_convex.list <- function(x, y, ...){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
-#' @return A "numeric" object that gives the plot's skinny score.
 #' @param ...  other args
+#' @return A "numeric" object that gives the plot's skinny score.
 #'
 #' @examples
 #'   require(ggplot2)
@@ -70,7 +70,7 @@ sc_skinny <- function(x, y, ...) UseMethod("sc_skinny")
 #' @export
 sc_skinny.default <- function(x, y, ...){
   sc <- scree(x, y, ...)
-  sc_skinny.scree(sc, ...)
+  sc_skinny.scree(sc)
 }
 
 #' @rdname sc_skinny
