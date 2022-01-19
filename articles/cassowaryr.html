@@ -79,18 +79,18 @@
 
     
     
-<div class="section level1">
-<h1 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
-</h1>
+<div class="section level2">
+<h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
+</h2>
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
 <p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R and is designed to be easily integrated into a tidy data workflow.</p>
 <p>The package’s primary use is as a step in exploratory data analysis, to give users an idea of the shape of their data and identify interesting pairwise relationships.</p>
 </div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>The package can be installed from CRAN using</p>
 <blockquote>
 <p><code>install.packages("cassowaryr")</code></p>
@@ -101,12 +101,12 @@
 </blockquote>
 <p>to install the development version.</p>
 </div>
-<div class="section level1">
-<h1 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
-</h1>
 <div class="section level2">
-<h2 id="calculating-the-scagnostics">Calculating the scagnostics<a class="anchor" aria-label="anchor" href="#calculating-the-scagnostics"></a>
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
+<div class="section level3">
+<h3 id="calculating-the-scagnostics">Calculating the scagnostics<a class="anchor" aria-label="anchor" href="#calculating-the-scagnostics"></a>
+</h3>
 <p>Here we will go through an example on the datasauRus dozen data (which comes loaded with the package). This data has several pairwise plots variables with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the <code>cassowaryr</code> package. Here is a plot of the selected datasauRus dozen plots:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr" class="external-link">cassowaryr</a></span><span class="op">)</span>
@@ -249,9 +249,9 @@
 </tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="using-the-scagnostics">Using the scagnostics<a class="anchor" aria-label="anchor" href="#using-the-scagnostics"></a>
-</h2>
+<div class="section level3">
+<h3 id="using-the-scagnostics">Using the scagnostics<a class="anchor" aria-label="anchor" href="#using-the-scagnostics"></a>
+</h3>
 <p>If the resulting scagnostic data set is small enough, we can find interesting scatter plots by simply looking at the table, however this is often not the case. If we want to find pairwise plots that are different to the others, we can find outliers on combinations of the scagnostics using an interactive scatter plot matrix (SPLOM). The code (but not the output) on how to do this is shown below:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/" class="external-link">GGally</a></span><span class="op">)</span>
@@ -303,9 +303,9 @@
 </tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="diagnosing-strange-results">Diagnosing strange results<a class="anchor" aria-label="anchor" href="#diagnosing-strange-results"></a>
-</h2>
+<div class="section level3">
+<h3 id="diagnosing-strange-results">Diagnosing strange results<a class="anchor" aria-label="anchor" href="#diagnosing-strange-results"></a>
+</h3>
 <p>Occasionally we will get unexpected results for a scagnostic. To allow users to diagnose their own scagnostics, the package has several draw functions that will plot the graph based objects that were used to construct the measures. There is a draw function for the alpha hull, convex hull and MST. Below is an example of the MST function <code>draw_mst</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">drawexample</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -334,7 +334,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
