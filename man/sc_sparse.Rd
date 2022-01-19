@@ -7,18 +7,20 @@
 \alias{sc_sparse.igraph}
 \title{Compute sparse scagnostic measure using MST}
 \usage{
-sc_sparse(x, y)
+sc_sparse(x, y, ...)
 
-\method{sc_sparse}{default}(x, y)
+\method{sc_sparse}{default}(x, y, ...)
 
-\method{sc_sparse}{scree}(x, y = NULL)
+\method{sc_sparse}{scree}(x, y = NULL, ...)
 
-\method{sc_sparse}{igraph}(x, y)
+\method{sc_sparse}{igraph}(x, y, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's sparse score.

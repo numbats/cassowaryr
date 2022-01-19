@@ -7,18 +7,20 @@
 \alias{sc_striated.igraph}
 \title{Compute striated scagnostic measure using MST}
 \usage{
-sc_striated(x, y)
+sc_striated(x, y, ...)
 
-\method{sc_striated}{default}(x, y)
+\method{sc_striated}{default}(x, y, ...)
 
-\method{sc_striated}{scree}(x, y = NULL)
+\method{sc_striated}{scree}(x, y = NULL, ...)
 
-\method{sc_striated}{igraph}(x, y)
+\method{sc_striated}{igraph}(x, y, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's striated score.

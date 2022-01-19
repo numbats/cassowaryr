@@ -7,18 +7,20 @@
 \alias{sc_skinny.list}
 \title{Compute skinny scagnostic measure}
 \usage{
-sc_skinny(x, y)
+sc_skinny(x, y, ...)
 
-\method{sc_skinny}{default}(x, y)
+\method{sc_skinny}{default}(x, y, ...)
 
-\method{sc_skinny}{scree}(x, y = NULL)
+\method{sc_skinny}{scree}(x, y = NULL, ...)
 
-\method{sc_skinny}{list}(x, y = NULL)
+\method{sc_skinny}{list}(x, y = NULL, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's skinny score.

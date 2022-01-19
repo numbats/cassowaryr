@@ -10,7 +10,8 @@ calc_scags(
   scags = c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed",
     "convex", "skinny", "monotonic", "splines", "dcor"),
   out.rm = TRUE,
-  euclid = FALSE
+  euclid = FALSE,
+  ...
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ skinny, monotonic, splines, dcor}
 \item{out.rm}{logical indicator to indicate if outliers should be removed before calculating non outlying measures}
 
 \item{euclid}{logical indicator to use Euclidean distance}
+
+\item{...}{other args}
 }
 \value{
 A data frame that gives the single plot's scagnostic score.

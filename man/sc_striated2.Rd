@@ -7,18 +7,20 @@
 \alias{sc_striated2.igraph}
 \title{Compute angle adjusted striated measure using MST}
 \usage{
-sc_striated2(x, y)
+sc_striated2(x, y, ...)
 
-\method{sc_striated2}{default}(x, y)
+\method{sc_striated2}{default}(x, y, ...)
 
-\method{sc_striated2}{scree}(x, y = NULL)
+\method{sc_striated2}{scree}(x, y = NULL, ...)
 
-\method{sc_striated2}{igraph}(x, y)
+\method{sc_striated2}{igraph}(x, y, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values, or an MST object}
 
 \item{y}{numeric vector of y values, or a scree object}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's striated2 score.

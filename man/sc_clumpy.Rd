@@ -7,18 +7,20 @@
 \alias{sc_clumpy.igraph}
 \title{Compute clumpy scagnostic measure using MST}
 \usage{
-sc_clumpy(x, y)
+sc_clumpy(x, y, ...)
 
-\method{sc_clumpy}{default}(x, y)
+\method{sc_clumpy}{default}(x, y, ...)
 
-\method{sc_clumpy}{scree}(x, y = NULL)
+\method{sc_clumpy}{scree}(x, y = NULL, ...)
 
-\method{sc_clumpy}{igraph}(x, y)
+\method{sc_clumpy}{igraph}(x, y, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's clumpy score.

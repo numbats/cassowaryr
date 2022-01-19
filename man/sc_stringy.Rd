@@ -7,18 +7,20 @@
 \alias{sc_stringy.igraph}
 \title{Compute stringy scagnostic measure using MST}
 \usage{
-sc_stringy(x, y)
+sc_stringy(x, y, ...)
 
-\method{sc_stringy}{default}(x, y)
+\method{sc_stringy}{default}(x, y, ...)
 
-\method{sc_stringy}{scree}(x, y = NULL)
+\method{sc_stringy}{scree}(x, y = NULL, ...)
 
-\method{sc_stringy}{igraph}(x, y = NULL)
+\method{sc_stringy}{igraph}(x, y = NULL, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's stringy score.

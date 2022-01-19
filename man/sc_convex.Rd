@@ -7,18 +7,20 @@
 \alias{sc_convex.list}
 \title{Compute convex scagnostic measure}
 \usage{
-sc_convex(x, y)
+sc_convex(x, y, ...)
 
-\method{sc_convex}{default}(x, y)
+\method{sc_convex}{default}(x, y, ...)
 
-\method{sc_convex}{scree}(x, y = NULL)
+\method{sc_convex}{scree}(x, y = NULL, ...)
 
-\method{sc_convex}{list}(x, y)
+\method{sc_convex}{list}(x, y, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's convex score.

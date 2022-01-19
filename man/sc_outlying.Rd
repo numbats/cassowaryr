@@ -7,18 +7,20 @@
 \alias{sc_outlying.igraph}
 \title{Compute outlying scagnostic measure using MST}
 \usage{
-sc_outlying(x, y)
+sc_outlying(x, y, ...)
 
-\method{sc_outlying}{default}(x, y)
+\method{sc_outlying}{default}(x, y, ...)
 
-\method{sc_outlying}{scree}(x, y = NULL)
+\method{sc_outlying}{scree}(x, y = NULL, ...)
 
-\method{sc_outlying}{igraph}(x, y)
+\method{sc_outlying}{igraph}(x, y, ...)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{...}{other args}
 }
 \value{
 A "numeric" object that gives the plot's outlying score.
