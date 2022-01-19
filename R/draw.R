@@ -8,6 +8,7 @@
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
+#' @param ...  other args
 #' @param out.rm option to return the outlier removed alphahull
 #' @return A alphahull::ahull(del, alpha = alpha)"gg" object that draws the plot's alpha hull.
 #' @examples
@@ -18,10 +19,10 @@
 #' nl <- features %>% filter(feature == "clusters")
 #' draw_alphahull(nl$x, nl$y, fill=TRUE)
 #' @export
-draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE, ...) {
   x1 <- x2 <- y1 <- y2 <- NULL
   #make scree
-  sc_objs <- original_and_robust(x,y)
+  sc_objs <- original_and_robust(x,y,...)
   scr <- sc_objs$scree_ori
   if(out.rm) scr <- sc_objs$scree_rob
 
@@ -71,6 +72,7 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #' @param y numeric vector
 #' @param alpha The alpha value used to build the graph object. Larger values allow points further apart to be connected.
 #' @param out.rm option to return the outlier removed MST
+#' @param ...  other args
 #' @return A "gg" object that draws the plot's MST.
 #' @examples
 #' require(dplyr)
@@ -79,10 +81,10 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_mst(nl$x, nl$y)
 #' @export
-draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE) {
+draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE, ...) {
   ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
   #build scree
-  scree_obj <- original_and_robust(x, y)
+  scree_obj <- original_and_robust(x, y, ...)
   scree <- scree_obj$scree_ori
   if(out.rm) scree <- scree_obj$scree_rob
 
@@ -116,6 +118,7 @@ draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE) {
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
 #' @param out.rm option to return the outlier removed convex hull
+#' @param ...  other args
 #' @return A "gg" object that draws the plot's convex hull.
 #' @examples
 #' require(dplyr)
@@ -124,10 +127,10 @@ draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE) {
 #' nl <- features %>% filter(feature == "clusters")
 #' draw_convexhull(nl$x, nl$y, fill=TRUE, out.rm=FALSE)
 #' @export
-draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE, ...) {
   x1 <- x2 <- y1 <- y2 <- NULL # happy cran checks
   # make scree and convex hull
-  scree_obj <- original_and_robust(x, y)
+  scree_obj <- original_and_robust(x, y, ...)
   sc <- scree_obj$scree_ori
   if(out.rm) sc <- scree_obj$scree_rob
   chull <- gen_conv_hull(sc$del)
