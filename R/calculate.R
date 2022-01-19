@@ -7,6 +7,7 @@
 #' skinny, monotonic, splines, dcor
 #' @param euclid logical indicator to use Euclidean distance
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
+#' @param ...  other args
 #' @return A data frame that gives the data's scagnostic scores for each possible variable combination.
 #' @seealso calc_scags
 #' @examples
@@ -17,7 +18,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = FALSE){
+calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = FALSE, ...){
 
   # Check for typos/misspellings in scags list
   validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
@@ -56,16 +57,16 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated2"
     dplyr::group_by(Var1, Var2) %>%
     dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
                                         data=all_data,
-                                        scags=scags, out.rm, euclid, pb)) %>%
+                                        scags=scags, out.rm, euclid, pb, ...)) %>%
     dplyr::ungroup()
 
 }
 
-intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
+intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb, ...){
   pb$tick()
   x <- dplyr::pull(data, var=vars[[1]])
   y <- dplyr::pull(data, var=vars[[2]])
-  return(calc_scags(x, y, scags, out.rm, euclid))
+  return(calc_scags(x, y, scags, out.rm, euclid, ...))
 }
 
 #' Compute selected scagnostics on subsets
@@ -78,6 +79,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' skinny, monotonic, splines, dcor
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
 #' @param euclid logical indicator to use Euclidean distance
+#' @param ...  other args
 #' @return A data frame that gives the single plot's scagnostic score.
 #' @seealso calc_scags_wide
 #' @examples
@@ -92,7 +94,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm=TRUE, euclid=FALSE){
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm=TRUE, euclid=FALSE, ...){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
@@ -131,7 +133,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
   stopifnot(stats::sd(x)>0, stats::sd(y)>0)
 
   #make original and outlying adjusted scree+mst
-  sm_list <- original_and_robust(x,y)
+  sm_list <- original_and_robust(x,y, ...)
 
   if(is.null(sm_list)){
     # this is null when one of the variables is constant after outlier removal
