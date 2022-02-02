@@ -5,3 +5,5 @@ We have addressed the problems with initial submission. There is no associated p
 We have added a citation to a paper that describes some of the scagnsotic methods. 
 
 We have changed the license to just read ACM. Thank you for bringing the licensing issue to our attention, we are now working on an alternative to the alphahull and tripack packages, which we will implement in the 2.0 version of the package.
+
+There were 2 notes from the tests. First was for the license file which is no longer being used and has now been deleted. The second looks as though it is for the spelling of scagnostic, which is not mispelt, so this note is not a real issue with the package.
