@@ -41,11 +41,11 @@ NULL
 #' @name datasaurus_dozen
 NULL
 
-#' Data from Anscombe's famous example in tidy wide format
+#' datasaurus_dozen_wide data
 #'
-#' All variables and pairs of variables have same
-#' summary statistics but are very different data,
-#' as can be seen by visualisation.
+#' From the datasauRus package. A modern update of Anscombe.
+#' All plots have same x and y mean, variance and correlation,
+#' but look different visually.
 #'
 #' @format A tibble with 142 observations and 26 variables
 #' \describe{
