@@ -2,13 +2,13 @@ citHeader("To cite cassowaryr in publications use:")
 
 citEntry(
   entry    = "inproceedings",
-  author={Wilkinson, L. and Anand, A. and Grossman, R.},
-  booktitle={IEEE Symposium on Information Visualization, 2005. INFOVIS 2005.},
-  title={Graph-theoretic scagnostics},
-  year={2005},
-  volume={},
-  number={},
-  pages={157-164},
-  doi={10.1109/INFVIS.2005.1532142},
-  textVersion = paste("L. Wilkinson, A. Anand and R. Grossman, "Graph-theoretic scagnostics," IEEE Symposium on Information Visualization, 2005. INFOVIS 2005., 2005, pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.")
+  author   = "Wilkinson, L. and Anand, A. and Grossman, R.",
+  booktitle= "IEEE Symposium on Information Visualization, 2005. INFOVIS 2005.",
+  title    = "Graph-theoretic scagnostics",
+  year     = "2005",
+  volume   = "",
+  number   = "",
+  pages    = "157-164",
+  doi      = "10.1109/INFVIS.2005.1532142",
+  textVersion = paste("L. Wilkinson, A. Anand and R. Grossman, Graph-theoretic scagnostics, IEEE Symposium on Information Visualization, 2005. INFOVIS 2005., 2005, pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.")
 )
