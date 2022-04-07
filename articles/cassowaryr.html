@@ -133,7 +133,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"dataset"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, aspect.ratio<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="cassowaryr_files/figure-html/setup-1.png" width="700"></p>
+<p><img src="cassowaryr_files/figure-html/setup-1.png" width="50%" style="display: block; margin: auto;"></p>
 <p>From a data frame, there are several ways to calculate scagnostics. If we simply have two variables we wish to calculate several scagnostics on, we use the <code>calc_scags</code> function and pass through the two variables as vectors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">exampledata</span><span class="op">$</span><span class="va">x</span>, <span class="va">exampledata</span><span class="op">$</span><span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -304,13 +304,13 @@
 <div class="section level3">
 <h3 id="drawing-functions">Drawing functions<a class="anchor" aria-label="anchor" href="#drawing-functions"></a>
 </h3>
-<p>Occasionally we will get unexpected results for a scagnostic. To allow users to diagnose their own scagnostics, the package has several draw functions that will plot the graph based objects that were used to construct the measures. There is a draw function for the alpha hull, convex hull and MST. Below is an example of the MST function <code>draw_mst</code>.</p>
+<p>Occasionally we will get unexpected results for a scagnostic. To diagnose a scagnostic result, the package has several draw functions that will plot the graph based objects that are used to construct the measures: <code><a href="../reference/draw_alphahull.html">draw_alphahull()</a></code>, <code><a href="../reference/draw_convexhull.html">draw_convexhull()</a></code> and <code><a href="../reference/draw_mst.html">draw_mst()</a></code>. Below shows the MST drawn for the <code>dots</code> pair of variables in the <code>datasaurus_dozen</code>, and it can be seen to have some difficulty, as would be expected, defining the MST when all points are equidistant.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">drawexample</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://ggobi.github.io/ggally/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span> <span class="st">"dots"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/draw_mst.html">draw_mst</a></span><span class="op">(</span><span class="va">drawexample</span><span class="op">$</span><span class="va">x</span>, <span class="va">drawexample</span><span class="op">$</span><span class="va">y</span>, alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="cassowaryr_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="cassowaryr_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
