@@ -17,7 +17,7 @@ to triangulation}
 \value{
 An object of class "scree" that consists of three elements:
 \itemize{
-\item \code{del}: the Delauney-Vornoi tesselation from \code{\link[alphahull:delvor]{alphahull::delvor()}}
+\item \code{del}: the Delauney-Voronoi tesselation from \code{\link[alphahull:delvor]{alphahull::delvor()}}
 \item \code{weights}: the lengths of each edge in the Delauney triangulation
 \item \code{alpha}: the radius or \code{alpha} value that will be used to generate the
 alphahull
