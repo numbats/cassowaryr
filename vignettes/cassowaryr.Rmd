@@ -42,7 +42,7 @@ to install the development version.
 
 The usage is illustrated with the package's example data, datasauRus dozen. This data is also available in the datasauRus package. There are several pairs of variables that have with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the `cassowaryr` package. Here is a plot of the selected datasauRus dozen plots:
 
-```{r setup}
+```{r setup, fig.align='center', out.width="50%", fig.width=6, fig.height=6}
 library(cassowaryr)
 library(ggplot2)
 library(dplyr)
@@ -113,9 +113,9 @@ top_scags(widescags) %>%
 
 ## Drawing functions
 
-Occasionally we will get unexpected results for a scagnostic. To allow users to diagnose their own scagnostics, the package has several draw functions that will plot the graph based objects that were used to construct the measures. There is a draw function for the alpha hull, convex hull and MST. Below is an example of the MST function `draw_mst`.
+Occasionally we will get unexpected results for a scagnostic. To diagnose a scagnostic result, the package has several draw functions that will plot the graph based objects that are used to construct the measures: `draw_alphahull()`, `draw_convexhull()` and `draw_mst()`.  Below shows the MST drawn for the `dots` pair of variables in the `datasaurus_dozen`, and it can be seen to have some difficulty, as would be expected, defining the MST when all points are equidistant.
 
-```{r}
+```{r fig.align='center', out.width="50%", fig.width=4, fig.height=4}
 drawexample <- exampledata %>%
   filter(dataset== "dots")
 
