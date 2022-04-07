@@ -6,7 +6,7 @@
 #' @param ...  other args
 #'
 #' @return An object of class "scree" that consists of three elements:
-#'  - `del`: the Delauney-Vornoi tesselation from [alphahull::delvor()]
+#'  - `del`: the Delauney-Voronoi tesselation from [alphahull::delvor()]
 #'  - `weights`: the lengths of each edge in the Delauney triangulation
 #'  - `alpha`: the radius or `alpha` value that will be used to generate the
 #'  alphahull

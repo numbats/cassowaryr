@@ -19,9 +19,9 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `cassowaryr` package provides functions to compute scagnostics on pairs of numeric variables in a data set.  
-
 The term __scagnostics__ refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R and is designed to be easily integrated into a tidy data workflow.  
+
+The `cassowaryr` package provides functions to compute scagnostics on pairs of numeric variables in a data set.  
 
 The package's primary use is as a step in exploratory data analysis, to give users an idea of the shape of their data and identify interesting pairwise relationships. 
 
@@ -39,7 +39,8 @@ to install the development version.
 
 # Examples 
 ## Calculating the scagnostics
-Here we will go through an example on the datasauRus dozen data (which comes loaded with the package). This data has several pairwise plots variables with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the `cassowaryr` package. Here is a plot of the selected datasauRus dozen plots:
+
+The usage is illustrated with the package's example data, datasauRus dozen. This data is also available in the datasauRus package. There are several pairs of variables that have with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the `cassowaryr` package. Here is a plot of the selected datasauRus dozen plots:
 
 ```{r setup}
 library(cassowaryr)
@@ -63,7 +64,7 @@ exampledata %>%
 From a data frame, there are several ways to calculate scagnostics. If we simply have two variables we wish to calculate several scagnostics on, we use the `calc_scags` function and pass through the two variables as vectors.
 
 ```{r}
-calc_scags(exampledata$x, exampledata$y, scags=c("clumpy2", "convex", "striated2", "dcor")) %>%
+calc_scags(exampledata$x, exampledata$y, scags=c("clumpy2", "convex", "striated2")) %>%
   knitr::kable(digits=4, align="c")
 ```
 
@@ -86,6 +87,7 @@ head(widescags, 4) %>%
 ```
 
 ## Using the scagnostics
+
 If the resulting scagnostic data set is small enough, we can find interesting scatter plots by simply looking at the table, however this is often not the case. If we want to find pairwise plots that are different to the others, we can find outliers on combinations of the scagnostics using an interactive scatter plot matrix (SPLOM). The code (but not the output) on how to do this is shown below:
 
 ```{r, eval=FALSE}
@@ -101,7 +103,7 @@ p <- ggpairs(splom_data, columns=c(1:4), aes(label=lab)) +
 ggplotly(p) 
 ```
 
-There are also a handful of functions that can summarise the scagnostic data. Using `top_pairs` allows us to find the top scagnostic for each pair of variables, while `top_scags` finds the top pair of variables for each scagnostic. Their usage is identical and shown below:
+There are several functions that can summarise the scagnostics results. Using `top_pairs` allows us to find the top scagnostic for each pair of variables, while `top_scags` finds the top pair of variables for each scagnostic. Their usage is similar and looks like:
 
 ```{r}
 top_scags(widescags) %>%
@@ -109,7 +111,8 @@ top_scags(widescags) %>%
 ```
 
 
-## Diagnosing strange results
+## Drawing functions
+
 Occasionally we will get unexpected results for a scagnostic. To allow users to diagnose their own scagnostics, the package has several draw functions that will plot the graph based objects that were used to construct the measures. There is a draw function for the alpha hull, convex hull and MST. Below is an example of the MST function `draw_mst`.
 
 ```{r}
@@ -120,3 +123,9 @@ draw_mst(drawexample$x, drawexample$y, alpha=0.2) + theme_minimal()
 ```
 
 
+# References
+
+Tukey, J. W. and Tukey, P. A. (1985). "Computer graphics and exploratory data analysis: An introduction", In Proceedings of the Sixth Annual Conference and Exposition: Computer
+Graphics'85, 3:773-785. National Computer Graphics Association, Fairfax, VA.
+
+Wilkinson, L., Anand, A. and Grossman, R. (2005) "Graph-theoretic scagnostics", IEEE Symposium on Information Visualization, 2005. INFOVIS 2005., pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.
