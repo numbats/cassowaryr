@@ -54,9 +54,10 @@ sc_stringy.igraph <- function(x, y=NULL) {
 #' @examples
 #'   require(ggplot2)
 #'   require(dplyr)
-#'   ggplot(features, aes(x=x, y=y)) +
-#'      geom_point() +
-#'      facet_wrap(~feature, ncol = 5, scales = "free")
+#'   data(anscombe_tidy)
+#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
+#'     geom_point() +
+#'     facet_wrap(~set, ncol=2, scales = "free")
 #'   sc_striated(anscombe$x1, anscombe$y1)
 #'   sc_striated(anscombe$x2, anscombe$y2)
 #'
