@@ -92,7 +92,7 @@ sc_skinny.list <- function(x, y=NULL){
 }
 
 gen_conv_hull <- function(del) {
-  tripack::convex.hull(del$tri.obj)
+  interp::convex.hull(del$tri.obj)
 }
 
 gen_alpha_hull <- function(del, alpha) {
