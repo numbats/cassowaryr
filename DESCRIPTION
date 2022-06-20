@@ -32,7 +32,7 @@ Imports:
     igraph,
     alphahull,
     splancs,
-    tripack,
+    interp,
     dplyr,
     ggplot2,
     magrittr,
