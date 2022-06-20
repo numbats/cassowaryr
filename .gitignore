@@ -5,3 +5,7 @@
 /doc/
 /Meta/
 CRAN-RELEASE
+.DS_Store
+data/.DS_Store
+tests/.DS_Store
+tests/testthat/.DS_Store
