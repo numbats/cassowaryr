@@ -22,7 +22,7 @@ y1 <- c(10,10,0,0,0,0,10,10)
 # Stringy Test
 x1 <- c(0,10,20,30,40,50,60,70,80,90,100, 15)
 y1 <- c(0,10,20,30,40,50,60,70,80,90,100, 25)
-plot(x1,y1)
+#plot(x1,y1)
 
 test_that("Stringy Scagnotist", {
   expect_equal(sc_stringy(x1,y1), (8/9))
