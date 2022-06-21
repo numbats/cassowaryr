@@ -119,7 +119,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
     scags <- validpased #replace scags list with only valid scags
   }
 
-  # Remove missings
+  # Remove missing values
   d <- tibble::tibble(x=x, y=y)
   d <- d[stats::complete.cases(d),]
   if (length(x) > nrow(d))
@@ -127,10 +127,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated2", "clumpy
   x <- d$x
   y <- d$y
 
-  # Check for constant variance
-  stopifnot(stats::sd(x)>0, stats::sd(y)>0)
-
-  #make original and outlying adjusted scree+mst
+  # Make original and outlying adjusted scree+mst
   sm_list <- original_and_robust(x,y)
 
   if(is.null(sm_list)){
