@@ -98,3 +98,7 @@ test_that("Striated2 Tests", {
   expect_equal(sc_striated2(x1,y1), 1)
   expect_equal(sc_striated2(x2,y2), 0.8)
 })
+
+# Triangle collapsed data
+x <- seq(15)
+y <- c(8,9,10,9,8,7,6,5,4,3,2,1,0,1,2)
