@@ -9,3 +9,4 @@ CRAN-RELEASE
 data/.DS_Store
 tests/.DS_Store
 tests/testthat/.DS_Store
+ahulldebug.R
