@@ -30,7 +30,7 @@ BugReports: https://github.com/numbats/cassowaryr/issues
 Depends: R (>= 4.0.0)
 Imports: 
     igraph,
-    alphahull,
+    alphahull (== 2.4),
     splancs,
     tripack,
     dplyr,
