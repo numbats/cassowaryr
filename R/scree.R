@@ -23,11 +23,7 @@ scree <- function(x, y, binner = NULL, ...) {
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
   )
-  # Check if data is a straight line
-  if (any(abs(stats::cor(x,y))>1-1*10^-15, !stats::sd(x)>0, !stats::sd(y)>0))
-    stop("Data is a perfectly straight line and cannot be analysed")
 
-  # Binner must be a function
   if (!(is.null(binner) | is.function(binner)))
     stop("binner must be a function")
 
@@ -35,10 +31,8 @@ scree <- function(x, y, binner = NULL, ...) {
   xy <- cbind(unitize(x), unitize(y))
 
   # Check for duplicates and remove
-  dupes <- paste(x, y, sep =",")
-  xy <- xy[!duplicated(dupes),]
+  xy <- xy[!duplicated(xy),]
 
-  # Binner function
   if (is.function(binner)) {
     xy <- binner(xy)
   }

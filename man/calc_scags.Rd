@@ -7,8 +7,8 @@
 calc_scags(
   x,
   y,
-  scags = c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2",
-    "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"),
+  scags = c("outlying", "stringy", "striated2", "clumpy2", "sparse", "skewed",
+    "convex", "skinny", "monotonic", "splines", "dcor"),
   out.rm = TRUE,
   euclid = FALSE
 )

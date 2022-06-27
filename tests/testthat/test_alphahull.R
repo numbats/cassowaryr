@@ -10,7 +10,7 @@ data <- tibble(r = runif(20000, 0,1),
   mutate(x = r*cos(theta),
          y = r*sin(theta))
 
-#plot(data$x,data$y)
+plot(data$x,data$y)
 
 # Test Skinny Scagnostic
 test_that("Stringy Scagnotist", {

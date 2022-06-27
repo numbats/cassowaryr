@@ -8,7 +8,7 @@ set.seed(4213)
 x2 <- c(0,10,10,10,20,80,90,90,90,100,10,90)
 y2 <- c(50,60,50,40,50,50,60,50,40,50,100,0)
 
-#plot(x2,y2)
+plot(x2,y2)
 
 test_that("Clumpy Scagnotist", {
   expect_equal(sc_clumpy(x2,y2), (1-0.4/0.6))
@@ -17,7 +17,7 @@ test_that("Clumpy Scagnotist", {
 # Test for extra clumpy issue
 x1 <- c(0,1,4,4.0001, 6, 6.0001, 9, 10)
 y1 <- c(10,10,0,0,0,0,10,10)
-#sc_clumpy(x1,y1)
+sc_clumpy(x1,y1)
 
 # Stringy Test
 x1 <- c(0,10,20,30,40,50,60,70,80,90,100, 15)
@@ -29,8 +29,12 @@ test_that("Stringy Scagnotist", {
 })
 
 #Striated test
+x1 <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+y1 <- c(8,9,10,9,8,7,6,5,4,3,2,1,0,1,2)
+#plot(x1,y1)
+
 test_that("Striated Scagnotist", {
-  expect_equal(sc_striated(x1,y1), (6/9))
+  expect_equal(sc_striated(x1,y1), (11/15))
 })
 
 # Sparse Test
@@ -98,7 +102,3 @@ test_that("Striated2 Tests", {
   expect_equal(sc_striated2(x1,y1), 1)
   expect_equal(sc_striated2(x2,y2), 0.8)
 })
-
-# Triangle collapsed data
-x <- seq(15)
-y <- c(8,9,10,9,8,7,6,5,4,3,2,1,0,1,2)
