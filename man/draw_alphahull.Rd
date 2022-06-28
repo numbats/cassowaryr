@@ -4,12 +4,22 @@
 \alias{draw_alphahull}
 \title{Drawing the alphahull}
 \usage{
-draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
+draw_alphahull(
+  x,
+  y,
+  ahull_alpha = 0.2,
+  alpha = 0.5,
+  clr = "black",
+  fill = FALSE,
+  out.rm = TRUE
+)
 }
 \arguments{
 \item{x}{numeric vector}
 
 \item{y}{numeric vector}
+
+\item{ahull_alpha}{parameter for alphahull}
 
 \item{alpha}{transparency value of points}
 
@@ -20,7 +30,7 @@ draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
 \item{out.rm}{option to return the outlier removed alphahull}
 }
 \value{
-A alphahull::ahull(del, alpha = alpha)"gg" object that draws the plot's alpha hull.
+A alphahull::ahull(del, alpha = alpha) "gg" object that draws the plot's alpha hull.
 }
 \description{
 This function will draw the alphahull for a
@@ -32,5 +42,5 @@ require(ggplot2)
 require(alphahull)
 data("features")
 nl <- features \%>\% filter(feature == "clusters")
-draw_alphahull(nl$x, nl$y, fill=TRUE)
+draw_alphahull(nl$x, nl$y, ahull_alpha=0.13)
 }
