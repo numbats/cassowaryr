@@ -5,20 +5,21 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
+#' @param ahull_alpha parameter for alphahull
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
 #' @param out.rm option to return the outlier removed alphahull
-#' @return A alphahull::ahull(del, alpha = alpha)"gg" object that draws the plot's alpha hull.
+#' @return A alphahull::ahull(del, alpha = alpha) "gg" object that draws the plot's alpha hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
 #' require(alphahull)
 #' data("features")
 #' nl <- features %>% filter(feature == "clusters")
-#' draw_alphahull(nl$x, nl$y, fill=TRUE)
+#' draw_alphahull(nl$x, nl$y)
 #' @export
-draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_alphahull <- function(x, y, ahull_alpha = 0.2, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL
   #make scree
   sc_objs <- original_and_robust(x,y)
@@ -27,7 +28,7 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 
   #make alpha hull
   #d_ahull <- alphahull::ahull(x, y, a=alpha)
-  ahull <- alphahull::ahull(scr$del, alpha=scr$alpha)
+  ahull <- alphahull::ahull(scr$del, alpha=ahull_alpha) #scr$alpha)
   #d_ahull <- tibble::as_tibble(ahull$ashape.obj$edges)
 
   d_ahull <- tibble::tibble(x1 = ahull[["xahull"]][,1][ahull[["arcs"]][,7]],
