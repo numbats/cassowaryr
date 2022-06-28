@@ -17,7 +17,7 @@
 #' require(alphahull)
 #' data("features")
 #' nl <- features %>% filter(feature == "clusters")
-#' draw_alphahull(nl$x, nl$y)
+#' draw_alphahull(nl$x, nl$y, ahull_alpha=0.13)
 #' @export
 draw_alphahull <- function(x, y, ahull_alpha = 0.2, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL
