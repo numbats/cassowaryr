@@ -5,7 +5,6 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
-#' @param ahull_alpha parameter for alphahull
 #' @param alpha transparency value of points
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon

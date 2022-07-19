@@ -18,8 +18,6 @@ draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
 \item{fill}{Fill the polygon}
 
 \item{out.rm}{option to return the outlier removed alphahull}
-
-\item{ahull_alpha}{parameter for alphahull}
 }
 \value{
 A alphahull::ahull(del, alpha = alpha) "gg" object that draws the plot's alpha hull.
