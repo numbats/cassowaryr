@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cassowaryr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
@@ -51,13 +51,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.0.0" id="cassowaryr-100">cassowaryr 1.0.0<a class="anchor" aria-label="anchor" href="#cassowaryr-100"></a></h2>
-<p>This package contains functions to compute scagnostics measuring different patterns in scatterplots.</p>
-</div>
+<h2 class="page-header" data-toc-text="2.0.0" id="cassowaryr-200-current">cassowaryr 2.0.0 (Current)<a class="anchor" aria-label="anchor" href="#cassowaryr-200-current"></a></h2>
+<ul><li>In line with the alphahull 2.5 update, cassowaryr is now dependent on the package interp instead of tripack and which results in some issues to be addressed: – <code><a href="../reference/scree.html">scree()</a></code> which calculates the convex and alpha hulls will return an error for any scatter plot where most of the data lies on a straight line – <code><a href="../reference/scree.html">scree()</a></code> can take significantly longer on a select few scatter plots</li>
+<li>The energy package is now required instead of suggested</li>
+<li>The “line” subset in the <code>features</code> data is no longer a perfectly straight line to avoid the error above.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.1" id="cassowaryr-101">cassowaryr 1.0.1<a class="anchor" aria-label="anchor" href="#cassowaryr-101"></a></h2>
-<p>All functions now have a value description. The draw functions now have the option for outlier removal. The draw_alphahull function fill option now fills the polygon.</p>
-</div>
+<ul><li>All functions now have a value description.</li>
+<li>The draw functions now have the option for outlier removal.</li>
+<li>
+<code><a href="../reference/draw_alphahull.html">draw_alphahull()</a></code> function fill option now fills the polygon.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.0" id="cassowaryr-100">cassowaryr 1.0.0<a class="anchor" aria-label="anchor" href="#cassowaryr-100"></a></h2>
+<ul><li>This package contains functions to compute scagnostics measuring different patterns in scatter plots.</li></ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -72,7 +80,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
