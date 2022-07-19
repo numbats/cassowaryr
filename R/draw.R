@@ -17,9 +17,9 @@
 #' require(alphahull)
 #' data("features")
 #' nl <- features %>% filter(feature == "clusters")
-#' draw_alphahull(nl$x, nl$y, ahull_alpha=0.13)
+#' draw_alphahull(nl$x, nl$y)
 #' @export
-draw_alphahull <- function(x, y, ahull_alpha = 0.2, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL
   #make scree
   sc_objs <- original_and_robust(x,y)
@@ -28,7 +28,7 @@ draw_alphahull <- function(x, y, ahull_alpha = 0.2, alpha=0.5, clr = "black", fi
 
   #make alpha hull
   #d_ahull <- alphahull::ahull(x, y, a=alpha)
-  ahull <- alphahull::ahull(scr$del, alpha=ahull_alpha) #scr$alpha)
+  ahull <- alphahull::ahull(scr$del, alpha=scr$alpha) # ahull_alpha) leave it out for now
   #d_ahull <- tibble::as_tibble(ahull$ashape.obj$edges)
 
   d_ahull <- tibble::tibble(x1 = ahull[["xahull"]][,1][ahull[["arcs"]][,7]],
