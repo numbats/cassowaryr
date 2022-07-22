@@ -16,7 +16,7 @@ Authors@R:
              email = "ursula.laa@boku.ac.at", 
              role = "aut", 
              comment = c(ORCID = "0000-0002-0249-6439")),
-      person(given = "Di", 
+      person(given = "Dianne", 
              family = "Cook", 
              email = "dicook@monash.edu", 
              role = "aut", 

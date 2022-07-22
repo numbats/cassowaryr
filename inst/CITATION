@@ -35,5 +35,15 @@ citEntry(
   pages       = "III, 210",
   school      = "Universit{\"a}t Augsburg",
   year        = "2016",
-  textVersion = paste("K. Grimm, Kennzahlenbasierte Grafikauswahl, doctoral thesis, Universit{\"a}t Augsburg, 2016.")
+  textVersion = paste("K. Grimm, Kennzahlenbasierte Grafikauswahl, doctoral thesis, Universitat Augsburg, 2016.")
+)
+
+citEntry(
+  entry = "manual",
+  title = "cassowaryr: Compute Scagnostics on Pairs of Numeric Variables in a Data Set",
+  author = "Harriet Mason and Stuart Lee and Ursula Laa and Dianne Cook",
+  year = 2022,
+  note = "R package version 2.0.0",
+  url = "https://CRAN.R-project.org/package=cassowary",
+  textVersion = paste("H. Mason, Lee, S., Laa, U. and Cook, D. (2022) cassowaryr: Compute Scagnostics on Pairs of Numeric Variables in a Data Set. R package version 2.0.0. https://CRAN.R-project.org/package=cassowary")
 )
