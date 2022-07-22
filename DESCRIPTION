@@ -21,13 +21,12 @@ Authors@R:
              email = "dicook@monash.edu", 
              role = "aut", 
              comment = c(ORCID = "0000-0002-3813-7155")))
-Description: Computes a range of scatterplot diagnostics (scagnostics)
-  on pairs of numerical variables in a data set. A range of
-  scagnostics is provided including graph-based (as described by
-  Leland Wilkinson and Graham Wills (2008) <doi:10.1198/106186008X320465>),
-  including convex, clumpy, outlying, skinny, striated, and
-  association-based (described in the PhD thesis of Katrin Grimm), including
-  splines and dcor. Summary and plotting functions are included.
+Description: Computes a range of scatterplot diagnostics (scagnostics) on pairs
+  of numerical variables in a data set. A range of scagnostics, including graph
+  and association based scagnostics described by Leland Wilkinson and Graham
+  Wills (2008) <doi:10.1198/106186008X320465> and association-based
+  scagnostics described by Katrin Grimm (2016,ISBN:978-3-8439-3092-5) are
+  included in the package. Summary and plotting functions are included.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
