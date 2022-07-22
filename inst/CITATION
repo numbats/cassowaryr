@@ -12,3 +12,28 @@ citEntry(
   doi      = "10.1109/INFVIS.2005.1532142",
   textVersion = paste("L. Wilkinson, A. Anand and R. Grossman, Graph-theoretic scagnostics, IEEE Symposium on Information Visualization, 2005. INFOVIS 2005., 2005, pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.")
 )
+
+citEntry(
+  entry = "article",
+  author = "Leland Wilkinson and Graham Wills",
+  title = "Scagnostics Distributions",
+  journal = "Journal of Computational and Graphical Statistics",
+  volume = "17",
+  number = "2",
+  pages = "473-491",
+  year  = "2008",
+  publisher = "Taylor & Francis",
+  doi = "10.1198/106186008X320465",
+  textVersion = paste("L. Wilkinson and G. Wills (2008) Scagnostics Distributions, Journal of Computational and Graphical Statistics, 17(2), pp 473-491, doi:10.1198/106186008X320465")
+)
+
+citEntry(
+  entry = "phdthesis",
+  author      = "Katrin Grimm",
+  title       = "Kennzahlenbasierte Grafikauswahl",
+  type        = "doctoral thesis",
+  pages       = "III, 210",
+  school      = "Universit{\"a}t Augsburg",
+  year        = "2016",
+  textVersion = paste("K. Grimm, Kennzahlenbasierte Grafikauswahl, doctoral thesis, Universit{\"a}t Augsburg, 2016.")
+)
