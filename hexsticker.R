@@ -5,9 +5,9 @@ showtext_auto()
 
 imgurl <- "heximage.png"
 
-s <- sticker(imgurl, package="CassowaryR", p_color = "firebrick", p_size=4.5, p_x=1,
+s <- sticker(imgurl, package="CassowaryR", p_color = "firebrick", p_size=28, p_x=1,
              p_y = 1.6, h_fill="white",h_color="darkblue", p_family = "gochi",
-             s_x=1.1, s_y=0.9, s_width = 0.9, filename="hexfile.png")
+             s_x=1.1, s_y=0.9, s_width = 0.9, filename="hexfile.png", dpi = 600)
 
 plot(s)
 

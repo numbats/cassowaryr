@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# About
+# CassowaryR <a href="https://numbats.github.io/cassowaryr/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -56,10 +56,7 @@ data("datasaurus_dozen")
 datasaurus_dozen %>%
   dplyr::group_by(dataset)%>%
   dplyr::summarise(calc_scags(x, y, scags=c("clumpy2", "monotonic")))
-#> Registered S3 method overwritten by 'cli':
-#>   method     from         
-#>   print.boxx spatstat.geom
-#> # A tibble: 13 x 3
+#> # A tibble: 13 × 3
 #>    dataset    clumpy2 monotonic
 #>    <chr>        <dbl>     <dbl>
 #>  1 away        0        0.0573 
