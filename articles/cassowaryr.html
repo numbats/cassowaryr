@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>An introduction to the cassowaryr package • cassowaryr</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,6 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="An introduction to the cassowaryr package">
 <meta property="og:description" content="cassowaryr">
+<meta property="og:image" content="https://numbats.github.io/cassowaryr/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -66,7 +73,7 @@
 
       
 
-      </header><script src="cassowaryr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>An introduction to the cassowaryr package</h1>
@@ -84,9 +91,18 @@
 </h2>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The term <strong>scagnostics</strong> refers to scatter plot diagnostics, originally described by John and Paul Tukey. This is a collection of techniques for automatically extracting interesting visual features from pairs of variables. This package is an implementation of graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman (2005) in pure R and is designed to be easily integrated into a tidy data workflow.</p>
-<p>The <code>cassowaryr</code> package provides functions to compute scagnostics on pairs of numeric variables in a data set.</p>
-<p>The package’s primary use is as a step in exploratory data analysis, to give users an idea of the shape of their data and identify interesting pairwise relationships.</p>
+<p>The term <strong>scagnostics</strong> refers to scatter plot
+diagnostics, originally described by John and Paul Tukey. This is a
+collection of techniques for automatically extracting interesting visual
+features from pairs of variables. This package is an implementation of
+graph theoretic scagnostics developed by Wilkinson, Anand, and Grossman
+(2005) in pure R and is designed to be easily integrated into a tidy
+data workflow.</p>
+<p>The <code>cassowaryr</code> package provides functions to compute
+scagnostics on pairs of numeric variables in a data set.</p>
+<p>The package’s primary use is as a step in exploratory data analysis,
+to give users an idea of the shape of their data and identify
+interesting pairwise relationships.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -107,7 +123,13 @@
 <div class="section level3">
 <h3 id="calculating-the-scagnostics">Calculating the scagnostics<a class="anchor" aria-label="anchor" href="#calculating-the-scagnostics"></a>
 </h3>
-<p>The usage is illustrated with the package’s example data, datasauRus dozen. This data is also available in the datasauRus package. There are several pairs of variables that have with the same mean, variance and correlation but strikingly different visual features. We will use a handful of these pairwise plots to show the best way to utilise the <code>cassowaryr</code> package. Here is a plot of the selected datasauRus dozen plots:</p>
+<p>The usage is illustrated with the package’s example data, datasauRus
+dozen. This data is also available in the datasauRus package. There are
+several pairs of variables that have with the same mean, variance and
+correlation but strikingly different visual features. We will use a
+handful of these pairwise plots to show the best way to utilise the
+<code>cassowaryr</code> package. Here is a plot of the selected
+datasauRus dozen plots:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/numbats/cassowaryr" class="external-link">cassowaryr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -134,7 +156,10 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, aspect.ratio<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cassowaryr_files/figure-html/setup-1.png" width="50%" style="display: block; margin: auto;"></p>
-<p>From a data frame, there are several ways to calculate scagnostics. If we simply have two variables we wish to calculate several scagnostics on, we use the <code>calc_scags</code> function and pass through the two variables as vectors.</p>
+<p>From a data frame, there are several ways to calculate scagnostics.
+If we simply have two variables we wish to calculate several scagnostics
+on, we use the <code>calc_scags</code> function and pass through the two
+variables as vectors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">exampledata</span><span class="op">$</span><span class="va">x</span>, <span class="va">exampledata</span><span class="op">$</span><span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
@@ -150,7 +175,10 @@
 <td align="center">0.7955</td>
 </tr></tbody>
 </table>
-<p>If instead we have a data frame with two variables and a grouping variable (a long form of a data set) then we can use the <code>calc_scags</code> function to get the scagnostics for each group.</p>
+<p>If instead we have a data frame with two variables and a grouping
+variable (a long form of a data set) then we can use the
+<code>calc_scags</code> function to get the scagnostics for each
+group.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">longscags</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -196,7 +224,9 @@
 </tr>
 </tbody>
 </table>
-<p>Finally, if we have a wide data set consisting of only numerical variables, we can use the <code>calc_scags_wide</code> to find the scagnostics on every pairwise combination of variables.</p>
+<p>Finally, if we have a wide data set consisting of only numerical
+variables, we can use the <code>calc_scags_wide</code> to find the
+scagnostics on every pairwise combination of variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exampledata_wide</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen_wide</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">6</span>,<span class="fl">9</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">17</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">widescags</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_scags_wide.html">calc_scags_wide</a></span><span class="op">(</span><span class="va">exampledata_wide</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span>, <span class="st">"dcor"</span><span class="op">)</span><span class="op">)</span></span>
@@ -250,7 +280,12 @@
 <div class="section level3">
 <h3 id="using-the-scagnostics">Using the scagnostics<a class="anchor" aria-label="anchor" href="#using-the-scagnostics"></a>
 </h3>
-<p>If the resulting scagnostic data set is small enough, we can find interesting scatter plots by simply looking at the table, however this is often not the case. If we want to find pairwise plots that are different to the others, we can find outliers on combinations of the scagnostics using an interactive scatter plot matrix (SPLOM). The code (but not the output) on how to do this is shown below:</p>
+<p>If the resulting scagnostic data set is small enough, we can find
+interesting scatter plots by simply looking at the table, however this
+is often not the case. If we want to find pairwise plots that are
+different to the others, we can find outliers on combinations of the
+scagnostics using an interactive scatter plot matrix (SPLOM). The code
+(but not the output) on how to do this is shown below:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/" class="external-link">GGally</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span>
@@ -262,7 +297,11 @@
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">ggpairs</a></span><span class="op">(</span><span class="va">splom_data</span>, columns<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">lab</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">ggplotly</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> </span></code></pre></div>
-<p>There are several functions that can summarise the scagnostics results. Using <code>top_pairs</code> allows us to find the top scagnostic for each pair of variables, while <code>top_scags</code> finds the top pair of variables for each scagnostic. Their usage is similar and looks like:</p>
+<p>There are several functions that can summarise the scagnostics
+results. Using <code>top_pairs</code> allows us to find the top
+scagnostic for each pair of variables, while <code>top_scags</code>
+finds the top pair of variables for each scagnostic. Their usage is
+similar and looks like:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/top_scags.html">top_scags</a></span><span class="op">(</span><span class="va">widescags</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
@@ -304,7 +343,15 @@
 <div class="section level3">
 <h3 id="drawing-functions">Drawing functions<a class="anchor" aria-label="anchor" href="#drawing-functions"></a>
 </h3>
-<p>Occasionally we will get unexpected results for a scagnostic. To diagnose a scagnostic result, the package has several draw functions that will plot the graph based objects that are used to construct the measures: <code><a href="../reference/draw_alphahull.html">draw_alphahull()</a></code>, <code><a href="../reference/draw_convexhull.html">draw_convexhull()</a></code> and <code><a href="../reference/draw_mst.html">draw_mst()</a></code>. Below shows the MST drawn for the <code>dots</code> pair of variables in the <code>datasaurus_dozen</code>, and it can be seen to have some difficulty, as would be expected, defining the MST when all points are equidistant.</p>
+<p>Occasionally we will get unexpected results for a scagnostic. To
+diagnose a scagnostic result, the package has several draw functions
+that will plot the graph based objects that are used to construct the
+measures: <code><a href="../reference/draw_alphahull.html">draw_alphahull()</a></code>, <code><a href="../reference/draw_convexhull.html">draw_convexhull()</a></code>
+and <code><a href="../reference/draw_mst.html">draw_mst()</a></code>. Below shows the MST drawn for the
+<code>dots</code> pair of variables in the
+<code>datasaurus_dozen</code>, and it can be seen to have some
+difficulty, as would be expected, defining the MST when all points are
+equidistant.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">drawexample</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">==</span> <span class="st">"dots"</span><span class="op">)</span></span>
@@ -316,8 +363,13 @@
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Tukey, J. W. and Tukey, P. A. (1985). “Computer graphics and exploratory data analysis: An introduction”, In Proceedings of the Sixth Annual Conference and Exposition: Computer Graphics’85, 3:773-785. National Computer Graphics Association, Fairfax, VA.</p>
-<p>Wilkinson, L., Anand, A. and Grossman, R. (2005) “Graph-theoretic scagnostics”, IEEE Symposium on Information Visualization, 2005. INFOVIS 2005., pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.</p>
+<p>Tukey, J. W. and Tukey, P. A. (1985). “Computer graphics and
+exploratory data analysis: An introduction”, In Proceedings of the Sixth
+Annual Conference and Exposition: Computer Graphics’85, 3:773-785.
+National Computer Graphics Association, Fairfax, VA.</p>
+<p>Wilkinson, L., Anand, A. and Grossman, R. (2005) “Graph-theoretic
+scagnostics”, IEEE Symposium on Information Visualization, 2005. INFOVIS
+2005., pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.</p>
 </div>
   </div>
 
@@ -338,7 +390,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
