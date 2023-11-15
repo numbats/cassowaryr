@@ -35,7 +35,10 @@ scree <- function(x, y, binner = NULL, ...) {
   xy <- cbind(unitize(x), unitize(y))
 
   # Check for duplicates and remove
-  dupes <- paste(x, y, sep =",")
+  # (had to cut off at 15 digits otherwise shull spits error)
+  xrnd <- round(unitize(x), digits = 10)
+  yrnd <- round(unitize(y), digits = 10)
+  dupes <- paste(xrnd, yrnd, sep =",")
   xy <- xy[!duplicated(dupes),]
 
   # Binner function
