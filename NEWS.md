@@ -1,4 +1,12 @@
-# cassowaryr 2.0.0 (Current)
+# cassowaryr 2.0.2 (Current)
+- Updated the required version of interp to 1.1-6
+- Changed the duplicate check inside the scree calculation to match the check done by interp
+
+# cassowaryr 2.0.1
+- Added hex sticker
+- Updated the required version of interp to 1.1-4
+
+# cassowaryr 2.0.0
 
 - In line with the alphahull 2.5 update, cassowaryr is now dependent on the package interp instead of tripack and which results in some issues to be addressed: 
 -- `scree()` which calculates the convex and alpha hulls will return an error for any scatter plot where most of the data lies on a straight line 
