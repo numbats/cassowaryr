@@ -1,10 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   cassowaryr: cassowaryr.html
-last_built: 2024-04-30T03:57Z
+last_built: 2024-09-10T12:28Z
 urls:
   reference: https://numbats.github.io/cassowaryr/reference
   article: https://numbats.github.io/cassowaryr/articles
-
