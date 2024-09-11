@@ -46,7 +46,7 @@ Imports:
     tibble,
     stats,
     tidyselect
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.2
 Suggests: 
     rmarkdown,
     knitr,
