@@ -3,7 +3,7 @@ pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   cassowaryr: cassowaryr.html
-last_built: 2024-09-11T09:00Z
+last_built: 2024-09-11T09:05Z
 urls:
   reference: https://numbats.github.io/cassowaryr/reference
   article: https://numbats.github.io/cassowaryr/articles
