@@ -1,7 +1,7 @@
 citHeader("To cite cassowaryr in publications use:")
 
-citEntry(
-  entry    = "inproceedings",
+bibentry(
+  bibtype = "InProceedings",
   author   = "Wilkinson, L. and Anand, A. and Grossman, R.",
   booktitle= "IEEE Symposium on Information Visualization, 2005. INFOVIS 2005.",
   title    = "Graph-theoretic scagnostics",
@@ -13,8 +13,8 @@ citEntry(
   textVersion = paste("L. Wilkinson, A. Anand and R. Grossman, Graph-theoretic scagnostics, IEEE Symposium on Information Visualization, 2005. INFOVIS 2005., 2005, pp. 157-164, doi: 10.1109/INFVIS.2005.1532142.")
 )
 
-citEntry(
-  entry = "article",
+bibentry(
+  bibtype = "Article",
   author = "Leland Wilkinson and Graham Wills",
   title = "Scagnostics Distributions",
   journal = "Journal of Computational and Graphical Statistics",
@@ -27,8 +27,8 @@ citEntry(
   textVersion = paste("L. Wilkinson and G. Wills (2008) Scagnostics Distributions, Journal of Computational and Graphical Statistics, 17(2), pp 473-491, doi:10.1198/106186008X320465")
 )
 
-citEntry(
-  entry = "phdthesis",
+bibentry(
+  bibtype = "PhdThesis",
   author      = "Katrin Grimm",
   title       = "Kennzahlenbasierte Grafikauswahl",
   type        = "doctoral thesis",
@@ -38,12 +38,12 @@ citEntry(
   textVersion = paste("K. Grimm, Kennzahlenbasierte Grafikauswahl, doctoral thesis, Universitat Augsburg, 2016.")
 )
 
-citEntry(
-  entry = "manual",
+bibentry(
+  bibtype = "Manual",
   title = "cassowaryr: Compute Scagnostics on Pairs of Numeric Variables in a Data Set",
   author = "Harriet Mason and Stuart Lee and Ursula Laa and Dianne Cook",
   year = 2022,
   note = "R package version 2.0.0",
-  url = "https://CRAN.R-project.org/package=cassowary",
+  url = "https://cran.r-project.org/web/packages/cassowaryr/index.html",
   textVersion = paste("H. Mason, Lee, S., Laa, U. and Cook, D. (2022) cassowaryr: Compute Scagnostics on Pairs of Numeric Variables in a Data Set. R package version 2.0.0. https://CRAN.R-project.org/package=cassowary")
 )
