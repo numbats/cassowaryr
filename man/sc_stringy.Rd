@@ -5,6 +5,10 @@
 \alias{sc_stringy.default}
 \alias{sc_stringy.scree}
 \alias{sc_stringy.igraph}
+\alias{sc_stringy2}
+\alias{sc_stringy2.default}
+\alias{sc_stringy2.scree}
+\alias{sc_stringy2.igraph}
 \title{Compute stringy scagnostic measure using MST}
 \usage{
 sc_stringy(x, y)
@@ -14,6 +18,14 @@ sc_stringy(x, y)
 \method{sc_stringy}{scree}(x, y = NULL)
 
 \method{sc_stringy}{igraph}(x, y = NULL)
+
+sc_stringy2(x, y)
+
+\method{sc_stringy2}{default}(x, y)
+
+\method{sc_stringy2}{scree}(x, y = NULL)
+
+\method{sc_stringy2}{igraph}(x, y = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}

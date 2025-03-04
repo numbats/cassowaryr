@@ -26,6 +26,7 @@ y1 <- c(0,10,20,30,40,50,60,70,80,90,100, 25)
 
 test_that("Stringy Scagnotist", {
   expect_equal(sc_stringy(x1,y1), (8/9))
+  expect_equal(sc_stringy2(x1,y1), 1)
 })
 
 #Striated test
