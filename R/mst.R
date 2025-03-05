@@ -45,6 +45,34 @@ sc_stringy.igraph <- function(x, y=NULL) {
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
 }
 
+#' @rdname sc_stringy
+#' @export
+sc_stringy2 <- function(x, y) UseMethod("sc_stringy2")
+
+#' @rdname sc_stringy
+#' @export
+sc_stringy2.default <- function(x, y){
+  #input: x and y are vectors
+  sc <- scree(x, y)
+  sc_stringy2.scree(sc)
+}
+
+#' @rdname sc_stringy
+#' @export
+sc_stringy2.scree <- function(x, y=NULL) {
+  #input: x is a scree, no y
+  mst <- gen_mst(x$del, x$weights)
+  sc_stringy2.igraph(mst)
+}
+
+#' @rdname sc_stringy
+#' @export
+sc_stringy2.igraph <- function(x, y=NULL) {
+  #input: x is the MST igraph object
+  diameter <- igraph::get_diameter(x)
+  length(diameter) / (length(x) - 1)
+}
+
 #' Compute striated scagnostic measure using MST
 #'
 #' @param x numeric vector of x values
