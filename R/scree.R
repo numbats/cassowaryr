@@ -19,7 +19,6 @@
 #' y <- runif(100)
 #' scree(x,y)
 #'
-#' @importFrom stats median quantile
 #' @export
 scree <- function(x, y, binner = NULL, alpha_param = NULL, ...) {
   # checks on x,y
