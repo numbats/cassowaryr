@@ -6,6 +6,7 @@
 #' @param x numeric vector
 #' @param y numeric vector
 #' @param alpha transparency value of points
+#' @param alpha_param alpha parameter for alpha hull
 #' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
 #' @param out.rm option to return the outlier removed alphahull
@@ -18,10 +19,10 @@
 #' nl <- features %>% filter(feature == "clusters")
 #' draw_alphahull(nl$x, nl$y)
 #' @export
-draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_alphahull <- function(x, y, alpha=0.5, alpha_param = NULL, clr = "black", fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL
   #make scree
-  sc_objs <- original_and_robust(x,y)
+  sc_objs <- original_and_robust(x,y, alpha_param = alpha_param)
   scr <- sc_objs$scree_ori
   if(out.rm) scr <- sc_objs$scree_rob
 
@@ -31,9 +32,9 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
   #d_ahull <- tibble::as_tibble(ahull$ashape.obj$edges)
 
   d_ahull <- tibble::tibble(x1 = ahull[["xahull"]][,1][ahull[["arcs"]][,7]],
-                           y1 = ahull[["xahull"]][,2][ahull[["arcs"]][,7]],
-                           x2 = ahull[["xahull"]][,1][ahull[["arcs"]][,8]],
-                           y2 = ahull[["xahull"]][,2][ahull[["arcs"]][,8]])
+                            y1 = ahull[["xahull"]][,2][ahull[["arcs"]][,7]],
+                            x2 = ahull[["xahull"]][,1][ahull[["arcs"]][,8]],
+                            y2 = ahull[["xahull"]][,2][ahull[["arcs"]][,8]])
   #scaled tibble
   d <- tibble::tibble(x=ahull[["xahull"]][,1], y=ahull[["xahull"]][,2])
   #d <- tibble::tibble(x=scr$del$x[,1], y=scr$del$x[,2])

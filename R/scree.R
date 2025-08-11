@@ -5,11 +5,13 @@
 #' to triangulation
 #' @param ...  other args
 #'
-#' @return An object of class "scree" that consists of three elements:
+#'
+#' @return An object of class "scree" that consists of four elements:
 #'  - `del`: the Delauney-Voronoi tesselation from [alphahull::delvor()]
 #'  - `weights`: the lengths of each edge in the Delauney triangulation
-#'  - `alpha`: the radius or `alpha` value that will be used to generate the
-#'  alphahull
+#'  - `outlier_rm`: cutoff threshold for MST-based outlier detection
+#'  - `alpha_param`: the radius or `alpha_param` value calculated from
+#'  90th percentile of MST edge lengths
 #'
 #' @examples
 #'
@@ -17,8 +19,9 @@
 #' y <- runif(100)
 #' scree(x,y)
 #'
+#' @importFrom stats median quantile
 #' @export
-scree <- function(x, y, binner = NULL, ...) {
+scree <- function(x, y, binner = NULL, alpha_param = NULL, ...) {
   # checks on x,y
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
@@ -34,12 +37,8 @@ scree <- function(x, y, binner = NULL, ...) {
   # cast to a matrix
   xy <- cbind(unitize(x), unitize(y))
 
-  # Check for duplicates and remove
-  # (had to cut off at 15 digits otherwise shull spits error)
-  xrnd <- round(unitize(x), digits = 10)
-  yrnd <- round(unitize(y), digits = 10)
-  dupes <- paste(xrnd, yrnd, sep =",")
-  xy <- xy[!duplicated(dupes),]
+  # Remove duplicates
+  xy <- xy[!duplicated(round(xy, 10)), , drop = FALSE]
 
   # Binner function
   if (is.function(binner)) {
@@ -52,14 +51,27 @@ scree <- function(x, y, binner = NULL, ...) {
   # edge weights from the triangulation
   weights <- gen_edge_lengths(del)
 
-  # alpha estimator
-  alpha <- psi(weights)
+  # Compute outlier removal threshold (Wilkinson’s boxplot rule)
+  outlier_rm <- psi(weights)
+
+  # Compute alpha radius if not provided (Wilkinson’s suggestion: 90th percentile of MST edge lengths)
+
+  # Generate MST and compute its edge weights
+  mst <- gen_mst(del, weights)
+  mst_weights <- igraph::E(mst)$weight
+
+  if (is.null(alpha_param)) {
+    alpha_param <- stats::quantile(mst_weights, 0.9)
+  } else {
+    alpha_param <- alpha_param
+  }
 
   structure(
     list(
       del = del,
-      weights  = weights,
-      alpha = alpha
+      weights = weights,
+      outlier_rm = outlier_rm,
+      alpha_param = alpha_param
     ),
     class = "scree"
   )
@@ -69,6 +81,18 @@ gen_edge_lengths <- function(del) {
   from_cols <- c("x1", "y1")
   to_cols <- c("x2", "y2")
   sqrt(rowSums((del$mesh[, from_cols] - del$mesh[, to_cols])^2))
+}
+
+# rescale input to lie in unit interval
+unitize <- function(x, na.rm = TRUE) {
+  rng <- range(x, na.rm = na.rm)
+  (x - rng[1]) / diff(rng)
+}
+
+# This is the edge filter from Wilkinson 05
+psi <- function(w, q = c(0.25, 0.75)) {
+  q <- stats::quantile(w, probs = q)
+  unname(q[2] + 1.5 * diff(q))
 }
 
 # rescale input to lie in unit interval

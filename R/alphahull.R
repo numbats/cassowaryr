@@ -62,12 +62,12 @@ sc_convex.list <- function(x, y){
 #'   features %>% group_by(feature) %>% summarise(skinny = sc_skinny(x,y))
 #'   sc_skinny(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_skinny <- function(x, y) UseMethod("sc_skinny")
+sc_skinny <- function(x, y, alpha_param = NULL) UseMethod("sc_skinny")
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.default <- function(x, y){
-  sc <- scree(x, y)
+sc_skinny.default <- function(x, y, alpha_param = NULL){
+  sc <- scree(x, y, alpha_param = alpha_param)
   sc_skinny.scree(sc)
 }
 

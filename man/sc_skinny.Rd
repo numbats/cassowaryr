@@ -7,9 +7,9 @@
 \alias{sc_skinny.list}
 \title{Compute skinny scagnostic measure}
 \usage{
-sc_skinny(x, y)
+sc_skinny(x, y, alpha_param = NULL)
 
-\method{sc_skinny}{default}(x, y)
+\method{sc_skinny}{default}(x, y, alpha_param = NULL)
 
 \method{sc_skinny}{scree}(x, y = NULL)
 
