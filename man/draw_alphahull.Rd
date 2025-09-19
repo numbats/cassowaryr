@@ -4,7 +4,15 @@
 \alias{draw_alphahull}
 \title{Drawing the alphahull}
 \usage{
-draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
+draw_alphahull(
+  x,
+  y,
+  alpha = 0.5,
+  alpha_param = NULL,
+  clr = "black",
+  fill = FALSE,
+  out.rm = TRUE
+)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -12,6 +20,8 @@ draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
 \item{y}{numeric vector}
 
 \item{alpha}{transparency value of points}
+
+\item{alpha_param}{alpha parameter for alpha hull}
 
 \item{clr}{optional colour of points and lines, default black}
 

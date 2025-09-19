@@ -4,7 +4,7 @@
 \alias{scree}
 \title{Pre-processing to generate scagnostic measures}
 \usage{
-scree(x, y, binner = NULL, ...)
+scree(x, y, binner = NULL, alpha_param = NULL, ...)
 }
 \arguments{
 \item{x, y}{numeric vectors}
@@ -15,12 +15,13 @@ to triangulation}
 \item{...}{other args}
 }
 \value{
-An object of class "scree" that consists of three elements:
+An object of class "scree" that consists of four elements:
 \itemize{
 \item \code{del}: the Delauney-Voronoi tesselation from \code{\link[alphahull:delvor]{alphahull::delvor()}}
 \item \code{weights}: the lengths of each edge in the Delauney triangulation
-\item \code{alpha}: the radius or \code{alpha} value that will be used to generate the
-alphahull
+\item \code{outlier_rm}: cutoff threshold for MST-based outlier detection
+\item \code{alpha_param}: the radius or \code{alpha_param} value calculated from
+90th percentile of MST edge lengths
 }
 }
 \description{
