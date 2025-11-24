@@ -1,3 +1,8 @@
+# cassowaryr 2.0.6
+- Change alpha_omega to use mst_weights instead of weights (in the previous version I incorrectly used weights instead of mst_weights)
+- Add iterative outlier removal in scree()
+
+
 # cassowaryr 2.0.5
 - Changed `Depends` back to `R (>= 4.0.0)`.
 - Removed the Ubuntu oldrel R-CMD-check job from GitHub Actions, since it could not satisfy the previous R (>= 4.0.0) requirement or the new R (>= 4.5.0) dependency and was failing due to dependency errors.

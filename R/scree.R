@@ -90,6 +90,13 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
   mst <- gen_mst(del, weights)
   mst_weights <- igraph::E(mst)$weight
 
+  # remove outliers iteratively (based on "Scagnostics Distributions" paper)
+  repeat {
+    w <- psi(mst_weights)
+    if (max(mst_weights) <= w) break
+    mst_weights <- mst_weights[-which.max(mst_weights)]
+  }
+
   n <- nrow(xy)
 
 
@@ -101,7 +108,7 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
       alpha_choice,
       rahman = alpha_rahman(mst_weights, n),
       q90    = alpha_q90(mst_weights),
-      omega  = alpha_omega(weights)
+      omega  = alpha_omega(mst_weights)
     )
 
   } else if (is.numeric(alpha)) {
@@ -164,8 +171,8 @@ alpha_rahman <- function(mst_weights, n) {
 }
 
 # Alpha value suggested in "Graph Theoretic Scagnostics" paper
-alpha_omega <- function(weights) {
-  psi(weights)
+alpha_omega <- function(mst_weights) {
+  psi(mst_weights)
 }
 
 # Hexagonal binning as in the graph-theoretic scagnostics paper
