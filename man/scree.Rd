@@ -46,7 +46,7 @@ Pre-processing to generate scagnostic measures
 x <- runif(100)
 y <- runif(100)
 scree(x,y)                  # no binning
-scree(x, y, binner = "hex")  #  hexagonal binning
+scree(x, y, binner = "hex") #  hexagonal binning
 
 
 }
