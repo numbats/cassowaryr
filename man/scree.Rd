@@ -4,13 +4,22 @@
 \alias{scree}
 \title{Pre-processing to generate scagnostic measures}
 \usage{
-scree(x, y, binner = NULL, ...)
+scree(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
 }
 \arguments{
 \item{x, y}{numeric vectors}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation}
+
+\item{alpha}{character, numeric, or function. Controls the alpha radius.
+Valid character values are:
+- "rahman" (default): Rahman's MST-based middle-50\% alpha
+- "q90": 90th percentile of MST edge lengths
+- "omega": graph-theoretic scagnostics alpha
+Alternatively:
+- a numeric value giving a fixed alpha
+- a function with no arguments that returns a single numeric alpha}
 
 \item{...}{other args}
 }

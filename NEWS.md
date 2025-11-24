@@ -1,3 +1,9 @@
+# cassowaryr 2.0.3
+- Added configurable alpha selection in `scree()`, with support for `"rahman"` (default), `"q90"`, `"omega"`, user-specified numeric values, and user-defined alpha functions. 
+- Temporarily skipped `test_alphahull.R` while alpha selection behaviour is being updated (issue).
+
+
+
 # cassowaryr 2.0.2 (Current)
 - Updated the required version of interp to 1.1-6
 - Changed the duplicate check inside the scree calculation to match the check done by interp

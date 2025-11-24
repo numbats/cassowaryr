@@ -3,6 +3,14 @@
 #' @param x,y numeric vectors
 #' @param binner an optional function that bins the x and y vectors prior
 #' to triangulation
+#' @param alpha character, numeric, or function. Controls the alpha radius.
+#'   Valid character values are:
+#'     - "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     - "q90": 90th percentile of MST edge lengths
+#'     - "omega": graph-theoretic scagnostics alpha
+#'   Alternatively:
+#'     - a numeric value giving a fixed alpha
+#'     - a function with no arguments that returns a single numeric alpha
 #' @param ...  other args
 #'
 #' @return An object of class "scree" that consists of three elements:
@@ -18,7 +26,7 @@
 #' scree(x,y)
 #'
 #' @export
-scree <- function(x, y, binner = NULL, ...) {
+scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...) {
   # checks on x,y
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
@@ -52,14 +60,48 @@ scree <- function(x, y, binner = NULL, ...) {
   # edge weights from the triangulation
   weights <- gen_edge_lengths(del)
 
-  # alpha estimator
-  alpha <- psi(weights)
+  # Generate MST and compute its edge weights
+  mst <- gen_mst(del, weights)
+  mst_weights <- igraph::E(mst)$weight
+
+  n <- nrow(xy)
+
+
+  if (is.character(alpha)) {
+
+    alpha_choice <- match.arg(alpha, c("rahman", "q90", "omega"))
+
+    alpha_value <- switch(
+      alpha_choice,
+      rahman = alpha_rahman(mst_weights, n),
+      q90    = alpha_q90(mst_weights),
+      omega  = alpha_omega(weights)
+    )
+
+  } else if (is.numeric(alpha)) {
+
+    # user-specified numeric value
+    alpha_value <- alpha
+
+  } else if (is.function(alpha)) {
+
+    # user-supplied alpha estimator
+    alpha_value <- alpha()
+
+    if (!is.numeric(alpha_value) || length(alpha_value) != 1) {
+      stop("User-supplied alpha function must return a single numeric value.")
+    }
+
+  } else {
+    stop("alpha must be a character string, numeric value, or function.")
+  }
+
 
   structure(
     list(
       del = del,
       weights  = weights,
-      alpha = alpha
+      alpha = alpha_value
     ),
     class = "scree"
   )
@@ -82,3 +124,21 @@ psi <- function(w, q = c(0.25, 0.75)) {
   q <- stats::quantile(w, probs = q)
   unname(q[2] + 1.5 * diff(q))
 }
+
+# Alpha value using 90th percentile of MST edge length
+alpha_q90 <- function(mst_weights) {
+  stats::quantile(mst_weights, 0.9)
+}
+
+# Rahman's suggested MST-based alpha
+alpha_rahman <- function(mst_weights, n) {
+  q <- stats::quantile(mst_weights, probs = c(0.25, 0.75))
+  middle_edges <- mst_weights[mst_weights >= q[1] & mst_weights <= q[2]]
+  sqrt(sum(middle_edges) / n)
+}
+
+# Alpha value suggested in "Graph Theoretic Scagnostics" paper
+alpha_omega <- function(weights) {
+  psi(weights)
+}
+
