@@ -1,3 +1,8 @@
+# cassowaryr 2.0.4
+- Changed `Depends` to `R (>= 4.5.0)`.
+- Implemented hexagonal binning.
+- Added hexbin package to Suggests (Description).
+
 # cassowaryr 2.0.3
 - Added configurable alpha selection in `scree()`, with support for `"rahman"` (default), `"q90"`, `"omega"`, user-specified numeric values, and user-defined alpha functions. 
 - Temporarily skipped `test_alphahull.R` while alpha selection behaviour is being updated (issue).

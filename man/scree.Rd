@@ -10,7 +10,13 @@ scree(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
 \item{x, y}{numeric vectors}
 
 \item{binner}{an optional function that bins the x and y vectors prior
-to triangulation}
+to triangulation
+Can be:
+- NULL: no binning (use raw points)
+- "hex" : hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+- a function: user-defined binner}
 
 \item{alpha}{character, numeric, or function. Controls the alpha radius.
 Valid character values are:
@@ -39,6 +45,8 @@ Pre-processing to generate scagnostic measures
 
 x <- runif(100)
 y <- runif(100)
-scree(x,y)
+scree(x,y)                  # no binning
+scree(x, y, binner = "hex")  #  hexagonal binning
+
 
 }

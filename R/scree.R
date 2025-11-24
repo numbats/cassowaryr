@@ -3,6 +3,12 @@
 #' @param x,y numeric vectors
 #' @param binner an optional function that bins the x and y vectors prior
 #' to triangulation
+#'  Can be:
+#'     - NULL: no binning (use raw points)
+#'     - "hex" : hexagonal binning following the procedure in the
+#'              graph-theoretic scagnostics paper (start 40x40, halve
+#'              until <= 250 nonempty cells)
+#'     - a function: user-defined binner
 #' @param alpha character, numeric, or function. Controls the alpha radius.
 #'   Valid character values are:
 #'     - "rahman" (default): Rahman's MST-based middle-50% alpha
@@ -23,7 +29,9 @@
 #'
 #' x <- runif(100)
 #' y <- runif(100)
-#' scree(x,y)
+#' scree(x,y)                  # no binning
+#' scree(x, y, binner = "hex") #  hexagonal binning
+#'
 #'
 #' @export
 scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...) {
@@ -35,9 +43,10 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
   if (any(abs(stats::cor(x,y))>1-1*10^-15, !stats::sd(x)>0, !stats::sd(y)>0))
     stop("Data is a perfectly straight line and cannot be analysed")
 
-  # Binner must be a function
-  if (!(is.null(binner) | is.function(binner)))
-    stop("binner must be a function")
+  # binner must be NULL, character, or function
+  if (!is.null(binner) && !is.character(binner) && !is.function(binner)) {
+    stop("binner must be NULL, 'hex', or a function")
+  }
 
   # cast to a matrix
   xy <- cbind(unitize(x), unitize(y))
@@ -49,9 +58,26 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
   dupes <- paste(xrnd, yrnd, sep =",")
   xy <- xy[!duplicated(dupes),]
 
-  # Binner function
-  if (is.function(binner)) {
-    xy <- binner(xy)
+  # Binning
+  if (is.null(binner)) {
+
+    # default: no binning, do nothing
+
+  } else if (is.character(binner)) {
+
+    binner_choice <- match.arg(binner, "hex")
+
+    if (binner_choice == "hex") {
+      xy <- hex_binner(xy, ...)
+    }
+
+  } else if (is.function(binner)) {
+
+    xy <- binner(xy, ...)
+
+    if (!is.matrix(xy) || ncol(xy) != 2) {
+      stop("User-supplied binner must return a two-column matrix of (x, y) points.")
+    }
   }
 
   # compute delauney triangulation
@@ -69,7 +95,7 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
 
   if (is.character(alpha)) {
 
-    alpha_choice <- match.arg(alpha, c("rahman", "q90", "omega"))
+    alpha_choice <- match.arg(alpha, c( "rahman", "q90", "omega"))
 
     alpha_value <- switch(
       alpha_choice,
@@ -140,5 +166,28 @@ alpha_rahman <- function(mst_weights, n) {
 # Alpha value suggested in "Graph Theoretic Scagnostics" paper
 alpha_omega <- function(weights) {
   psi(weights)
+}
+
+# Hexagonal binning as in the graph-theoretic scagnostics paper
+hex_binner <- function(xy, xbins = 40, max_cells = 250) {
+  if (!requireNamespace("hexbin", quietly = TRUE)) {
+    stop("Package 'hexbin' must be installed to use binner = 'hex'.")
+  }
+
+  current_xbins <- xbins
+  repeat {
+    hb <- hexbin::hexbin(xy[, 1], xy[, 2], xbins = current_xbins)
+    n_cells <- length(hb@count)  # number of non-empty hex cells
+
+    if (n_cells <= max_cells || current_xbins <= 1) {
+      break
+    }
+
+    # reduce bin size by half and rebin
+    current_xbins <- max(1L, floor(current_xbins / 2))
+  }
+
+  centers <- hexbin::hcell2xy(hb)
+  cbind(centers$x, centers$y)
 }
 
