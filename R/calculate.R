@@ -17,7 +17,17 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = FALSE){
+calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
+                                              "grid", "clumpy", "clumpy2",
+                                              "sparse", "skewed", "convex",
+                                              "skinny", "monotonic", "splines",
+                                              "dcor"),
+                            out.rm= TRUE, euclid = FALSE){
+
+  if("striated2" %in% scags){
+    warning("Please use grid instead of striated2")
+    scags[which(scags=="striated2")] <- "grid"
+    }
 
   # Check for typos/misspellings in scags list
   validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")

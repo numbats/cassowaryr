@@ -15,7 +15,9 @@
 #'   ggplot(features, aes(x=x, y=y)) +
 #'      geom_point() +
 #'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features %>% group_by(feature) %>% summarise(grid = sc_grid(x,y))
+#'   features |> group_by(feature) |>
+#'     summarise(grid1 = sc_grid(x,y),
+#'               grid2 = sc_grid(x,y, epsilon=0.05))
 #'   sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
@@ -51,7 +53,7 @@ sc_grid.igraph <- function(x, y, epsilon=0.01){
     b =0
     for(j in seq(length(vects[,1])-1)){
       costheta <- (vects[j,]%*%vects[j+1,])/(sqrt(sum(vects[j,]^2))*sqrt(sum(vects[j+1,]^2)))
-      b <- ifelse(any(c(costheta<(-1-epsilon), abs(costheta)<epsilon)), b+1, b)
+      b <- ifelse(any(c(costheta<(-1+epsilon), abs(costheta)<epsilon)), b+1, b)
     }
     grd <- grd + b
   }

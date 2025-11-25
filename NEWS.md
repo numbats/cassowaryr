@@ -1,3 +1,6 @@
+# cassowaryr 2.0.7
+- Rename striated2 to grid and included epsilon parameter to control grid noise tolerance
+
 # cassowaryr 2.0.6
 - Change alpha_omega to use mst_weights instead of weights (in the previous version I incorrectly used weights instead of mst_weights)
 - Add iterative outlier removal in scree()

@@ -7,13 +7,13 @@
 \alias{sc_grid.igraph}
 \title{Compute the grid scanostic measure using MST}
 \usage{
-sc_grid(x, y)
+sc_grid(x, y, epsilon)
 
-\method{sc_grid}{default}(x, y, epsilon = 0.05)
+\method{sc_grid}{default}(x, y, epsilon = 0.01)
 
-\method{sc_grid}{scree}(x, y = NULL, epsilon = 0.05)
+\method{sc_grid}{scree}(x, y = NULL, epsilon = 0.01)
 
-\method{sc_grid}{igraph}(x, y, epsilon = 0.05)
+\method{sc_grid}{igraph}(x, y, epsilon = 0.01)
 }
 \arguments{
 \item{x}{numeric vector of x values, or an MST object}
@@ -36,7 +36,9 @@ in Adam Rahman's PhD thesis.
   ggplot(features, aes(x=x, y=y)) +
      geom_point() +
      facet_wrap(~feature, ncol = 5, scales = "free")
-  features \%>\% group_by(feature) \%>\% summarise(grid = sc_grid(x,y))
+  features |> group_by(feature) |>
+    summarise(grid1 = sc_grid(x,y),
+              grid2 = sc_grid(x,y, epsilon=0.05))
   sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 
 }
