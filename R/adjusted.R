@@ -1,8 +1,13 @@
-#' Compute angle adjusted striated measure using MST
+#' Compute the grid scanostic measure using MST
+#'
+#' This scagnostic identifies grid-like structures by counting the
+#' number of 90 and 180 degree angles in the MST, as defined in
+#' in Adam Rahman's PhD thesis.
 #'
 #' @param x numeric vector of x values, or an MST object
 #' @param y numeric vector of y values, or a scree object
-#' @return A "numeric" object that gives the plot's striated2 score.
+#' @param epsilon the error tolerance allowed to count the angles
+#' @return The plot's grid score as a numeric object
 #'
 #' @examples
 #'   require(ggplot2)
@@ -10,34 +15,34 @@
 #'   ggplot(features, aes(x=x, y=y)) +
 #'      geom_point() +
 #'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features %>% group_by(feature) %>% summarise(striated = sc_striated2(x,y))
-#'   sc_striated2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#'   features %>% group_by(feature) %>% summarise(grid = sc_grid(x,y))
+#'   sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_striated2 <- function(x, y) UseMethod("sc_striated2")
+sc_grid <- function(x, y, epsilon) UseMethod("sc_grid")
 
-#' @rdname sc_striated2
+#' @rdname sc_grid
 #' @export
-sc_striated2.default <- function(x, y){
+sc_grid.default <- function(x, y, epsilon=0.01){
   sc <- scree(x, y)
-  sc_striated2.scree(sc)
+  sc_grid.scree(sc, y=NULL, epsilon)
 }
 
-#' @rdname sc_striated2
+#' @rdname sc_grid
 #' @export
-sc_striated2.scree <- function(x, y = NULL) {
+sc_grid.scree <- function(x, y = NULL, epsilon=0.01) {
   stopifnot(is.null(y))
   y <- gen_mst(x$del, x$weights)
-  sc_striated2.igraph(y, x)
+  sc_grid.igraph(y, x, epsilon)
 
 }
 
-#' @rdname sc_striated2
+#' @rdname sc_grid
 #' @export
-sc_striated2.igraph <- function(x, y){
+sc_grid.igraph <- function(x, y, epsilon=0.01){
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts>=2)
-  stri=0
+  grd=0
   for(i in seq_len(length(angs))){
     adjs <- which(x[angs[i]]>0)
     points <- y$del$x[adjs,]
@@ -46,11 +51,11 @@ sc_striated2.igraph <- function(x, y){
     b =0
     for(j in seq(length(vects[,1])-1)){
       costheta <- (vects[j,]%*%vects[j+1,])/(sqrt(sum(vects[j,]^2))*sqrt(sum(vects[j+1,]^2)))
-      b <- ifelse(any(c(costheta<(-0.99), abs(costheta)<0.01)), b+1, b)
+      b <- ifelse(any(c(costheta<(-1-epsilon), abs(costheta)<epsilon)), b+1, b)
     }
-    stri <- stri + b
+    grd <- grd + b
   }
-  stri/(0.5*sum(vertex_counts) - 1)
+  grd/(0.5*sum(vertex_counts) - 1)
 }
 
 #' Compute adjusted clumpy measure using MST

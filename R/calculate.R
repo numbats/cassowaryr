@@ -3,7 +3,7 @@
 #' @param all_data tibble of multivariate data on which to compute scagnostics
 #' @param scags collection of strings matching names of
 #' scagnostics to calculate: outlying, stringy, striated,
-#' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+#' grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #' @param euclid logical indicator to use Euclidean distance
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
@@ -17,10 +17,10 @@
 #' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
-calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = FALSE){
+calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm= TRUE, euclid = FALSE){
 
   # Check for typos/misspellings in scags list
-  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
+  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor")
   validpased <- match.arg(scags, validscags, several.ok=TRUE)
   typo <- scags[!scags %in% validpased]
   if(length(typo)>0){
@@ -74,7 +74,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' @param y numeric vector
 #' @param scags collection of strings matching names of
 #' scagnostics to calculate: outlying, stringy, striated,
-#' striated2, striped, clumpy, clumpy2, sparse, skewed, convex,
+#' grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
 #' @param euclid logical indicator to use Euclidean distance
@@ -92,12 +92,15 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor"), out.rm=TRUE, euclid=FALSE){
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
+                                     "clumpy", "clumpy2", "sparse", "skewed",
+                                     "convex", "skinny", "monotonic", "splines",
+                                     "dcor"), out.rm=TRUE, euclid=FALSE){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
   striated = NULL
-  striated2 = NULL
+  grid = NULL
   clumpy = NULL
   clumpy2 = NULL
   sparse = NULL
@@ -109,9 +112,14 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   dcor = NULL
   striped = NULL
   euclid_dist= NULL
+  # replace striated2 with grid
+  if("striated2" %in% scags){
+    warning("Please use grid instead of striated2")
+    scags[which(scags=="striated2")] <- "grid"
+    }
 
   # Check for typos/misspellings in scags list
-  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
+  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   validpased <- match.arg(scags, validscags, several.ok=TRUE)
   typo <- scags[!scags %in% validpased]
   if(length(typo)>0){
@@ -136,7 +144,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
       dplyr::tibble("outlying"=NA,
                     "stringy"=NA,
                     "striated"=NA,
-                    "striated2" = NA,
+                    "grid" = NA,
                     "clumpy"=NA,
                     "clumpy2"=NA,
                     "sparse"=NA,
@@ -176,8 +184,8 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   if("striated" %in% scags){
     striated <- sc_striated(mst, sc)
   }
-  if("striated2" %in% scags){
-    striated2 <- sc_striated2(mst, sc)
+  if("grid" %in% scags){
+    grid <- sc_grid(mst, sc)
   }
   if("clumpy" %in% scags){
     clumpy <- sc_clumpy(mst, sc)
@@ -222,7 +230,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
 
   #calculate euclidean distance
   if(euclid==TRUE){
-    scagvect <- c(outlying, stringy, striated, striated2, clumpy, clumpy2,
+    scagvect <- c(outlying, stringy, striated, grid, clumpy, clumpy2,
                   sparse, skewed, convex, skinny, monotonic, splines, dcor, striped)
     euclid_dist <- sqrt(sum(scagvect^2))
   }
@@ -230,7 +238,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
                              "striated"=striated,
-                             "striated2" = striated2,
+                             "grid" = grid,
                              "clumpy"=clumpy,
                              "clumpy2"=clumpy2,
                              "sparse"=sparse,
@@ -264,7 +272,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "striate
 #' @export
 top_scags <- function(scags_data){
   value <- scag <- NULL
-  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
+  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   scags_data %>%
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
     dplyr::arrange(dplyr::desc(value)) %>%
@@ -292,7 +300,7 @@ top_scags <- function(scags_data){
 #' @export
 top_pairs <- function(scags_data){
   value <- scag <- NULL
-  validscags <- c("outlying", "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
+  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   scags_data %>%
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
     dplyr::arrange(dplyr::desc(value)) %>%
