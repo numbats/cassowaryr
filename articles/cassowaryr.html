@@ -161,7 +161,7 @@ variables as vectors.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">exampledata</span><span class="op">$</span><span class="va">x</span>, <span class="va">exampledata</span><span class="op">$</span><span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in calc_scags(exampledata$x, exampledata$y, scags = c("clumpy2", :</span></span>
-<span><span class="co">#&gt; Please use grid instead of striated2</span></span></code></pre></div>
+<span><span class="co">#&gt; 'striated2' is no longer an available scagnostic, please use 'grid' instead</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">grid</th>
@@ -187,7 +187,7 @@ group.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `calc_scags(...)`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `dataset = "away"`.</span></span>
 <span><span class="co">#&gt; Caused by warning in `calc_scags()`:</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Please use grid instead of striated2</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> 'striated2' is no longer an available scagnostic, please use 'grid' instead</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings.</span></span>
 <span><span class="va">longscags</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
