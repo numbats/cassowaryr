@@ -5,7 +5,6 @@
 #' scagnostics to calculate: outlying, stringy, striated,
 #' grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
-#' @param euclid logical indicator to use Euclidean distance
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
 #' @return A data frame that gives the data's scagnostic scores for each possible variable combination.
 #' @seealso calc_scags
@@ -22,7 +21,7 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
                                               "sparse", "skewed", "convex",
                                               "skinny", "monotonic", "splines",
                                               "dcor"),
-                            out.rm= TRUE, euclid = FALSE){
+                            out.rm= TRUE){
 
   if("striated2" %in% scags){
     warning("Please use grid instead of striated2")
@@ -66,16 +65,16 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
     dplyr::group_by(Var1, Var2) %>%
     dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
                                         data=all_data,
-                                        scags=scags, out.rm, euclid, pb)) %>%
+                                        scags=scags, out.rm, pb)) %>%
     dplyr::ungroup()
 
 }
 
-intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
+intermediate_scags <- function(vars, data, scags, out.rm, pb){
   pb$tick()
   x <- dplyr::pull(data, var=vars[[1]])
   y <- dplyr::pull(data, var=vars[[2]])
-  return(calc_scags(x, y, scags, out.rm, euclid))
+  return(calc_scags(x, y, scags, out.rm))
 }
 
 #' Compute selected scagnostics on subsets
@@ -87,7 +86,6 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 #' grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
 #' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
-#' @param euclid logical indicator to use Euclidean distance
 #' @return A data frame that gives the single plot's scagnostic score.
 #' @seealso calc_scags_wide
 #' @examples
@@ -105,7 +103,7 @@ intermediate_scags <- function(vars, data, scags, out.rm, euclid, pb){
 calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
                                      "clumpy", "clumpy2", "sparse", "skewed",
                                      "convex", "skinny", "monotonic", "splines",
-                                     "dcor"), out.rm=TRUE, euclid=FALSE){
+                                     "dcor"), out.rm=TRUE){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
@@ -121,7 +119,6 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
   splines = NULL
   dcor = NULL
   striped = NULL
-  euclid_dist= NULL
   # replace striated2 with grid
   if("striated2" %in% scags){
     warning("Please use grid instead of striated2")
@@ -238,13 +235,6 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
     striped <- sc_striped(x,y)
   }
 
-  #calculate euclidean distance
-  if(euclid==TRUE){
-    scagvect <- c(outlying, stringy, striated, grid, clumpy, clumpy2,
-                  sparse, skewed, convex, skinny, monotonic, splines, dcor, striped)
-    euclid_dist <- sqrt(sum(scagvect^2))
-  }
-
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
                              "striated"=striated,
@@ -258,8 +248,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
                              "monotonic"=monotonic,
                              "splines"=splines,
                              "dcor"=dcor,
-                             "striped"=striped,
-                             "euclid_dist" = euclid_dist)
+                             "striped"=striped)
   return(scagnostic_calcs)
 }
 

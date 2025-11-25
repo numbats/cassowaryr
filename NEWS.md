@@ -1,3 +1,7 @@
+# cassowaryr 2.0.8
+- Removed euclid parameter from calculation functions
+
+
 # cassowaryr 2.0.7
 - Rename striated2 to grid and included epsilon parameter to control grid noise tolerance
 
