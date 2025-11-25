@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cassowaryr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.7</span>
       </span>
     </div>
 
@@ -159,10 +159,12 @@ on, we use the <code>calc_scags</code> function and pass through the two
 variables as vectors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">exampledata</span><span class="op">$</span><span class="va">x</span>, <span class="va">exampledata</span><span class="op">$</span><span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in calc_scags(exampledata$x, exampledata$y, scags = c("clumpy2", :</span></span>
+<span><span class="co">#&gt; Please use grid instead of striated2</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="center">striated2</th>
+<th align="center">grid</th>
 <th align="center">clumpy2</th>
 <th align="center">convex</th>
 </tr></thead>
@@ -180,12 +182,19 @@ group.</p>
 <code class="sourceCode R"><span><span class="va">longscags</span> <span class="op">&lt;-</span> <span class="va">exampledata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/calc_scags.html">calc_scags</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span>, <span class="st">"dcor"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There were 4 warnings in `summarise()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `calc_scags(...)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `dataset = "away"`.</span></span>
+<span><span class="co">#&gt; Caused by warning in `calc_scags()`:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Please use grid instead of striated2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings.</span></span>
 <span><span class="va">longscags</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">dataset</th>
-<th align="center">striated2</th>
+<th align="center">grid</th>
 <th align="center">clumpy2</th>
 <th align="center">convex</th>
 <th align="center">dcor</th>
@@ -227,13 +236,15 @@ scagnostics on every pairwise combination of variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exampledata_wide</span> <span class="op">&lt;-</span> <span class="va">datasaurus_dozen_wide</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">6</span>,<span class="fl">9</span><span class="op">:</span><span class="fl">10</span>,<span class="fl">17</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">widescags</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_scags_wide.html">calc_scags_wide</a></span><span class="op">(</span><span class="va">exampledata_wide</span>, scags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clumpy2"</span>, <span class="st">"convex"</span>, <span class="st">"striated2"</span>, <span class="st">"dcor"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in calc_scags_wide(exampledata_wide, scags = c("clumpy2", "convex", :</span></span>
+<span><span class="co">#&gt; Please use grid instead of striated2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">widescags</span>, <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="center">Var1</th>
 <th align="center">Var2</th>
-<th align="center">striated2</th>
+<th align="center">grid</th>
 <th align="center">clumpy2</th>
 <th align="center">convex</th>
 <th align="center">dcor</th>
@@ -331,7 +342,7 @@ similar and looks like:</p>
 <tr class="even">
 <td align="center">circle_y</td>
 <td align="center">circle_x</td>
-<td align="center">striated2</td>
+<td align="center">grid</td>
 <td align="center">0.5255</td>
 </tr>
 </tbody>
