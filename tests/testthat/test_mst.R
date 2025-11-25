@@ -55,26 +55,35 @@ test_that("Skewed Scagnotist", {
 x1<- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1)
 y1 <- c(0,0,1,2,2,3,4,4,5,6,6,7,8,8,9,10)
 
-# Single outlier
-x2<- c(x1, 10)
+# Two outliers
+x2 <- c(x1, 10)
 y2 <- c(y1,10)
-#plot(x1,y1)
+# plot(x2,y2)
+# draw_(x2,y2)
 
 # Outlier with a Close Value
 x3 <- c(x2, 10)
 y3 <- c(y2, 9)
+# plot(x3,y3)
+# draw_mst(x3,y3)
 
 # two connected outliers
 x4 <- c(x2, 10)
 y4 <- c(y2, 7)
+# plot(x4,y4)
+# draw_mst(x4,y4)
 
 # internal outlier
 x5 <- c(x4, 10)
 y5 <- c(y4, 6)
+# plot(x5,y5)
+# draw_mst(x5,y5)
 
 # internal outlier
 x6 <- c(0,1,1,1,0,0,0,0,0,0,0,1,1,1, 10, 10, 10)
 y6 <- c(0,0,1,2,2,3,4,5,6,7,8,8,9,10, 10, 6, 7)
+# plot(x6,y6)
+# draw_mst(x6,y6)
 
 #plot(x2,y2)
 
@@ -98,6 +107,7 @@ y2 <- c(0,5,10,10,0, 5, 5)
 test_that("grid Tests", {
   expect_equal(sc_grid(x1,y1), 1)
   expect_equal(sc_grid(x2,y2), 0.8)
+  expect_warning(calc_scags(x2,y2, "striated2"))
 })
 
 # Triangle collapsed data

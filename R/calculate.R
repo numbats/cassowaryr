@@ -121,7 +121,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
   striped = NULL
   # replace striated2 with grid
   if("striated2" %in% scags){
-    warning("Please use grid instead of striated2")
+    warning("'striated2' is no longer an available scagnostic, please use 'grid' instead")
     scags[which(scags=="striated2")] <- "grid"
     }
 
