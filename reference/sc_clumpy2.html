@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cassowaryr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.9</span>
       </span>
     </div>
 
@@ -56,16 +56,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, outlier_rm <span class="op">=</span> <span class="cn">FALSE</span>, binner <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Default S3 method</span></span>
-<span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+<span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, outlier_rm <span class="op">=</span> <span class="cn">FALSE</span>, binner <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'scree'</span></span>
-<span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="cn">NULL</span>, outlier_rm <span class="op">=</span> <span class="cn">FALSE</span>, binner <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'igraph'</span></span>
-<span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">sc_clumpy2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, outlier_rm <span class="op">=</span> <span class="cn">FALSE</span>, binner <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,6 +78,14 @@
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
 <dd><p>numeric vector of y values</p></dd>
+
+
+<dt id="arg-outlier-rm">outlier_rm<a class="anchor" aria-label="anchor" href="#arg-outlier-rm"></a></dt>
+<dd><p>logical; if TRUE, outliers are iteratively removed</p></dd>
+
+
+<dt id="arg-binner">binner<a class="anchor" aria-label="anchor" href="#arg-binner"></a></dt>
+<dd><p>an optional binning</p></dd>
 
 </dl></div>
     <div id="value">
@@ -125,7 +133,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Dianne Cook.</p>
+  <p></p><p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Dianne Cook, Tina Rashid Jafari.</p>
 </div>
 
 <div class="pkgdown">

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cassowaryr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.9</span>
       </span>
     </div>
 
@@ -56,7 +56,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scree</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, binner <span class="op">=</span> <span class="cn">NULL</span>, alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rahman"</span>, <span class="st">"q90"</span>, <span class="st">"omega"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scree</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  binner <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rahman"</span>, <span class="st">"q90"</span>, <span class="st">"omega"</span><span class="op">)</span>,</span>
+<span>  outlier_rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -70,23 +77,27 @@
 <dt id="arg-binner">binner<a class="anchor" aria-label="anchor" href="#arg-binner"></a></dt>
 <dd><p>an optional function that bins the x and y vectors prior
 to triangulation
-Can be:
-- NULL: no binning (use raw points)
-- "hex" : hexagonal binning following the procedure in the
+Can be:</p><ul><li><p><code>NULL</code>: no binning (use raw points)</p></li>
+<li><p><code>"hex"</code> : hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
-until &lt;= 250 nonempty cells)
-- a function: user-defined binner</p></dd>
+until &lt;= 250 nonempty cells)</p></li>
+<li><p>a function: user-defined binner</p></li>
+</ul></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>character, numeric, or function. Controls the alpha radius.
-Valid character values are:
-- "rahman" (default): Rahman's MST-based middle-50% alpha
-- "q90": 90th percentile of MST edge lengths
-- "omega": graph-theoretic scagnostics alpha
-Alternatively:
-- a numeric value giving a fixed alpha
-- a function with no arguments that returns a single numeric alpha</p></dd>
+Valid character values are:</p><ul><li><p>"rahman" (default): Rahman's MST-based middle-50% alpha</p></li>
+<li><p>"q90": 90th percentile of MST edge lengths</p></li>
+<li><p>"omega": graph-theoretic scagnostics alpha
+Alternatively:</p></li>
+<li><p>a numeric value giving a fixed alpha</p></li>
+<li><p>a function with no arguments that returns a single numeric alpha</p></li>
+</ul></dd>
+
+
+<dt id="arg-outlier-rm">outlier_rm<a class="anchor" aria-label="anchor" href="#arg-outlier-rm"></a></dt>
+<dd><p>logical; if TRUE, iteratively trim large MST edges</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -1087,7 +1098,7 @@ alphahull</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.081116635 0.139270889 0.232312968 0.066361893 0.420143900 0.940364113 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1882841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.189391</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "scree"</span>
@@ -2032,7 +2043,7 @@ alphahull</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.11456439 0.11456439 0.12500000 0.06614378 0.02500000 0.36314598 0.16393596 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1940646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1924844</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "scree"</span>
@@ -2048,7 +2059,7 @@ alphahull</p></li>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Dianne Cook.</p>
+  <p></p><p>Developed by Harriet Mason, Stuart Lee, Ursula Laa, Dianne Cook, Tina Rashid Jafari.</p>
 </div>
 
 <div class="pkgdown">
