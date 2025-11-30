@@ -4,19 +4,24 @@
 #' @param binner an optional function that bins the x and y vectors prior
 #' to triangulation
 #'  Can be:
-#'     - NULL: no binning (use raw points)
-#'     - "hex" : hexagonal binning following the procedure in the
-#'              graph-theoretic scagnostics paper (start 40x40, halve
+#'   \itemize{
+#'     \item `NULL`: no binning (use raw points)
+#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     graph-theoretic scagnostics paper (start 40x40, halve
 #'              until <= 250 nonempty cells)
-#'     - a function: user-defined binner
+#'     \item a function: user-defined binner
+#'     }
 #' @param alpha character, numeric, or function. Controls the alpha radius.
 #'   Valid character values are:
-#'     - "rahman" (default): Rahman's MST-based middle-50% alpha
-#'     - "q90": 90th percentile of MST edge lengths
-#'     - "omega": graph-theoretic scagnostics alpha
+#'   \itemize{
+#'     \item "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     \item "q90": 90th percentile of MST edge lengths
+#'     \item "omega": graph-theoretic scagnostics alpha
 #'   Alternatively:
-#'     - a numeric value giving a fixed alpha
-#'     - a function with no arguments that returns a single numeric alpha
+#'     \item a numeric value giving a fixed alpha
+#'     \item a function with no arguments that returns a single numeric alpha
+#'     }
+#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
 #' @param ...  other args
 #'
 #' @return An object of class "scree" that consists of three elements:
@@ -34,14 +39,26 @@
 #'
 #'
 #' @export
-scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...) {
+scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"),
+                  outlier_rm = FALSE,  ...) {
   # checks on x,y
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
   )
   # Check if data is a straight line
-  if (any(abs(stats::cor(x,y))>1-1*10^-15, !stats::sd(x)>0, !stats::sd(y)>0))
-    stop("Data is a perfectly straight line and cannot be analysed")
+  if (any(abs(stats::cor(x,y))>1-1*10^-15, !stats::sd(x)>0, !stats::sd(y)>0)){
+  warning("Data is a perfectly straight line and cannot be analysed; ",
+          "Delaunay triangulation is not computed.")
+
+    sc <- list(
+      del     = NULL,
+      weights = NULL,
+      alpha   = NA_real_
+    )
+    class(sc) <- "scree"
+    return(sc)
+  }
+
 
   # binner must be NULL, character, or function
   if (!is.null(binner) && !is.character(binner) && !is.function(binner)) {
@@ -91,10 +108,30 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
   mst_weights <- igraph::E(mst)$weight
 
   # remove outliers iteratively (based on "Scagnostics Distributions" paper)
-  repeat {
-    w <- psi(mst_weights)
-    if (max(mst_weights) <= w) break
-    mst_weights <- mst_weights[-which.max(mst_weights)]
+if (outlier_rm) {
+    repeat {
+      w <- psi(mst_weights)
+      long_edges <- which(mst_weights > w)
+
+      if (length(long_edges) == 0L) break
+
+      long_vertices <- igraph::ends(mst, long_edges)
+      outlier_vertices <- unique(as.integer(long_edges))
+
+      if (length(outlier_vertices) == 0L ||
+          nrow(xy) - length(outlier_vertices) < 3L) {
+        message("Outlier removal stopped: removing these outliers would leave fewer than 3 points (too few vertices to continue).")
+        break
+      }
+
+      xy <- xy[-outlier_vertices, , drop = FALSE]
+
+      # recompute del, weights, mst, mst_weights on updated xy
+      del     <- alphahull::delvor(xy)
+      weights <- gen_edge_lengths(del)
+      mst     <- gen_mst(del, weights)
+      mst_weights <- igraph::E(mst)$weight
+    }
   }
 
   n <- nrow(xy)

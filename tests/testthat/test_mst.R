@@ -10,7 +10,7 @@ y2 <- c(50,60,50,40,50,50,60,50,40,50,100,0)
 
 #plot(x2,y2)
 
-test_that("Clumpy Scagnotist", {
+test_that("Clumpy Scagnostic", {
   expect_equal(sc_clumpy(x2,y2), (1-0.4/0.6))
 })
 
@@ -24,13 +24,35 @@ x1 <- c(0,10,20,30,40,50,60,70,80,90,100, 15)
 y1 <- c(0,10,20,30,40,50,60,70,80,90,100, 25)
 #plot(x1,y1)
 
-test_that("Stringy Scagnotist", {
+test_that("Stringy Scagnostic", {
   expect_equal(sc_stringy(x1,y1), (8/9))
   expect_equal(sc_stringy2(x1,y1), 1)
 })
 
+
+# additional tests for stringy index
+test_that("Stringy scagnostic", {
+  set.seed(1200)
+
+  x  <- seq(0, 1, length.out = 50)
+
+  y1 <- x
+  y2 <- 2 * x
+
+  s1 <- suppressWarnings(sc_stringy(x, y1))
+  s2 <- suppressWarnings(sc_stringy(x, y2))
+  s3 <- suppressWarnings(sc_stringy2(x, y1))
+  s4 <- suppressWarnings(sc_stringy2(x, y1))
+
+  # we expect exactly 1
+  expect_equal(s1, 1, tolerance = 1e-8)
+  expect_equal(s2, 1, tolerance = 1e-8)
+  expect_equal(s3, 1, tolerance = 1e-8)
+  expect_equal(s4, 1, tolerance = 1e-8)
+})
+
 #Striated test
-test_that("Striated Scagnotist", {
+test_that("Striated Scagnostic", {
   expect_equal(sc_striated(x1,y1), (6/9))
 })
 
@@ -41,12 +63,12 @@ y1 <- c(0,0,0,0,0,2,10,17,23,26,26)
 n = 11/500
 w = 0.7 + 0.3/(1+n^2)
 
-test_that("Sparse Scagnotist", {
+test_that("Sparse Scagnostic", {
   expect_equal(sc_sparse(x1,y1), w*(9/26), tolerance=0.001)
 })
 
 # Skewed Test
-test_that("Skewed Scagnotist", {
+test_that("Skewed Scagnostic", {
   expect_equal(sc_skewed(x1,y1), w*(4/7), tolerance=0.001)
 })
 
@@ -87,7 +109,7 @@ y6 <- c(0,0,1,2,2,3,4,5,6,7,8,8,9,10, 10, 6, 7)
 
 #plot(x2,y2)
 
-test_that("Outlying Scagnotist", {
+test_that("Outlying Scagnostic", {
   expect_equal(sc_outlying(x1,y1), 0) #no outliers
   expect_equal(sc_outlying(x2,y2), (9/24)) #single external outleirs
   expect_equal(sc_outlying(x3,y3), 0) #close edge to outlier so no longer outlier

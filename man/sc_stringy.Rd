@@ -11,26 +11,39 @@
 \alias{sc_stringy2.igraph}
 \title{Compute stringy scagnostic measure using MST}
 \usage{
-sc_stringy(x, y)
+sc_stringy(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_stringy}{default}(x, y)
+\method{sc_stringy}{default}(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_stringy}{scree}(x, y = NULL)
+\method{sc_stringy}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_stringy}{igraph}(x, y = NULL)
+\method{sc_stringy}{igraph}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 
-sc_stringy2(x, y)
+sc_stringy2(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_stringy2}{default}(x, y)
+\method{sc_stringy2}{default}(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_stringy2}{scree}(x, y = NULL)
+\method{sc_stringy2}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_stringy2}{igraph}(x, y = NULL)
+\method{sc_stringy2}{igraph}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{NULL}: no binning (use raw points)
+\item \code{"hex"} : hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item a function: user-defined binner
+}}
 }
 \value{
 A "numeric" object that gives the plot's stringy score.

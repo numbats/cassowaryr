@@ -3,6 +3,27 @@
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param alpha character, numeric, or function. Controls the alpha radius.
+#'   Valid character values are:
+#'   \itemize{
+#'     \item "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     \item "q90": 90th percentile of MST edge lengths
+#'     \item "omega": graph-theoretic scagnostics alpha
+#'   Alternatively:
+#'     \item a numeric value giving a fixed alpha
+#'     \item a function with no arguments that returns a single numeric alpha
+#'     }
+#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
+#' @param binner an optional function that bins the x and y vectors prior
+#' to triangulation
+#'  Can be:
+#'   \itemize{
+#'     \item `NULL`: no binning (use raw points)
+#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     graph-theoretic scagnostics paper (start 40x40, halve
+#'              until <= 250 nonempty cells)
+#'     \item a function: user-defined binner
+#'     }
 #' @return A "numeric" object that gives the plot's convex score.
 #'
 #' @examples
@@ -14,18 +35,18 @@
 #'   features %>% group_by(feature) %>% summarise(convex = sc_convex(x,y))
 #'   sc_convex(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_convex <- function(x, y) UseMethod("sc_convex")
+sc_convex <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) UseMethod("sc_convex")
 
 #' @rdname sc_convex
 #' @export
-sc_convex.default <- function(x, y){
-  sc <- scree(x, y)
+sc_convex.default <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
+  sc <- scree(x, y, alpha = alpha, outlier_rm = outlier_rm, binner = binner)
   sc_convex.scree(sc)
 }
 
 #' @rdname sc_convex
 #' @export
-sc_convex.scree <- function(x,y = NULL) {
+sc_convex.scree <- function(x,y = NULL, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) {
   stopifnot(is.null(y))
   chull <- gen_conv_hull(x$del)
   ahull <- gen_alpha_hull(x$del, x$alpha)
@@ -34,7 +55,7 @@ sc_convex.scree <- function(x,y = NULL) {
 
 #' @rdname sc_convex
 #' @export
-sc_convex.list <- function(x, y){
+sc_convex.list <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
   chull_area <- splancs::areapl(cbind(x$x, x$y))
   if (y$length > 0)
     ahull_area <- alphahull::areaahull(y)
@@ -51,6 +72,27 @@ sc_convex.list <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param alpha character, numeric, or function. Controls the alpha radius.
+#'   Valid character values are:
+#'   \itemize{
+#'     \item "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     \item "q90": 90th percentile of MST edge lengths
+#'     \item "omega": graph-theoretic scagnostics alpha
+#'   Alternatively:
+#'     \item a numeric value giving a fixed alpha
+#'     \item a function with no arguments that returns a single numeric alpha
+#'     }
+#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
+#' @param binner an optional function that bins the x and y vectors prior
+#' to triangulation
+#'  Can be:
+#'   \itemize{
+#'     \item `NULL`: no binning (use raw points)
+#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     graph-theoretic scagnostics paper (start 40x40, halve
+#'              until <= 250 nonempty cells)
+#'     \item a function: user-defined binner
+#'     }
 #' @return A "numeric" object that gives the plot's skinny score.
 #'
 #' @examples
@@ -62,18 +104,25 @@ sc_convex.list <- function(x, y){
 #'   features %>% group_by(feature) %>% summarise(skinny = sc_skinny(x,y))
 #'   sc_skinny(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_skinny <- function(x, y) UseMethod("sc_skinny")
+sc_skinny <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) UseMethod("sc_skinny")
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.default <- function(x, y){
-  sc <- scree(x, y)
+sc_skinny.default <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
+  sc <- scree(x, y, alpha = alpha, outlier_rm = outlier_rm, binner = binner)
+  if (is.null(sc$del)) {
+    dc <- sc_dcor(x,y)
+    if (dc >= 1 - 1e-8) {
+      return(1)
+    }
+
+  }
   sc_skinny.scree(sc)
 }
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.scree <- function(x, y = NULL) {
+sc_skinny.scree <- function(x, y = NULL, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) {
   stopifnot(is.null(y))
   ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_skinny.list(ahull)
@@ -81,7 +130,7 @@ sc_skinny.scree <- function(x, y = NULL) {
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.list <- function(x, y=NULL){
+sc_skinny.list <- function(x, y=NULL, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
   if (x$length > 0) {
     ahull_area <- alphahull::areaahull(x)
     s <- 1 - sqrt(4*pi * ahull_area) / x$length
@@ -105,3 +154,4 @@ gen_alpha_hull <- function(del, alpha) {
            })
   return(ahull)
 }
+

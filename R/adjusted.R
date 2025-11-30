@@ -7,6 +7,8 @@
 #' @param x numeric vector of x values, or an MST object
 #' @param y numeric vector of y values, or a scree object
 #' @param epsilon the error tolerance allowed to count the angles
+#' @param outlier_rm logical; if TRUE, outliers are iteratively removed
+#' @param binner an optional binning
 #' @return The plot's grid score as a numeric object
 #'
 #' @examples
@@ -21,18 +23,18 @@
 #'   sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_grid <- function(x, y, epsilon) UseMethod("sc_grid")
+sc_grid <- function(x, y, epsilon, outlier_rm = FALSE, binner = NULL) UseMethod("sc_grid")
 
 #' @rdname sc_grid
 #' @export
-sc_grid.default <- function(x, y, epsilon=0.01){
-  sc <- scree(x, y)
+sc_grid.default <- function(x, y, epsilon=0.01, outlier_rm = FALSE, binner = NULL){
+  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
   sc_grid.scree(sc, y=NULL, epsilon)
 }
 
 #' @rdname sc_grid
 #' @export
-sc_grid.scree <- function(x, y = NULL, epsilon=0.01) {
+sc_grid.scree <- function(x, y = NULL, epsilon=0.01, outlier_rm = FALSE, binner = NULL) {
   stopifnot(is.null(y))
   y <- gen_mst(x$del, x$weights)
   sc_grid.igraph(y, x, epsilon)
@@ -41,7 +43,7 @@ sc_grid.scree <- function(x, y = NULL, epsilon=0.01) {
 
 #' @rdname sc_grid
 #' @export
-sc_grid.igraph <- function(x, y, epsilon=0.01){
+sc_grid.igraph <- function(x, y, epsilon=0.01, outlier_rm = FALSE, binner = NULL){
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts>=2)
   grd=0
@@ -64,6 +66,8 @@ sc_grid.igraph <- function(x, y, epsilon=0.01){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param outlier_rm logical; if TRUE, outliers are iteratively removed
+#' @param binner an optional binning
 #' @return A "numeric" object that gives the plot's clumpy2 score.
 #'
 #' @examples
@@ -76,25 +80,25 @@ sc_grid.igraph <- function(x, y, epsilon=0.01){
 #'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_clumpy2 <- function(x, y) UseMethod("sc_clumpy2")
+sc_clumpy2 <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("sc_clumpy2")
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.default <- function(x, y){
-  sc <- scree(x, y)
+sc_clumpy2.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
+  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
   sc_clumpy2.scree(sc)
 }
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.scree <- function(x, y=NULL) {
+sc_clumpy2.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL) {
   mst <- gen_mst(x$del, x$weights)
   sc_clumpy2.igraph(mst,x)
 }
 
 #' @rdname sc_clumpy2
 #' @export
-sc_clumpy2.igraph <- function(x, y){
+sc_clumpy2.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
   #set stringy penalty
   vertex_counts <- igraph::degree(x)
   #technically stringy calc
@@ -202,6 +206,8 @@ sc_clumpy2.igraph <- function(x, y){
 #'
 #' @param x numeric vector of x values
 #' @param y numeric vector of y values
+#' @param outlier_rm logical; if TRUE, outliers are iteratively removed
+#' @param binner an optional binning
 #' @return A "numeric" object that gives the plot's sparse2 score.
 #'
 #' @examples
@@ -215,25 +221,25 @@ sc_clumpy2.igraph <- function(x, y){
 #'   sc_sparse2(anscombe$x1, anscombe$y1)
 #'
 #' @export
-sc_sparse2 <- function(x, y) UseMethod("sc_sparse2")
+sc_sparse2 <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("sc_sparse2")
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.default <- function(x, y){
-  sc <- scree(x, y)
+sc_sparse2.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
+  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
   sc_sparse2.scree(sc)
 }
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.scree <- function(x, y=NULL) {
+sc_sparse2.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL) {
   ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_sparse2.list(ahull)
 }
 
 #' @rdname sc_sparse2
 #' @export
-sc_sparse2.list <- function(x, y=NULL){
+sc_sparse2.list <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL){
   if (x$length > 0)
     ahull_area <- alphahull::areaahull(x)
   else

@@ -4,7 +4,14 @@
 \alias{scree}
 \title{Pre-processing to generate scagnostic measures}
 \usage{
-scree(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
+scree(
+  x,
+  y,
+  binner = NULL,
+  alpha = c("rahman", "q90", "omega"),
+  outlier_rm = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x, y}{numeric vectors}
@@ -12,20 +19,26 @@ scree(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"), ...)
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
-- NULL: no binning (use raw points)
-- "hex" : hexagonal binning following the procedure in the
+\itemize{
+\item \code{NULL}: no binning (use raw points)
+\item \code{"hex"} : hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
-- a function: user-defined binner}
+\item a function: user-defined binner
+}}
 
 \item{alpha}{character, numeric, or function. Controls the alpha radius.
 Valid character values are:
-- "rahman" (default): Rahman's MST-based middle-50\% alpha
-- "q90": 90th percentile of MST edge lengths
-- "omega": graph-theoretic scagnostics alpha
+\itemize{
+\item "rahman" (default): Rahman's MST-based middle-50\% alpha
+\item "q90": 90th percentile of MST edge lengths
+\item "omega": graph-theoretic scagnostics alpha
 Alternatively:
-- a numeric value giving a fixed alpha
-- a function with no arguments that returns a single numeric alpha}
+\item a numeric value giving a fixed alpha
+\item a function with no arguments that returns a single numeric alpha
+}}
+
+\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
 
 \item{...}{other args}
 }

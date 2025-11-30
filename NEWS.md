@@ -1,3 +1,10 @@
+# cassowaryr 2.0.9
+- Updated `scree()` so `outlier_rm` returns revised `del`, `weights`, and `alpha`.
+- Added `outlier_rm` and `binner` options to all index functions and `alpha` option to alpha-hull–based indices.
+- Added Tina’s name and ORCID to the package description.
+- Modified `sc_skinny` and `sc_stringy` to return 1 for perfectly straight-line conditions.
+
+
 # cassowaryr 2.0.8
 - Removed euclid parameter from calculation functions
 

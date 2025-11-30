@@ -1,6 +1,6 @@
 Package: cassowaryr
 Title: Compute Scagnostics on Pairs of Numeric Variables in a Data Set
-Version: 2.0.8
+Version: 2.0.9
 Authors@R: 
     c(person(given = "Harriet",
              family = "Mason",
@@ -21,7 +21,11 @@ Authors@R:
              family = "Cook", 
              email = "dicook@monash.edu", 
              role = "aut", 
-             comment = c(ORCID = "0000-0002-3813-7155")))
+             comment = c(ORCID = "0000-0002-3813-7155")),
+      person("Tina", "Rashid Jafari",
+           email = "tina.rashidjafari@gmail.com",
+           role = c("aut"),
+           comment = c(ORCID = "0009-0008-3605-5341")))
 Description: Computes a range of scatterplot diagnostics (scagnostics) on pairs
   of numerical variables in a data set. A range of scagnostics, including graph
   and association-based scagnostics described by Leland Wilkinson and Graham

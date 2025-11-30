@@ -7,18 +7,22 @@
 \alias{sc_clumpy2.igraph}
 \title{Compute adjusted clumpy measure using MST}
 \usage{
-sc_clumpy2(x, y)
+sc_clumpy2(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_clumpy2}{default}(x, y)
+\method{sc_clumpy2}{default}(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_clumpy2}{scree}(x, y = NULL)
+\method{sc_clumpy2}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_clumpy2}{igraph}(x, y)
+\method{sc_clumpy2}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{outlier_rm}{logical; if TRUE, outliers are iteratively removed}
+
+\item{binner}{an optional binning}
 }
 \value{
 A "numeric" object that gives the plot's clumpy2 score.

@@ -7,18 +7,22 @@
 \alias{sc_sparse2.list}
 \title{Compute  adjusted sparse measure using the alpha hull}
 \usage{
-sc_sparse2(x, y)
+sc_sparse2(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_sparse2}{default}(x, y)
+\method{sc_sparse2}{default}(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_sparse2}{scree}(x, y = NULL)
+\method{sc_sparse2}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_sparse2}{list}(x, y = NULL)
+\method{sc_sparse2}{list}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{outlier_rm}{logical; if TRUE, outliers are iteratively removed}
+
+\item{binner}{an optional binning}
 }
 \value{
 A "numeric" object that gives the plot's sparse2 score.

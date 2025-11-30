@@ -7,18 +7,31 @@
 \alias{sc_skewed.igraph}
 \title{Compute skewed scagnostic measure using MST}
 \usage{
-sc_skewed(x, y)
+sc_skewed(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_skewed}{default}(x, y)
+\method{sc_skewed}{default}(x, y, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_skewed}{scree}(x, y = NULL)
+\method{sc_skewed}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_skewed}{igraph}(x, y)
+\method{sc_skewed}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values}
 
 \item{y}{numeric vector of y values}
+
+\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{NULL}: no binning (use raw points)
+\item \code{"hex"} : hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item a function: user-defined binner
+}}
 }
 \value{
 A "numeric" object that gives the plot's skewed score.

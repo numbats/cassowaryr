@@ -7,13 +7,13 @@
 \alias{sc_grid.igraph}
 \title{Compute the grid scanostic measure using MST}
 \usage{
-sc_grid(x, y, epsilon)
+sc_grid(x, y, epsilon, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_grid}{default}(x, y, epsilon = 0.01)
+\method{sc_grid}{default}(x, y, epsilon = 0.01, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_grid}{scree}(x, y = NULL, epsilon = 0.01)
+\method{sc_grid}{scree}(x, y = NULL, epsilon = 0.01, outlier_rm = FALSE, binner = NULL)
 
-\method{sc_grid}{igraph}(x, y, epsilon = 0.01)
+\method{sc_grid}{igraph}(x, y, epsilon = 0.01, outlier_rm = FALSE, binner = NULL)
 }
 \arguments{
 \item{x}{numeric vector of x values, or an MST object}
@@ -21,6 +21,10 @@ sc_grid(x, y, epsilon)
 \item{y}{numeric vector of y values, or a scree object}
 
 \item{epsilon}{the error tolerance allowed to count the angles}
+
+\item{outlier_rm}{logical; if TRUE, outliers are iteratively removed}
+
+\item{binner}{an optional binning}
 }
 \value{
 The plot's grid score as a numeric object
