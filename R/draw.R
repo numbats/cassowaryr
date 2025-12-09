@@ -5,20 +5,92 @@
 #'
 #' @param x numeric vector
 #' @param y numeric vector
-#' @param alpha transparency value of points
-#' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
-#' @param out.rm option to return the outlier removed alphahull
+#' @param binner an optional function that bins the x and y vectors prior
+#' to triangulation
+#'  Can be:
+#'   \itemize{
+#'     \item `NULL`: no binning (use raw points)
+#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     graph-theoretic scagnostics paper (start 40x40, halve
+#'              until <= 250 nonempty cells)
+#'     \item a function: user-defined binner
+#'     }
+#' @param alpha character, numeric, or function. Controls the alpha radius.
+#'   Valid character values are:
+#'   \itemize{
+#'     \item "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     \item "q90": 90th percentile of MST edge lengths
+#'     \item "omega": graph-theoretic scagnostics alpha
+#'   Alternatively:
+#'     \item a numeric value giving a fixed alpha
+#'     \item a function with no arguments that returns a single numeric alpha
+#'     }
+#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
 #' @return A alphahull::ahull(del, alpha = alpha) "gg" object that draws the plot's alpha hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
 #' require(alphahull)
 #' data("features")
-#' nl <- features %>% filter(feature == "clusters")
-#' draw_alphahull(nl$x, nl$y)
+#' cl <- features %>% filter(feature == "clusters")
+#' draw_alphahull(cl$x, cl$y)
+#' draw_alphahull(cl$x, cl$y, alpha = "omega")
 #' @export
-draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_alphahull <- function(x, y, outlier_rm = FALSE,
+                     binner = NULL, alpha = "rahman",
+                     fill = FALSE){
+  UseMethod("draw_alphahull")
+}
+
+#' @rdname draw_alphahull
+#' @export
+draw_alphahull.default <- function(x, y, outlier_rm = FALSE,
+                             binner = NULL, alpha = "rahman",
+                             fill = FALSE){
+  # x1 <- x2 <- y1 <- y2 <- NULL
+  sc <- scree(x, y, outlier_rm, binner, alpha = alpha)
+  draw_alphahull.scree(sc, fill = fill)
+}
+
+#' @rdname draw_alphahull
+#' @export
+draw_alphahull.scree <- function(x, y=NULL, outlier_rm = FALSE,
+                                 binner = NULL, alpha = "rahman",
+                                 fill = FALSE){
+  ahull <- alphahull::ahull(x$del, alpha=x$alpha)
+  d_ahull <- tibble::tibble(x1 = ahull[["xahull"]][,1][ahull[["arcs"]][,7]],
+                            y1 = ahull[["xahull"]][,2][ahull[["arcs"]][,7]],
+                            x2 = ahull[["xahull"]][,1][ahull[["arcs"]][,8]],
+                            y2 = ahull[["xahull"]][,2][ahull[["arcs"]][,8]])
+  #scaled tibble
+  d <- tibble::tibble(x=ahull[["xahull"]][,1], y=ahull[["xahull"]][,2])
+
+  #make plot
+  if(!fill){
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_point(data=d, ggplot2::aes(x, y),
+                          colour = "black")+
+      ggplot2::geom_segment(data=d_ahull,
+                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2))
+  }
+  if (fill){ #draws points on top of fill
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_polygon(data=d_ahull,
+                            ggplot2::aes(x=x1, y=y1),
+                            alpha = 0.5) +
+      ggplot2::geom_point(data=d, ggplot2::aes(x, y),
+                          colour = "black")+
+      ggplot2::geom_segment(data=d_ahull,
+                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2)
+                            )
+  }
+  p
+
+}
+
+#' @export
+draw_alphahull_old <- function(x, y, fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL
   #make scree
   sc_objs <- original_and_robust(x,y)
@@ -45,19 +117,16 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
       ggplot2::geom_point(data=d, ggplot2::aes(x, y),
                  colour = "black", alpha=alpha)+
       ggplot2::geom_segment(data=d_ahull,
-                   ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2),
-                   colour = clr)
+                   ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2))
   }
   if (fill){ #draws points on top of fill
     p <- ggplot2::ggplot() +
       ggplot2::geom_polygon(data=d_ahull,
-                                   ggplot2::aes(x=x1, y=y1),
-                                   fill = clr, alpha = 0.5) +
+                                   ggplot2::aes(x=x1, y=y1), alpha = 0.5) +
       ggplot2::geom_point(data=d, ggplot2::aes(x, y),
                           colour = "black", alpha=alpha)+
       ggplot2::geom_segment(data=d_ahull,
-                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2),
-                            colour = clr)
+                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2))
   }
   p
 }
@@ -69,22 +138,43 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #'
 #' @param x numeric vector
 #' @param y numeric vector
-#' @param alpha The alpha value used to build the graph object. Larger values
-#' allow points further apart to be connected.
-#' @param out.rm option to return the outlier removed MST
+#' @param binner an optional function that bins the x and y vectors prior
+#' to triangulation
+#'  Can be:
+#'   \itemize{
+#'     \item `NULL`: no binning (use raw points)
+#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     graph-theoretic scagnostics paper (start 40x40, halve
+#'              until <= 250 nonempty cells)
+#'     \item a function: user-defined binner
+#'     }
+#' @param alpha character, numeric, or function. Controls the alpha radius.
+#'   Valid character values are:
+#'   \itemize{
+#'     \item "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     \item "q90": 90th percentile of MST edge lengths
+#'     \item "omega": graph-theoretic scagnostics alpha
+#'   Alternatively:
+#'     \item a numeric value giving a fixed alpha
+#'     \item a function with no arguments that returns a single numeric alpha
+#'     }
+#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
 #' @return A "gg" object that draws the plot's MST.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
 #' data("features")
-#' nl <- features %>% filter(feature == "nonlinear2")
+#' nl <- features %>% filter(feature == "positive")
 #' draw_mst(nl$x, nl$y)
 #' @export
-draw_mst <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("draw_mst")
+draw_mst <- function(x, y, outlier_rm = FALSE, binner = NULL){
+  UseMethod("draw_mst")
+}
 
 #' @rdname draw_mst
 #' @export
-draw_mst.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
+draw_mst.default <- function(x, y, outlier_rm = FALSE,
+                             binner = NULL){
   # ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
   sc <- scree(x, y, outlier_rm, binner)
   draw_mst.scree(sc)
@@ -92,14 +182,16 @@ draw_mst.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
 
 #' @rdname draw_mst
 #' @export
-draw_mst.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL){
+draw_mst.scree <- function(x, y=NULL, outlier_rm = FALSE,
+                           binner = NULL){
   mst <- gen_mst(x$del, x$weights)
   draw_mst.igraph(mst, x)
 }
 
 #' @rdname draw_mst
 #' @export
-draw_mst.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
+draw_mst.igraph <- function(x, y, outlier_rm = FALSE,
+                            binner = NULL){
   xystartend <- tibble::as_tibble(y[["del"]][["mesh"]])
   MST_mat <- twomstmat(x, y)$mat
   d_MST <- xystartend %>%
@@ -149,19 +241,88 @@ draw_mst_old <- function(x, y, out.rm=TRUE) {
 #'
 #' @param x numeric vector
 #' @param y numeric vector
-#' @param alpha transparency value of points
-#' @param clr optional colour of points and lines, default black
 #' @param fill Fill the polygon
-#' @param out.rm option to return the outlier removed convex hull
+#' @param binner an optional function that bins the x and y vectors prior
+#' to triangulation
+#'  Can be:
+#'   \itemize{
+#'     \item `NULL`: no binning (use raw points)
+#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     graph-theoretic scagnostics paper (start 40x40, halve
+#'              until <= 250 nonempty cells)
+#'     \item a function: user-defined binner
+#'     }
+#' @param alpha character, numeric, or function. Controls the alpha radius.
+#'   Valid character values are:
+#'   \itemize{
+#'     \item "rahman" (default): Rahman's MST-based middle-50% alpha
+#'     \item "q90": 90th percentile of MST edge lengths
+#'     \item "omega": graph-theoretic scagnostics alpha
+#'   Alternatively:
+#'     \item a numeric value giving a fixed alpha
+#'     \item a function with no arguments that returns a single numeric alpha
+#'     }
+#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
 #' @return A "gg" object that draws the plot's convex hull.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
 #' data("features")
 #' nl <- features %>% filter(feature == "clusters")
-#' draw_convexhull(nl$x, nl$y, fill=TRUE, out.rm=FALSE)
+#' draw_convexhull(nl$x, nl$y, fill=TRUE, outlier_rm = FALSE)
 #' @export
-draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=TRUE) {
+draw_convexhull <- function(x, y, outlier_rm = FALSE, binner = NULL,
+                            fill = FALSE){
+  UseMethod("draw_convexhull")
+}
+
+#' @rdname draw_convexhull
+#' @export
+draw_convexhull.default <- function(x, y, outlier_rm = FALSE,
+                                    binner = NULL, fill = FALSE){
+  # x1 <- x2 <- y1 <- y2 <- NULL
+  sc <- scree(x, y, outlier_rm, binner)
+  draw_convexhull.scree(sc, fill = fill)
+}
+
+#' @rdname draw_convexhull
+#' @export
+draw_convexhull.scree <- function(x, y=NULL, outlier_rm = FALSE,
+                                  binner = NULL, fill = FALSE){
+  sc <- x
+  chull <- gen_conv_hull(sc$del)
+
+  # make data of start and end points of hull
+  d <- tibble::tibble(x = sc$del$x[,1],
+                      y = sc$del$x[,2])
+  d_ends <- tibble::tibble(x1 = chull$x,
+                           y1 = chull$y,
+                           x2 = chull$x[c(2:length(chull$x),1)],
+                           y2 = chull$y[c(2:length(chull$y),1)])
+
+  # plot
+  p <- ggplot2::ggplot() +
+    ggplot2::geom_point(data = d, ggplot2::aes(x, y), colour = "black", alpha = 0.5)
+
+  p <- p + ggplot2::geom_segment(data = d_ends,
+                                 ggplot2::aes(x=x1, y=y1,
+                                              xend=x2, yend=y2))
+
+  if (fill){ # re-draws points on top of fill
+    p <- p + ggplot2::geom_polygon(data=d_ends, alpha=0.5,
+                                   ggplot2::aes(x=x1, y=y1)) +
+    ggplot2::geom_segment(data = d_ends,
+                          ggplot2::aes(x=x1, y=y1,
+                                       xend=x2, yend=y2)) +
+    ggplot2::geom_point(data = d,
+                        ggplot2::aes(x, y))
+
+  p
+  }
+  }
+
+#' @export
+draw_convexhull_old <- function(x, y, fill = FALSE, out.rm=TRUE) {
   x1 <- x2 <- y1 <- y2 <- NULL # happy cran checks
   # make scree and convex hull
   scree_obj <- original_and_robust(x, y)
@@ -183,19 +344,16 @@ draw_convexhull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm
 
   p <- p + ggplot2::geom_segment(data = d_ends,
               ggplot2::aes(x=x1, y=y1,
-                     xend=x2, yend=y2), colour = clr)
+                     xend=x2, yend=y2))
 
   if (fill) # re-draws points on top of fill
-    p <- p + ggplot2::geom_polygon(data=d_ends,
-                                   ggplot2::aes(x=x1, y=y1),
-                          fill = clr, alpha = 0.5) +
+    p <- p + ggplot2::geom_polygon(data=d_ends, alpha=0.5,
+                                   ggplot2::aes(x=x1, y=y1)) +
          ggplot2::geom_segment(data = d_ends,
                           ggplot2::aes(x=x1, y=y1,
-                                       xend=x2, yend=y2),
-                          colour = clr) +
+                                       xend=x2, yend=y2)) +
          ggplot2::geom_point(data = d,
-                             ggplot2::aes(x, y),
-                             colour = "black", alpha = 0.5)
+                             ggplot2::aes(x, y))
 
   p
 }

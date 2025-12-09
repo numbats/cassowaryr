@@ -2,22 +2,67 @@
 % Please edit documentation in R/draw.R
 \name{draw_alphahull}
 \alias{draw_alphahull}
+\alias{draw_alphahull.default}
+\alias{draw_alphahull.scree}
 \title{Drawing the alphahull}
 \usage{
-draw_alphahull(x, y, alpha = 0.5, clr = "black", fill = FALSE, out.rm = TRUE)
+draw_alphahull(
+  x,
+  y,
+  outlier_rm = FALSE,
+  binner = NULL,
+  alpha = "rahman",
+  fill = FALSE
+)
+
+\method{draw_alphahull}{default}(
+  x,
+  y,
+  outlier_rm = FALSE,
+  binner = NULL,
+  alpha = "rahman",
+  fill = FALSE
+)
+
+\method{draw_alphahull}{scree}(
+  x,
+  y = NULL,
+  outlier_rm = FALSE,
+  binner = NULL,
+  alpha = "rahman",
+  fill = FALSE
+)
 }
 \arguments{
 \item{x}{numeric vector}
 
 \item{y}{numeric vector}
 
-\item{alpha}{transparency value of points}
+\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
 
-\item{clr}{optional colour of points and lines, default black}
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{NULL}: no binning (use raw points)
+\item \code{"hex"} : hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item a function: user-defined binner
+}}
+
+\item{alpha}{character, numeric, or function. Controls the alpha radius.
+Valid character values are:
+\itemize{
+\item "rahman" (default): Rahman's MST-based middle-50\% alpha
+\item "q90": 90th percentile of MST edge lengths
+\item "omega": graph-theoretic scagnostics alpha
+Alternatively:
+\item a numeric value giving a fixed alpha
+\item a function with no arguments that returns a single numeric alpha
+}}
 
 \item{fill}{Fill the polygon}
-
-\item{out.rm}{option to return the outlier removed alphahull}
 }
 \value{
 A alphahull::ahull(del, alpha = alpha) "gg" object that draws the plot's alpha hull.
@@ -31,6 +76,7 @@ require(dplyr)
 require(ggplot2)
 require(alphahull)
 data("features")
-nl <- features \%>\% filter(feature == "clusters")
-draw_alphahull(nl$x, nl$y)
+cl <- features \%>\% filter(feature == "clusters")
+draw_alphahull(cl$x, cl$y)
+draw_alphahull(cl$x, cl$y, alpha = "omega")
 }
