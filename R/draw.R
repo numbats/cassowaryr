@@ -69,7 +69,8 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #'
 #' @param x numeric vector
 #' @param y numeric vector
-#' @param alpha The alpha value used to build the graph object. Larger values allow points further apart to be connected.
+#' @param alpha The alpha value used to build the graph object. Larger values
+#' allow points further apart to be connected.
 #' @param out.rm option to return the outlier removed MST
 #' @return A "gg" object that draws the plot's MST.
 #' @examples
@@ -79,7 +80,43 @@ draw_alphahull <- function(x, y, alpha=0.5, clr = "black", fill = FALSE, out.rm=
 #' nl <- features %>% filter(feature == "nonlinear2")
 #' draw_mst(nl$x, nl$y)
 #' @export
-draw_mst <- function(x, y, alpha=0.5, out.rm=TRUE) {
+draw_mst <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("draw_mst")
+
+#' @rdname draw_mst
+#' @export
+draw_mst.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
+  # ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
+  sc <- scree(x, y, outlier_rm, binner)
+  draw_mst.scree(sc)
+}
+
+#' @rdname draw_mst
+#' @export
+draw_mst.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL){
+  mst <- gen_mst(x$del, x$weights)
+  draw_mst.igraph(mst, x)
+}
+
+#' @rdname draw_mst
+#' @export
+draw_mst.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
+  xystartend <- tibble::as_tibble(y[["del"]][["mesh"]])
+  MST_mat <- twomstmat(x, y)$mat
+  d_MST <- xystartend %>%
+    dplyr::group_by(ind1,ind2) %>%
+    dplyr::mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(connected==1)
+  ggplot2::ggplot(d_MST) +
+    ggplot2::geom_point(ggplot2::aes(x=x1, y=y1), alpha=0.5) +
+    ggplot2::geom_point(ggplot2::aes(x=x2, y=y2), alpha=0.5) +
+    ggplot2::geom_segment(ggplot2::aes(x=x1, xend=x2,
+                                       y=y1, yend=y2))
+}
+
+
+#' @export
+draw_mst_old <- function(x, y, out.rm=TRUE) {
   ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
   #build scree
   scree_obj <- original_and_robust(x, y)
