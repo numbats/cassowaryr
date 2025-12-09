@@ -4,14 +4,7 @@
 \alias{scree}
 \title{Pre-processing to generate scagnostic measures}
 \usage{
-scree(
-  x,
-  y,
-  binner = NULL,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  ...
-)
+scree(x, y, binner = NULL, alpha = "rahman", outlier_rm = FALSE, ...)
 }
 \arguments{
 \item{x, y}{numeric vectors}

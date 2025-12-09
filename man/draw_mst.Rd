@@ -2,9 +2,18 @@
 % Please edit documentation in R/draw.R
 \name{draw_mst}
 \alias{draw_mst}
+\alias{draw_mst.default}
+\alias{draw_mst.scree}
+\alias{draw_mst.igraph}
 \title{Drawing the MST}
 \usage{
-draw_mst(x, y, alpha = 0.5, out.rm = TRUE)
+draw_mst(x, y, outlier_rm = FALSE, binner = NULL)
+
+\method{draw_mst}{default}(x, y, outlier_rm = FALSE, binner = NULL)
+
+\method{draw_mst}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
+
+\method{draw_mst}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
 }
 \arguments{
 \item{x}{numeric vector}
