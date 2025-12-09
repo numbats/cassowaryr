@@ -1,4 +1,6 @@
 # cassowaryr 2.0.10
+- Update draw functions so they accept a scree and also draw_alphahull allows you to set the alpha value
+- Made the default alpha value clearer (alpha = "rahman")
 
 # cassowaryr 2.0.9
 - Updated `scree()` so `outlier_rm` returns revised `del`, `weights`, and `alpha`.
