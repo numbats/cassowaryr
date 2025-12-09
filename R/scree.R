@@ -39,8 +39,8 @@
 #'
 #'
 #' @export
-scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"),
-                  outlier_rm = FALSE,  ...) {
+scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
+                  alpha = "rahman", ...) {
   # checks on x,y
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
@@ -58,7 +58,6 @@ scree <- function(x, y, binner = NULL, alpha = c("rahman", "q90", "omega"),
     class(sc) <- "scree"
     return(sc)
   }
-
 
   # binner must be NULL, character, or function
   if (!is.null(binner) && !is.character(binner) && !is.function(binner)) {
