@@ -35,18 +35,18 @@
 #'   features %>% group_by(feature) %>% summarise(convex = sc_convex(x,y))
 #'   sc_convex(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_convex <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) UseMethod("sc_convex")
+sc_convex <- function(x, y, alpha = "rahman", outlier_rm = FALSE, binner = NULL) UseMethod("sc_convex")
 
 #' @rdname sc_convex
 #' @export
-sc_convex.default <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
+sc_convex.default <- function(x, y, alpha = "rahman", outlier_rm = FALSE, binner = NULL){
   sc <- scree(x, y, alpha = alpha, outlier_rm = outlier_rm, binner = binner)
   sc_convex.scree(sc)
 }
 
 #' @rdname sc_convex
 #' @export
-sc_convex.scree <- function(x,y = NULL, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) {
+sc_convex.scree <- function(x,y = NULL, alpha = "rahman", outlier_rm = FALSE, binner = NULL) {
   stopifnot(is.null(y))
   chull <- gen_conv_hull(x$del)
   ahull <- gen_alpha_hull(x$del, x$alpha)
@@ -55,7 +55,7 @@ sc_convex.scree <- function(x,y = NULL, alpha = c("rahman", "q90", "omega"), out
 
 #' @rdname sc_convex
 #' @export
-sc_convex.list <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
+sc_convex.list <- function(x, y, alpha = "rahman", outlier_rm = FALSE, binner = NULL){
   chull_area <- splancs::areapl(cbind(x$x, x$y))
   if (y$length > 0)
     ahull_area <- alphahull::areaahull(y)
@@ -104,11 +104,11 @@ sc_convex.list <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm
 #'   features %>% group_by(feature) %>% summarise(skinny = sc_skinny(x,y))
 #'   sc_skinny(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
-sc_skinny <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) UseMethod("sc_skinny")
+sc_skinny <- function(x, y, alpha = "rahman", outlier_rm = FALSE, binner = NULL) UseMethod("sc_skinny")
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.default <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
+sc_skinny.default <- function(x, y, alpha = "rahman", outlier_rm = FALSE, binner = NULL){
   sc <- scree(x, y, alpha = alpha, outlier_rm = outlier_rm, binner = binner)
   if (is.null(sc$del)) {
     dc <- sc_dcor(x,y)
@@ -122,7 +122,7 @@ sc_skinny.default <- function(x, y, alpha = c("rahman", "q90", "omega"), outlier
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.scree <- function(x, y = NULL, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL) {
+sc_skinny.scree <- function(x, y = NULL, alpha = "rahman", outlier_rm = FALSE, binner = NULL) {
   stopifnot(is.null(y))
   ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_skinny.list(ahull)
@@ -130,7 +130,7 @@ sc_skinny.scree <- function(x, y = NULL, alpha = c("rahman", "q90", "omega"), ou
 
 #' @rdname sc_skinny
 #' @export
-sc_skinny.list <- function(x, y=NULL, alpha = c("rahman", "q90", "omega"), outlier_rm = FALSE, binner = NULL){
+sc_skinny.list <- function(x, y=NULL, alpha = "rahman", outlier_rm = FALSE, binner = NULL){
   if (x$length > 0) {
     ahull_area <- alphahull::areaahull(x)
     s <- 1 - sqrt(4*pi * ahull_area) / x$length
