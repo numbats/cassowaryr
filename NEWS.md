@@ -1,3 +1,5 @@
+# cassowaryr 2.0.10
+
 # cassowaryr 2.0.9
 - Updated `scree()` so `outlier_rm` returns revised `del`, `weights`, and `alpha`.
 - Added `outlier_rm` and `binner` options to all index functions and `alpha` option to alpha-hull–based indices.
