@@ -4,10 +4,12 @@
 \alias{scree}
 \title{Pre-processing to generate scagnostic measures}
 \usage{
-scree(x, y, binner = NULL, alpha = "rahman", outlier_rm = FALSE, ...)
+scree(x, y, outlier_rm = FALSE, binner = NULL, alpha = "rahman", ...)
 }
 \arguments{
 \item{x, y}{numeric vectors}
+
+\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
@@ -30,8 +32,6 @@ Alternatively:
 \item a numeric value giving a fixed alpha
 \item a function with no arguments that returns a single numeric alpha
 }}
-
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
 
 \item{...}{other args}
 }
