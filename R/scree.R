@@ -234,3 +234,75 @@ hex_binner <- function(xy, xbins = 40, max_cells = 250) {
   cbind(centers$x, centers$y)
 }
 
+outlying_identify <- function(mst, sc){
+  #input: takes a mst and scree
+  #output: rown number of
+
+  #get matrix and upper triangular matrix
+  matlist <- twomstmat(mst,sc)
+  mstmat <- matlist$mat
+  mstmat_lt <- matlist$lowertri
+
+  #calculate w value
+  edges <- mstmat_lt[which(mstmat_lt>0)]
+  w <- psi(edges)
+
+  #set values above w to 0 in matrix to find outlying
+  mstmat_check <- mstmat
+  mstmat_check[mstmat>w]=0
+
+  #row sum of matrix, if 0 all edges are above this value
+  rowsum <- mstmat_check%*%rep(1, length(mstmat_check[1,]))
+  #return the outlying observation
+  which(rowsum==0)
+}
+
+original_and_robust <- function(x, y){
+  #input: data for 2 variables x and y
+  #output: list of scree and MST objects
+
+  #construct original scree and MST
+  sc_original <- scree(x, y)
+  mst_original <- gen_mst(sc_original$del, sc_original$weights)
+
+  #identify outliers
+  outliers <- outlying_identify(mst_original, sc_original)
+
+  #set outlier removed to original in case of no outliers
+  sc_robust <- sc_original
+  mst_robust <- mst_original
+
+  #outlier removed scree and mst
+  if(length(outliers)>0){
+    new_x <- x[-outliers]
+    new_y <- y[-outliers]
+    if(stats::sd(new_x) == 0 | stats::sd(new_y) == 0) return(NULL)
+    #recalculate scree and MST
+    sc_robust <- scree(new_x, new_y)
+    mst_robust <- gen_mst(sc_robust$del, sc_robust$weights)
+  }
+
+  #output 4 objects as a list
+  structure(
+    list(
+      scree_ori = sc_original,
+      mst_ori  = mst_original,
+      scree_rob = sc_robust,
+      mst_rob = mst_robust
+    ))
+}
+
+twomstmat <- function(mst, scr){
+  #input: mst and scree
+  #output: mst full and lower triangular matrices
+
+  #make into upper tri-matrix
+  mst_mat <- matrix(mst[], nrow=length(scr[["del"]][["x"]][,1]))
+  mst_uppertri <- mst_mat
+  mst_uppertri[upper.tri(mst_mat, diag = FALSE)]=0
+
+  #output matrix and upper triangular matrix
+  structure(
+    list(mat = mst_mat,
+         lowertri = mst_uppertri))
+}
