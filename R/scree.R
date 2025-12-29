@@ -41,15 +41,16 @@
 #' @export
 scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
                   alpha = "rahman", ...) {
-  # checks on x,y
+  # CHECKS
+  # Numeric and equal length
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
   )
-  # Check if data is a straight line
+
+  # Data is a straight line
   if (any(abs(stats::cor(x,y))>1-1*10^-15, !stats::sd(x)>0, !stats::sd(y)>0)){
   warning("Data is a perfectly straight line and cannot be analysed; ",
           "Delaunay triangulation is not computed.")
-
     sc <- list(
       del     = NULL,
       weights = NULL,
@@ -59,111 +60,26 @@ scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
     return(sc)
   }
 
-  # binner must be NULL, character, or function
-  if (!is.null(binner) && !is.character(binner) && !is.function(binner)) {
-    stop("binner must be NULL, 'hex', or a function")
-  }
-
   # cast to a matrix
   xy <- cbind(unitize(x), unitize(y))
 
-  # Check for duplicates and remove
-  # (had to cut off at 15 digits otherwise shull spits error)
-  xrnd <- round(unitize(x), digits = 10)
-  yrnd <- round(unitize(y), digits = 10)
-  dupes <- paste(xrnd, yrnd, sep =",")
-  xy <- xy[!duplicated(dupes),]
+  # Check for duplicates using same method as interp (otherwise get error)
+  xy[!is_dupe(x,y),]
 
-  # Binning
-  if (is.null(binner)) {
+  # Bin data
+  xy <- get_binned_matrix(xy, binner)
 
-    # default: no binning, do nothing
-
-  } else if (is.character(binner)) {
-
-    binner_choice <- match.arg(binner, "hex")
-
-    if (binner_choice == "hex") {
-      xy <- hex_binner(xy, ...)
-    }
-
-  } else if (is.function(binner)) {
-
-    xy <- binner(xy, ...)
-
-    if (!is.matrix(xy) || ncol(xy) != 2) {
-      stop("User-supplied binner must return a two-column matrix of (x, y) points.")
-    }
-  }
-
-  # compute delauney triangulation
-  del <- alphahull::delvor(xy)
-
-  # edge weights from the triangulation
-  weights <- gen_edge_lengths(del)
-
-  # Generate MST and compute its edge weights
-  mst <- gen_mst(del, weights)
-  mst_weights <- igraph::E(mst)$weight
-
-  # remove outliers iteratively (based on "Scagnostics Distributions" paper)
-if (outlier_rm) {
-    repeat {
-      w <- psi(mst_weights)
-      long_edges <- which(mst_weights > w)
-
-      if (length(long_edges) == 0L) break
-
-      long_vertices <- igraph::ends(mst, long_edges)
-      outlier_vertices <- unique(as.integer(long_edges))
-
-      if (length(outlier_vertices) == 0L ||
-          nrow(xy) - length(outlier_vertices) < 3L) {
-        message("Outlier removal stopped: removing these outliers would leave fewer than 3 points (too few vertices to continue).")
-        break
-      }
-
-      xy <- xy[-outlier_vertices, , drop = FALSE]
-
-      # recompute del, weights, mst, mst_weights on updated xy
-      del     <- alphahull::delvor(xy)
-      weights <- gen_edge_lengths(del)
-      mst     <- gen_mst(del, weights)
-      mst_weights <- igraph::E(mst)$weight
-    }
-  }
-
-  n <- nrow(xy)
-
-
-  if (is.character(alpha)) {
-
-    alpha_choice <- match.arg(alpha, c( "rahman", "q90", "omega"))
-
-    alpha_value <- switch(
-      alpha_choice,
-      rahman = alpha_rahman(mst_weights, n),
-      q90    = alpha_q90(mst_weights),
-      omega  = alpha_omega(mst_weights)
-    )
-
-  } else if (is.numeric(alpha)) {
-
-    # user-specified numeric value
-    alpha_value <- alpha
-
-  } else if (is.function(alpha)) {
-
-    # user-supplied alpha estimator
-    alpha_value <- alpha()
-
-    if (!is.numeric(alpha_value) || length(alpha_value) != 1) {
-      stop("User-supplied alpha function must return a single numeric value.")
-    }
-
+  # Outlier removal (based on "Scagnostics Distributions" paper)
+  if (outlier_rm) {
+    del <- outlier_removed_del(xy)
+    weights <- gen_edge_lengths(del)
   } else {
-    stop("alpha must be a character string, numeric value, or function.")
+    del <- alphahull::delvor(xy)
+    weights <- gen_edge_lengths(del)
   }
+
+  # Set alpha value
+  alpha_value <- get_numeric_alpha(alpha, del, weights)
 
 
   structure(
@@ -176,133 +92,6 @@ if (outlier_rm) {
   )
 }
 
-gen_edge_lengths <- function(del) {
-  from_cols <- c("x1", "y1")
-  to_cols <- c("x2", "y2")
-  sqrt(rowSums((del$mesh[, from_cols] - del$mesh[, to_cols])^2))
-}
 
-# rescale input to lie in unit interval
-unitize <- function(x, na.rm = TRUE) {
-  rng <- range(x, na.rm = na.rm)
-  (x - rng[1]) / diff(rng)
-}
 
-# This is the edge filter from Wilkinson 05
-psi <- function(w, q = c(0.25, 0.75)) {
-  q <- stats::quantile(w, probs = q)
-  unname(q[2] + 1.5 * diff(q))
-}
 
-# Alpha value using 90th percentile of MST edge length
-alpha_q90 <- function(mst_weights) {
-  stats::quantile(mst_weights, 0.9)
-}
-
-# Rahman's suggested MST-based alpha
-alpha_rahman <- function(mst_weights, n) {
-  q <- stats::quantile(mst_weights, probs = c(0.25, 0.75))
-  middle_edges <- mst_weights[mst_weights >= q[1] & mst_weights <= q[2]]
-  sqrt(sum(middle_edges) / n)
-}
-
-# Alpha value suggested in "Graph Theoretic Scagnostics" paper
-alpha_omega <- function(mst_weights) {
-  psi(mst_weights)
-}
-
-# Hexagonal binning as in the graph-theoretic scagnostics paper
-hex_binner <- function(xy, xbins = 40, max_cells = 250) {
-  if (!requireNamespace("hexbin", quietly = TRUE)) {
-    stop("Package 'hexbin' must be installed to use binner = 'hex'.")
-  }
-
-  current_xbins <- xbins
-  repeat {
-    hb <- hexbin::hexbin(xy[, 1], xy[, 2], xbins = current_xbins)
-    n_cells <- length(hb@count)  # number of non-empty hex cells
-
-    if (n_cells <= max_cells || current_xbins <= 1) {
-      break
-    }
-
-    # reduce bin size by half and rebin
-    current_xbins <- max(1L, floor(current_xbins / 2))
-  }
-
-  centers <- hexbin::hcell2xy(hb)
-  cbind(centers$x, centers$y)
-}
-
-outlying_identify <- function(mst, sc){
-  #input: takes a mst and scree
-  #output: rown number of
-
-  #get matrix and upper triangular matrix
-  matlist <- twomstmat(mst,sc)
-  mstmat <- matlist$mat
-  mstmat_lt <- matlist$lowertri
-
-  #calculate w value
-  edges <- mstmat_lt[which(mstmat_lt>0)]
-  w <- psi(edges)
-
-  #set values above w to 0 in matrix to find outlying
-  mstmat_check <- mstmat
-  mstmat_check[mstmat>w]=0
-
-  #row sum of matrix, if 0 all edges are above this value
-  rowsum <- mstmat_check%*%rep(1, length(mstmat_check[1,]))
-  #return the outlying observation
-  which(rowsum==0)
-}
-
-original_and_robust <- function(x, y){
-  #input: data for 2 variables x and y
-  #output: list of scree and MST objects
-
-  #construct original scree and MST
-  sc_original <- scree(x, y)
-  mst_original <- gen_mst(sc_original$del, sc_original$weights)
-
-  #identify outliers
-  outliers <- outlying_identify(mst_original, sc_original)
-
-  #set outlier removed to original in case of no outliers
-  sc_robust <- sc_original
-  mst_robust <- mst_original
-
-  #outlier removed scree and mst
-  if(length(outliers)>0){
-    new_x <- x[-outliers]
-    new_y <- y[-outliers]
-    if(stats::sd(new_x) == 0 | stats::sd(new_y) == 0) return(NULL)
-    #recalculate scree and MST
-    sc_robust <- scree(new_x, new_y)
-    mst_robust <- gen_mst(sc_robust$del, sc_robust$weights)
-  }
-
-  #output 4 objects as a list
-  structure(
-    list(
-      scree_ori = sc_original,
-      mst_ori  = mst_original,
-      scree_rob = sc_robust,
-      mst_rob = mst_robust
-    ))
-}
-
-twomstmat <- function(mst, scr){
-  #input: mst and scree
-  #output: mst full and lower triangular matrices
-
-  #make into upper tri-matrix
-  mst_mat <- matrix(mst[], nrow=length(scr[["del"]][["x"]][,1]))
-  mst_uppertri <- mst_mat
-  mst_uppertri[upper.tri(mst_mat, diag = FALSE)]=0
-
-  #output matrix and upper triangular matrix
-  structure(
-    list(mat = mst_mat,
-         lowertri = mst_uppertri))
-}
