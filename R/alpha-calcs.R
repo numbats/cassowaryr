@@ -1,4 +1,4 @@
-######################### ##### ALPHA FUNCTIONS #########################
+# internal function for scree that returns numeric alpha value
 get_numeric_alpha <- function(alpha, del, weights){
   if (is.character(alpha)) {
     # Most definitions depend on the MST edge lengths
@@ -12,7 +12,7 @@ get_numeric_alpha <- function(alpha, del, weights){
     # calculate set alpha value
     alpha_value <- switch(
       alpha_choice,
-      rahman = alpha_rahman(mst_weights, n),
+      rahman = alpha_rahman(mst_weights),
       q90    = alpha_q90(mst_weights),
       omega  = alpha_omega(mst_weights)
     )
@@ -32,15 +32,17 @@ get_numeric_alpha <- function(alpha, del, weights){
   } else {
     stop("alpha must be a character string, numeric value, or function.")
   }
+  return(alpha_value)
 }
 
 # Alpha value using 90th percentile of MST edge length
 alpha_q90 <- function(mst_weights) {
-  stats::quantile(mst_weights, 0.9)
+  unname(stats::quantile(mst_weights, 0.9))
 }
 
 # Rahman's suggested MST-based alpha
-alpha_rahman <- function(mst_weights, n) {
+alpha_rahman <- function(mst_weights) {
+  n <- length(mst_weights) + 1
   q <- stats::quantile(mst_weights, probs = c(0.25, 0.75))
   middle_edges <- mst_weights[mst_weights >= q[1] & mst_weights <= q[2]]
   sqrt(sum(middle_edges) / n)
