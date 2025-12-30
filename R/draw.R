@@ -193,7 +193,10 @@ draw_mst.scree <- function(x, y=NULL, outlier_rm = FALSE,
 draw_mst.igraph <- function(x, y, outlier_rm = FALSE,
                             binner = NULL){
   xystartend <- tibble::as_tibble(y[["del"]][["mesh"]])
-  MST_mat <- twomstmat(x, y)$mat
+
+  # get edge matrix
+  n <- length(igraph::E(x)$weight) + 1
+  MST_mat <- matrix(x[], nrow = n)
   d_MST <- xystartend %>%
     dplyr::group_by(ind1,ind2) %>%
     dplyr::mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
