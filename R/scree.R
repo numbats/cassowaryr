@@ -31,12 +31,20 @@
 #'  alphahull
 #'
 #' @examples
+#' set.seed(232)
 #'
-#' x <- runif(100)
-#' y <- runif(100)
-#' scree(x,y)                  # no binning
-#' scree(x, y, binner = "hex") #  hexagonal binning
+#' x <- runif(1000)
+#' y <- runif(1000)
 #'
+#' # make scree
+#' sc0 <- scree(x,y)
+#' sc1 <- scree(x,y, outlier_rm = TRUE)  # no binning, remove outliers
+#' sc2 <- scree(x, y, binner = "hex") #  hexagonal binning
+#'
+#' # see the difference made by binning out out.rm
+#' draw_mst(sc0)
+#' draw_mst(sc1)
+#' draw_mst(sc2)
 #'
 #' @export
 scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
@@ -69,16 +77,15 @@ scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
   # Bin data
   xy <- get_binned_matrix(xy, binner)
 
-  # Outlier removal (based on "Scagnostics Distributions" paper)
+  # Outlier removal & delauney triangulation
   if (outlier_rm) {
-    del <- outlier_removed_del(xy)
-    weights <- gen_edge_lengths(del)
-  } else {
+    del <- outlier_removal(xy)
+  } else{
     del <- alphahull::delvor(xy)
-    weights <- gen_edge_lengths(del)
   }
-
-  # Set alpha value
+  # Full graph edge weights
+  weights <- gen_edge_lengths(del)
+  # Alpha value
   alpha_value <- get_numeric_alpha(alpha, del, weights)
 
 
