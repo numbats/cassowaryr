@@ -39,7 +39,6 @@ hex_binner <- function(xy, xbins = 50, max_cells = 1000) {
   repeat {
     hb <- hexbin::hexbin(xy[, 1], xy[, 2], xbins = current_xbins)
     n_cells <- length(hb@count)  # number of non-empty hex cells
-    print(current_xbins)
     if (n_cells <= max_cells || current_xbins <= 1) {
       break
     }
