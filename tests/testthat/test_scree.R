@@ -1,47 +1,34 @@
+# make data function
+set.seed(232)
+
+x <- runif(1000)
+y <- runif(1000)
+
+# save correct outputs
+# sc0 <- scree(x,y)
+# sc1 <- scree(x,y, outlier_rm = TRUE)  # no binning, remove outliers
+# sc2 <- scree(x, y, binner = "hex") #  hexagonal binning
+# sc3 <- scree(x, y, binner = "hex", outlier_rm = TRUE) # both
+# saveRDS(sc0, file = "tests/testthat/objects/sc0.rds")
+# saveRDS(sc1, file = "tests/testthat/objects/sc1.rds")
+# saveRDS(sc2, file = "tests/testthat/objects/sc2.rds")
+# saveRDS(sc3, file = "tests/testthat/objects/sc3.rds")
+
+# read in correct outputs
+sc0 <- readRDS("tests/testthat/objects/sc0.rds")
+sc1 <- readRDS("tests/testthat/objects/sc1.rds")
+sc2 <- readRDS("tests/testthat/objects/sc2.rds")
+sc3 <- readRDS("tests/testthat/objects/sc3.rds")
+
 # Testing iterative outlier removal
-test_that("outlier removal behaves differently for clean vs outlier-augmented data", {
-
-  set.seed(1053)
-  # Clean pattern
-  x1 <- seq(0, 10, by = 0.01)
-  y1 <- sin(2 * x1)
-
-  # Same pattern with two extra outliers
-  x2 <- c(x1, -5, 15)
-  y2 <- c(y1, -1, 0)
-
-  sc1 <- scree(x1, y1, outlier_rm = FALSE)
-  sc2 <- scree(x1, y1, outlier_rm = TRUE)
-
-  sc3 <- scree(x2, y2, outlier_rm = FALSE)
-  sc4 <- scree(x2, y2, outlier_rm = TRUE)
-
-  # For clean data, outlier removal should not change the result
-  expect_true(isTRUE(all.equal(sc1$alpha,   sc2$alpha)))
-  expect_true(isTRUE(all.equal(sc1$weights, sc2$weights)))
-
-  # For data with outliers added, outlier removal should change the result
-  expect_false(isTRUE(all.equal(sc3$alpha,   sc4$alpha)))
-  expect_false(isTRUE(all.equal(sc3$weights, sc4$weights)))
-})
-
-
-
-test_that("hexagonal binning changes the scree structure compared to raw points", {
-
-  set.seed(1103)
-  x <- seq(0, 10, by = 0.01)
-  y <- sin(2 * x)
-
-  # Scree without binning (raw points)
-  sc_raw <- scree(x, y, binner = NULL)
-
-  # Scree with hexagonal binning
-  sc_hex <- scree(x, y, binner = "hex")
-
-  expect_false(isTRUE(all.equal(sc_raw$weights, sc_hex$weights)))
-  expect_false(isTRUE(all.equal(sc_raw$alpha,   sc_hex$alpha)))
+test_that("test scree function works", {
+  # just check functions have expected output
+  expect_equal(scree(x,y), sc0)
+  expect_equal(scree(x,y, outlier_rm = TRUE), sc1)
+  expect_equal(scree(x, y, binner = "hex"), sc2)
+  expect_equal(scree(x, y, binner = "hex", outlier_rm = TRUE), sc3)
 
   #  we expect fewer edges than with raw points
-  expect_gt(length(sc_raw$weights), length(sc_hex$weights))
+  expect_gt(length(sc0$weights), length(sc1$weights))
+  expect_gt(length(sc0$weights), length(sc2$weights))
 })
