@@ -1,6 +1,5 @@
-
-
-get_binned_matrix <- function(xy, binner){
+# returns binned matrix from xy matrix and binner
+get_binned_matrix <- function(xy, binner, ...){
   # Check binner
   if (!is.null(binner) && !is.character(binner) && !is.function(binner)) {
     stop("binner must be NULL, 'hex', or a function")
@@ -31,7 +30,7 @@ get_binned_matrix <- function(xy, binner){
 }
 
 # Hexagonal binning as in the graph-theoretic scagnostics paper
-hex_binner <- function(xy, xbins = 40, max_cells = 250) {
+hex_binner <- function(xy, xbins = 50, max_cells = 1000) {
   if (!requireNamespace("hexbin", quietly = TRUE)) {
     stop("Package 'hexbin' must be installed to use binner = 'hex'.")
   }
@@ -40,7 +39,7 @@ hex_binner <- function(xy, xbins = 40, max_cells = 250) {
   repeat {
     hb <- hexbin::hexbin(xy[, 1], xy[, 2], xbins = current_xbins)
     n_cells <- length(hb@count)  # number of non-empty hex cells
-    print(n_cells)
+    print(current_xbins)
     if (n_cells <= max_cells || current_xbins <= 1) {
       break
     }
@@ -48,9 +47,7 @@ hex_binner <- function(xy, xbins = 40, max_cells = 250) {
     # reduce bin size by half and rebin
     current_xbins <- max(1L, floor(current_xbins / 2))
   }
-
-  centers <- hexbin::hcell2xy(hb)
-  cbind(centers$x, centers$y)
+  cbind(hb@xcm, hb@ycm)
 }
 
 
