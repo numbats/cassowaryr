@@ -1,5 +1,4 @@
 
-######################### BINNING FUNCTIONS ###################################
 
 get_binned_matrix <- function(xy, binner){
   # Check binner
@@ -41,7 +40,7 @@ hex_binner <- function(xy, xbins = 40, max_cells = 250) {
   repeat {
     hb <- hexbin::hexbin(xy[, 1], xy[, 2], xbins = current_xbins)
     n_cells <- length(hb@count)  # number of non-empty hex cells
-
+    print(n_cells)
     if (n_cells <= max_cells || current_xbins <= 1) {
       break
     }
