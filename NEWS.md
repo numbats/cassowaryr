@@ -1,3 +1,9 @@
+# cassowaryr 2.0.11
+- Broke scree function up so binning, outlier removal, and alpha calculations are in their own functions (and R files)
+- Reverted outlier removal to old method, but made kept it iterative and in the scree
+- Changed binning to the method implemented in the scagnsotics package
+- Wrote tests for binning, outlier removal, alpha, and scree functions
+
 # cassowaryr 2.0.10
 - Update draw functions so they accept a scree and also draw_alphahull allows you to set the alpha value
 - Made the default alpha value clearer (alpha = "rahman")
