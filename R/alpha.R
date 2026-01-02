@@ -7,7 +7,7 @@ get_numeric_alpha <- function(alpha, del, weights){
 
     # get required params
     alpha_choice <- match.arg(alpha, c( "rahman", "q90", "omega"))
-    n <- nrow(xy)
+    n <- length(weights + 1)
 
     # calculate set alpha value
     alpha_value <- switch(
