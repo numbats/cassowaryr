@@ -2,42 +2,36 @@
 % Please edit documentation in R/mst.R
 \name{sc_skewed}
 \alias{sc_skewed}
-\alias{sc_skewed.default}
-\alias{sc_skewed.scree}
-\alias{sc_skewed.igraph}
 \title{Compute skewed scagnostic measure using MST}
 \usage{
-sc_skewed(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_skewed}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_skewed}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_skewed}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
+sc_skewed(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
-
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's skewed score.
+A numeric object that gives the plot's skewed score.
 }
 \description{
-Compute skewed scagnostic measure using MST
+A measure of skewness in the edge lengths of the MST (not in the
+distribution of the data). It was first defined in Graph Theoretic
+Scagnostics, Wilkinson, et al. (2005). It is the ratio between
+the 90th to 50th percentile range and the 10th to 90th percentile range.
 }
 \examples{
   require(ggplot2)

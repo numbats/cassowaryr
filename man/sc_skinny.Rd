@@ -2,47 +2,12 @@
 % Please edit documentation in R/alphahull.R
 \name{sc_skinny}
 \alias{sc_skinny}
-\alias{sc_skinny.default}
-\alias{sc_skinny.scree}
-\alias{sc_skinny.list}
 \title{Compute skinny scagnostic measure}
 \usage{
-sc_skinny(
-  x,
-  y,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
-
-\method{sc_skinny}{default}(
-  x,
-  y,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
-
-\method{sc_skinny}{scree}(
-  x,
-  y = NULL,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
-
-\method{sc_skinny}{list}(
-  x,
-  y = NULL,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
+sc_skinny(x, y, alpha = "rahman", out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
-
-\item{y}{numeric vector of y values}
+\item{x, y}{numeric vectors}
 
 \item{alpha}{character, numeric, or function. Controls the alpha radius.
 Valid character values are:
@@ -55,24 +20,30 @@ Alternatively:
 \item a function with no arguments that returns a single numeric alpha
 }}
 
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's skinny score.
+A numeric object that gives the plot's skinny score.
 }
 \description{
-Compute skinny scagnostic measure
+A measure of how “thin” the shape of the data is. It was first defined in
+Graph Theoretic Scagnostics, Wilkinson, et al. (2005). It is calculated
+as the ratio between the area and perimeter of the alpha hull with some
+normalisation such that 0 correspond to a perfect circle and values close
+to 1 indicate a skinny polygon.
 }
 \examples{
   require(ggplot2)

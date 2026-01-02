@@ -1,16 +1,14 @@
 #' Compute the grid scanostic measure using MST
 #'
-#' This scagnostic identifies grid-like structures by counting the
-#' number of 90 and 180 degree angles in the MST, as defined in
-#' in Adam Rahman's PhD thesis.
+#' The grid scagnsotic as defined in Adam Rahman's PhD thesis (2018).
+#' The scagnostic identifies grid-like structures by counting the number of
+#' 90 and 180 degree angles in the MST. This measure can be used as an
+#' effective alternative to striated when computing scagnostics without binning.
 #'
-#' @param x numeric vector of x values, or an MST object
-#' @param y numeric vector of y values, or a scree object
-#' @param epsilon the error tolerance allowed to count the angles
-#' @param outlier_rm logical; if TRUE, outliers are iteratively removed
-#' @param binner an optional binning
-#' @return The plot's grid score as a numeric object
-#'
+#' @inheritParams scree
+#' @param epsilon the error tolerance allowed when deciding if the MST angles
+#' are at a right angle or not
+#' @return A numeric object that gives the plot's grid score.
 #' @examples
 #'   require(ggplot2)
 #'   require(dplyr)
@@ -23,27 +21,28 @@
 #'   sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_grid <- function(x, y, epsilon, outlier_rm = FALSE, binner = NULL) UseMethod("sc_grid")
+sc_grid <- function(x, y, epsilon,
+                    out.rm = TRUE, binner =  "hex") UseMethod("sc_grid")
 
-#' @rdname sc_grid
+
 #' @export
-sc_grid.default <- function(x, y, epsilon=0.01, outlier_rm = FALSE, binner = NULL){
-  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
+sc_grid.default <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex"){
+  sc <- scree(x, y, out.rm = out.rm, binner = binner)
   sc_grid.scree(sc, y=NULL, epsilon)
 }
 
-#' @rdname sc_grid
+
 #' @export
-sc_grid.scree <- function(x, y = NULL, epsilon=0.01, outlier_rm = FALSE, binner = NULL) {
+sc_grid.scree <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex") {
   stopifnot(is.null(y))
   y <- gen_mst(x$del, x$weights)
   sc_grid.igraph(y, x, epsilon)
 
 }
 
-#' @rdname sc_grid
+
 #' @export
-sc_grid.igraph <- function(x, y, epsilon=0.01, outlier_rm = FALSE, binner = NULL){
+sc_grid.igraph <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex"){
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts>=2)
   grd=0
@@ -64,12 +63,14 @@ sc_grid.igraph <- function(x, y, epsilon=0.01, outlier_rm = FALSE, binner = NULL
 
 #' Compute adjusted clumpy measure using MST
 #'
-#' @param x numeric vector of x values
-#' @param y numeric vector of y values
-#' @param outlier_rm logical; if TRUE, outliers are iteratively removed
-#' @param binner an optional binning
-#' @return A "numeric" object that gives the plot's clumpy2 score.
+#' This measure is defined in the cassowaryr paper by Mason, et al. (2025).
+#' It is an alternative measure for clumpiness. It is the ratio of the
+#' between cluster edges and the within cluster edges. It is a good
+#' alternative measure to clumpy when binning is removed as a pre-processing
+#' step.
 #'
+#' @inheritParams scree
+#' @return A numeric object that gives the plot's adjusted clumpy score.
 #' @examples
 #'   require(ggplot2)
 #'   require(dplyr)
@@ -80,25 +81,25 @@ sc_grid.igraph <- function(x, y, epsilon=0.01, outlier_rm = FALSE, binner = NULL
 #'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_clumpy2 <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("sc_clumpy2")
+sc_clumpy2 <- function(x, y, out.rm = TRUE, binner =  "hex") UseMethod("sc_clumpy2")
 
-#' @rdname sc_clumpy2
+
 #' @export
-sc_clumpy2.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
-  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
+sc_clumpy2.default <- function(x, y, out.rm = TRUE, binner =  "hex"){
+  sc <- scree(x, y, out.rm = out.rm, binner = binner)
   sc_clumpy2.scree(sc)
 }
 
-#' @rdname sc_clumpy2
+
 #' @export
-sc_clumpy2.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL) {
+sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   mst <- gen_mst(x$del, x$weights)
   sc_clumpy2.igraph(mst,x)
 }
 
-#' @rdname sc_clumpy2
+
 #' @export
-sc_clumpy2.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
+sc_clumpy2.igraph <- function(x, y, out.rm = TRUE, binner =  "hex"){
   #set stringy penalty
   vertex_counts <- igraph::degree(x)
   #technically stringy calc
@@ -116,8 +117,10 @@ sc_clumpy2.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
 
   # identify big edges
   edge_order <- order(mstmat[matind]) #get edge order
-  ind <- which.min(diff(sort(mstmat[matind], decreasing = TRUE))) #index of maximum difference
-  big_ei <- which(mstmat[matind] %in% utils::head(sort(mstmat, decreasing=TRUE), ind)) #index in original mst of big edges
+  #index of maximum difference
+  ind <- which.min(diff(sort(mstmat[matind], decreasing = TRUE)))
+  #index in original mst of big edges
+  big_ei <- which(mstmat[matind] %in% utils::head(sort(mstmat, decreasing=TRUE), ind))
 
   #only keep index, rows and cols of between cluster indexs
   matind <- matind[big_ei]
@@ -191,8 +194,8 @@ sc_clumpy2.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
     # calculate clumpy value w penalty for uneven clusters
     uneven_pen <- sqrt((2*c_length)/(len_c1+len_c2))
     clumpy[j] <- stringy_pen*uneven_pen*(big_ew[j]/short_edge)
-    #just setting this now will fix to something more appropriate later
-    clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j]) #return 1 if all clusters are of size 1
+    #return 1 if all clusters are of size 1
+    clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j])
   }
   #threshold to be considered clumpy is above 1
   value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy)) #value <- mean(clumpy)+1
@@ -204,12 +207,11 @@ sc_clumpy2.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
 
 #' Compute  adjusted sparse measure using the alpha hull
 #'
-#' @param x numeric vector of x values
-#' @param y numeric vector of y values
-#' @param outlier_rm logical; if TRUE, outliers are iteratively removed
-#' @param binner an optional binning
-#' @return A "numeric" object that gives the plot's sparse2 score.
+#' The sparse2 mesure as defined in cassowaryr, Mason, et al (2025).
+#' The measure calculates the sparsity of the plot as 1-area(ahull).
 #'
+#' @inheritParams scree
+#' @return A numeric object that gives the plot's adjusted sparse score.
 #' @examples
 #'   require(ggplot2)
 #'   require(tidyr)
@@ -221,28 +223,30 @@ sc_clumpy2.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
 #'   sc_sparse2(anscombe$x1, anscombe$y1)
 #'
 #' @export
-sc_sparse2 <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("sc_sparse2")
+sc_sparse2 <- function(x, y, out.rm = TRUE, binner =  "hex") UseMethod("sc_sparse2")
 
-#' @rdname sc_sparse2
+
 #' @export
-sc_sparse2.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
-  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
+sc_sparse2.default <- function(x, y, out.rm = TRUE, binner =  "hex"){
+  sc <- scree(x, y, out.rm = out.rm, binner = binner)
   sc_sparse2.scree(sc)
 }
 
-#' @rdname sc_sparse2
+
 #' @export
-sc_sparse2.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL) {
+sc_sparse2.scree <- function(x, y=NULL, out.rm = TRUE, binner =  "hex") {
   ahull <- gen_alpha_hull(x$del, x$alpha)
   sc_sparse2.list(ahull)
 }
 
-#' @rdname sc_sparse2
+
 #' @export
-sc_sparse2.list <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL){
+sc_sparse2.list <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
   if (x$length > 0)
     ahull_area <- alphahull::areaahull(x)
   else
     ahull_area <- 0
   1- ahull_area
 }
+
+

@@ -1,12 +1,21 @@
 #' Compute scagnostics on all possible scatter plots for the given data
 #'
-#' @param all_data tibble of multivariate data on which to compute scagnostics
+#' It is quite common to have data in a wide format that is not suitable to
+#' feed into the calc_scags function that would need a long format. To save
+#' users time and energy we also provide a wide version of the calc_scags
+#' function. This function will compute all selected scagnostics for every
+#' pair wise set of variables in the data frame.
+#'
+#' @inheritParams scree
+#' @param all_data tibble of wide multivariate data
 #' @param scags collection of strings matching names of
 #' scagnostics to calculate: outlying, stringy, striated,
 #' grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
-#' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
-#' @return A data frame that gives the data's scagnostic scores for each possible variable combination.
+#'
+#' @return A data frame that gives the scagnostic scores for every possible
+#' pair of variables.
+#'
 #' @seealso calc_scags
 #' @examples
 #' # Calculate selected scagnostics
@@ -21,7 +30,7 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
                                               "sparse", "skewed", "convex",
                                               "skinny", "monotonic", "splines",
                                               "dcor"),
-                            out.rm= TRUE){
+                            out.rm= TRUE, binner = "hex", alpha = "rahman"){
 
   if("striated2" %in% scags){
     warning("Please use grid instead of striated2")
@@ -79,14 +88,25 @@ intermediate_scags <- function(vars, data, scags, out.rm, pb){
 
 #' Compute selected scagnostics on subsets
 #'
-#' @param x numeric vector
-#' @param y numeric vector
+#' This function allows you to calculate a large number of scagnostics quickly
+#' and efficiently. While the individual scagnostic calculation functions
+#' (sc_*) are good for looking at a single scagnostic, it is inefficient when
+#' computing more than one scagnostic. This is becasue the sc_* functions
+#' recompute the graph object for each plot and scagnostic pair, even if
+#' the graph objects are unchanged. Additionally, typing the functions over
+#' and over again quickly becomes tedious. For this reason, we have the
+#' calc_scags function that will reuse the same graph
+#' object for all scagnostics.
+#'
+#' @inheritParams scree
 #' @param scags collection of strings matching names of
 #' scagnostics to calculate: outlying, stringy, striated,
 #' grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 #' skinny, monotonic, splines, dcor
-#' @param out.rm logical indicator to indicate if outliers should be removed before calculating non outlying measures
-#' @return A data frame that gives the single plot's scagnostic score.
+#'
+#' @return A data frame with all selected scagnostic values for a particular x,
+#' y pair.
+#'
 #' @seealso calc_scags_wide
 #' @examples
 #' # Calculate selected scagnostics on a single pair
@@ -103,7 +123,8 @@ intermediate_scags <- function(vars, data, scags, out.rm, pb){
 calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
                                      "clumpy", "clumpy2", "sparse", "skewed",
                                      "convex", "skinny", "monotonic", "splines",
-                                     "dcor"), out.rm=TRUE){
+                                     "dcor"),
+                       out.rm=TRUE, binner = "hex", alpha = "rahman"){
   #set all scagnostics to null
   outlying = NULL
   stringy = NULL
@@ -252,52 +273,65 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
   return(scagnostic_calcs)
 }
 
-#' Calculate the top pair of variables or group for each scagnostic
-#' @param scags_data A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide
-#' @return A data frame where each row is a scagnostic with its highest pair and the associated value
+#' Summary computations for scagnostic data
+#'
+#' These functions suggests a summary statistic that can be found using
+#' the scag calculations provided by calc_scags. The top_pair function
+#' finds the top pair of variables for each of the scagnostics, while
+#' top_scag finds the highest value scagnostic for each pair of variables.
+#' While these computations
+#' are relatively straight forward for any R user to compute themselves,
+#' including these summary function in the package simultaneously streamlines
+#' a common calculation made with the scagnostic data and suggests this
+#' summary to new users of the package.
+#'
+#' @param scags_data A dataset of scagnostic values that was returned by
+#' calc_scags or calc_scags_wide
+#'
+#' @return A data frame. For top_pair, each row will represent a scagnostic
+#' with its highest pair. For top_scag, each row will represent a pair of
+#' variables with its highest valued scagnostic.
+
 #' @examples
-#' #an example using calc_scags
 #' require(dplyr)
-#' datasaurus_dozen %>%
-#'   group_by(dataset) %>%
-#'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex"))) %>%
-#'   top_scags()
-#'  #an example using calc_scags_wide
-#'  data(pk)
-#'  scags_data <- calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
-#'  top_scags(scags_data)
-#' @seealso calc_scags calc_scags_wide top_pairs
+#' # calculate scag data
+#' scag_data <- datasaurus_dozen |>
+#'   group_by(dataset) |>
+#'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
+#'
+#' # Calculate top_pair
+#' scag_data |>
+#'   top_pair()
+#'
+#' # Calculate top_scag
+#' scag_data |>
+#'   top_scag()
+#'
+#'
+#' @seealso calc_scags calc_scags_wide
 #' @importFrom magrittr %>%
+#' @name top_functions
+
+#' @rdname top_functions
 #' @export
-top_scags <- function(scags_data){
+top_pair <- function(scags_data){
   value <- scag <- NULL
-  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
+  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy",
+                  "clumpy2", "sparse", "skewed", "convex", "skinny",
+                  "monotonic", "splines", "dcor", "striped")
   scags_data %>%
-    tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
+    tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag",
+                        values_to = "value") %>%
     dplyr::arrange(dplyr::desc(value)) %>%
     dplyr::group_by(scag) %>%
     dplyr::slice_head(n=1) %>%
     dplyr::ungroup()
 }
 
-#' Calculate the top scagnostic for each pair of variables
-#' @param scags_data A dataset of scagnostic values that was returned by calc_scags or calc_scags_wide
-#' @return A data frame where each row is a each scatter plot, its highest valued scagnostic, and its respective value
-#' @examples
-#' #an example using calc_scags
-#' require(dplyr)
-#' datasaurus_dozen %>%
-#'   group_by(dataset) %>%
-#'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex"))) %>%
-#'   top_pairs()
-#'  #an example using calc_scags_wide
-#'  data(pk)
-#'  scags_data <- calc_scags_wide(pk[,2:5], scags=c("outlying","clumpy","monotonic"))
-#'  top_pairs(scags_data)
-#' @seealso calc_scags calc_scags_wide top_scags
-#' @importFrom magrittr %>%
+
+#' @rdname top_functions
 #' @export
-top_pairs <- function(scags_data){
+top_scag <- function(scags_data){
   value <- scag <- NULL
   validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
   scags_data %>%

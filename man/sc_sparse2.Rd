@@ -2,33 +2,34 @@
 % Please edit documentation in R/adjusted.R
 \name{sc_sparse2}
 \alias{sc_sparse2}
-\alias{sc_sparse2.default}
-\alias{sc_sparse2.scree}
-\alias{sc_sparse2.list}
 \title{Compute  adjusted sparse measure using the alpha hull}
 \usage{
-sc_sparse2(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_sparse2}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_sparse2}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_sparse2}{list}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
+sc_sparse2(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
-\item{outlier_rm}{logical; if TRUE, outliers are iteratively removed}
-
-\item{binner}{an optional binning}
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
+\item a function: user-defined binner
+}}
 }
 \value{
-A "numeric" object that gives the plot's sparse2 score.
+A numeric object that gives the plot's adjusted sparse score.
 }
 \description{
-Compute  adjusted sparse measure using the alpha hull
+The sparse2 mesure as defined in cassowaryr, Mason, et al (2025).
+The measure calculates the sparsity of the plot as 1-area(ahull).
 }
 \examples{
   require(ggplot2)

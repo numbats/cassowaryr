@@ -2,42 +2,36 @@
 % Please edit documentation in R/mst.R
 \name{sc_outlying}
 \alias{sc_outlying}
-\alias{sc_outlying.default}
-\alias{sc_outlying.scree}
-\alias{sc_outlying.igraph}
 \title{Compute outlying scagnostic measure using MST}
 \usage{
-sc_outlying(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_outlying}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_outlying}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_outlying}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
+sc_outlying(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
-
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's outlying score.
+A numeric object that gives the plot's outlying score.
 }
 \description{
-Compute outlying scagnostic measure using MST
+A measure of proportion and severity of outliers in the dataset. It was
+first defined in Graph Theoretic Scagnostics, Wilkinson, et al. (2005).
+It is calculated by comparing the edge lengths of the outlying points in
+the MST with the total length of all the edges in the MST.
 }
 \examples{
   require(ggplot2)

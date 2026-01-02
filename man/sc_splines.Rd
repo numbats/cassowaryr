@@ -15,11 +15,13 @@ sc_splines(x, y)
 A "numeric" object that gives the plot's spines score.
 }
 \description{
-(Taken from tourr git repo)
-Compares the variance in residuals of a fitted
-spline model to the overall variance to find
-functional dependence in 2D projections
-of the data.
+Measures the functional non-linear dependence by fitting a penalised
+splines model on X using Y, and on Y using X. The measure was
+defined as an association scagnostic in Katrin Grimm's PhD thesis (2016)
+The variance of the residuals are scaled down by the axis so they are
+comparable, and finally the maximum is taken.
+Therefore the value will be closer to 1 if either relationship
+can be decently explained by a splines model.
 }
 \examples{
   require(ggplot2)

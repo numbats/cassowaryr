@@ -2,54 +2,43 @@
 % Please edit documentation in R/mst.R
 \name{sc_stringy}
 \alias{sc_stringy}
-\alias{sc_stringy.default}
-\alias{sc_stringy.scree}
-\alias{sc_stringy.igraph}
 \alias{sc_stringy2}
-\alias{sc_stringy2.default}
-\alias{sc_stringy2.scree}
-\alias{sc_stringy2.igraph}
 \title{Compute stringy scagnostic measure using MST}
 \usage{
-sc_stringy(x, y, outlier_rm = FALSE, binner = NULL)
+sc_stringy(x, y, out.rm = TRUE, binner = "hex")
 
-\method{sc_stringy}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_stringy}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_stringy}{igraph}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-sc_stringy2(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_stringy2}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_stringy2}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_stringy2}{igraph}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
+sc_stringy2(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
-
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's stringy score.
+A numeric object that gives the plot's stringy score.
 }
 \description{
-Compute stringy scagnostic measure using MST
+This measure identifies a “stringy” shape with no branches, such as a thin
+line of data. The stringy function is defined in Scagnostics Distributions by
+Wilkinson & Wills (2008). It is calculated by comparing the number of
+vertices of degree two in the MST with the total number of vertices
+in the MST, dropping those of degree one. The stringy2 function
+is defined in Graph Theoretic Scagnostics, Wilkinson (2005). It is
+the legnth of the longest shortest path through the MST divided by the
+sum of all edge lengths in the MST.
 }
 \examples{
   require(ggplot2)

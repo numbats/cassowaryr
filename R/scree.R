@@ -1,14 +1,18 @@
 #' Pre-processing to generate scagnostic measures
 #'
+#' This function performs the pre-processing requires to calculate the
+#' scagnostic measures. This includes the binning, outlier removal, and
+#' calculation of the alpha value.
+#'
 #' @param x,y numeric vectors
 #' @param binner an optional function that bins the x and y vectors prior
 #' to triangulation
 #'  Can be:
 #'   \itemize{
-#'     \item `NULL`: no binning (use raw points)
-#'     \item `"hex"` : hexagonal binning following the procedure in the
+#'     \item `"hex"` (default): hexagonal binning following the procedure in the
 #'     graph-theoretic scagnostics paper (start 40x40, halve
 #'              until <= 250 nonempty cells)
+#'     \item `NULL`: no binning (use raw points)
 #'     \item a function: user-defined binner
 #'     }
 #' @param alpha character, numeric, or function. Controls the alpha radius.
@@ -21,7 +25,9 @@
 #'     \item a numeric value giving a fixed alpha
 #'     \item a function with no arguments that returns a single numeric alpha
 #'     }
-#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
+#' @param out.rm logical; if TRUE, iteratively trim large MST edges, If FALSE
+#' the scanostics will be computed on the entire data set with no outlier
+#' removal.
 #' @param ...  other args
 #'
 #' @return An object of class "scree" that consists of three elements:
@@ -38,8 +44,8 @@
 #'
 #' # make scree
 #' sc0 <- scree(x,y)
-#' sc1 <- scree(x,y, outlier_rm = TRUE)  # no binning, remove outliers
-#' sc2 <- scree(x, y, binner = "hex") #  hexagonal binning
+#' sc1 <- scree(x,y, out.rm = FALSE)  # no outlier removal
+#' sc2 <- scree(x, y, binner = NULL) #  no hexagonal binning
 #'
 #' # see the difference made by binning out out.rm
 #' draw_mst(sc0)
@@ -47,7 +53,7 @@
 #' draw_mst(sc2)
 #'
 #' @export
-scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
+scree <- function(x, y, out.rm = TRUE, binner = "hex",
                   alpha = "rahman", ...) {
   # CHECKS
   # Numeric and equal length
@@ -78,7 +84,7 @@ scree <- function(x, y, outlier_rm = FALSE, binner = NULL,
   xy <- get_binned_matrix(xy, binner)
 
   # Outlier removal & delauney triangulation
-  if (outlier_rm) {
+  if (out.rm) {
     del <- outlier_removal(xy)
   } else{
     del <- alphahull::delvor(xy)

@@ -8,24 +8,55 @@ calc_scags_wide(
   all_data,
   scags = c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse",
     "skewed", "convex", "skinny", "monotonic", "splines", "dcor"),
-  out.rm = TRUE
+  out.rm = TRUE,
+  binner = "hex",
+  alpha = "rahman"
 )
 }
 \arguments{
-\item{all_data}{tibble of multivariate data on which to compute scagnostics}
+\item{all_data}{tibble of wide multivariate data}
 
 \item{scags}{collection of strings matching names of
 scagnostics to calculate: outlying, stringy, striated,
 grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 skinny, monotonic, splines, dcor}
 
-\item{out.rm}{logical indicator to indicate if outliers should be removed before calculating non outlying measures}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
+
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
+\item a function: user-defined binner
+}}
+
+\item{alpha}{character, numeric, or function. Controls the alpha radius.
+Valid character values are:
+\itemize{
+\item "rahman" (default): Rahman's MST-based middle-50\% alpha
+\item "q90": 90th percentile of MST edge lengths
+\item "omega": graph-theoretic scagnostics alpha
+Alternatively:
+\item a numeric value giving a fixed alpha
+\item a function with no arguments that returns a single numeric alpha
+}}
 }
 \value{
-A data frame that gives the data's scagnostic scores for each possible variable combination.
+A data frame that gives the scagnostic scores for every possible
+pair of variables.
 }
 \description{
-Compute scagnostics on all possible scatter plots for the given data
+It is quite common to have data in a wide format that is not suitable to
+feed into the calc_scags function that would need a long format. To save
+users time and energy we also provide a wide version of the calc_scags
+function. This function will compute all selected scagnostics for every
+pair wise set of variables in the data frame.
 }
 \examples{
 # Calculate selected scagnostics

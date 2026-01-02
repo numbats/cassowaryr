@@ -2,47 +2,12 @@
 % Please edit documentation in R/alphahull.R
 \name{sc_convex}
 \alias{sc_convex}
-\alias{sc_convex.default}
-\alias{sc_convex.scree}
-\alias{sc_convex.list}
 \title{Compute convex scagnostic measure}
 \usage{
-sc_convex(
-  x,
-  y,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
-
-\method{sc_convex}{default}(
-  x,
-  y,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
-
-\method{sc_convex}{scree}(
-  x,
-  y = NULL,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
-
-\method{sc_convex}{list}(
-  x,
-  y,
-  alpha = c("rahman", "q90", "omega"),
-  outlier_rm = FALSE,
-  binner = NULL
-)
+sc_convex(x, y, alpha = "rahman", out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
-
-\item{y}{numeric vector of y values}
+\item{x, y}{numeric vectors}
 
 \item{alpha}{character, numeric, or function. Controls the alpha radius.
 Valid character values are:
@@ -55,24 +20,31 @@ Alternatively:
 \item a function with no arguments that returns a single numeric alpha
 }}
 
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's convex score.
+A numeric object that gives the plot's convex score.
 }
 \description{
-Compute convex scagnostic measure
+A measure of how convex the shape of the data is. It was first defined in
+Graph Theoretic Scagnostics, Wilkinson, et al. (2005).Computed as the ratio
+between the area of the alpha hull and convex hull. Unlike the other
+scagnostic measures, a high value on convex does not correlate to an
+interesting scatter plot, rather it usually indicates a lack of relationship
+between the two variables.
 }
 \examples{
   require(ggplot2)

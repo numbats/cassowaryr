@@ -2,33 +2,37 @@
 % Please edit documentation in R/adjusted.R
 \name{sc_clumpy2}
 \alias{sc_clumpy2}
-\alias{sc_clumpy2.default}
-\alias{sc_clumpy2.scree}
-\alias{sc_clumpy2.igraph}
 \title{Compute adjusted clumpy measure using MST}
 \usage{
-sc_clumpy2(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_clumpy2}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_clumpy2}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_clumpy2}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
+sc_clumpy2(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
-\item{outlier_rm}{logical; if TRUE, outliers are iteratively removed}
-
-\item{binner}{an optional binning}
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
+\item a function: user-defined binner
+}}
 }
 \value{
-A "numeric" object that gives the plot's clumpy2 score.
+A numeric object that gives the plot's adjusted clumpy score.
 }
 \description{
-Compute adjusted clumpy measure using MST
+This measure is defined in the cassowaryr paper by Mason, et al. (2025).
+It is an alternative measure for clumpiness. It is the ratio of the
+between cluster edges and the within cluster edges. It is a good
+alternative measure to clumpy when binning is removed as a pre-processing
+step.
 }
 \examples{
   require(ggplot2)

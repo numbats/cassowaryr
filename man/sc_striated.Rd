@@ -2,42 +2,37 @@
 % Please edit documentation in R/mst.R
 \name{sc_striated}
 \alias{sc_striated}
-\alias{sc_striated.default}
-\alias{sc_striated.scree}
-\alias{sc_striated.igraph}
 \title{Compute striated scagnostic measure using MST}
 \usage{
-sc_striated(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_striated}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_striated}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_striated}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
+sc_striated(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
-
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's striated score.
+A numeric object that gives the plot's striated score.
 }
 \description{
-Compute striated scagnostic measure using MST
+This measure identifies features such as discreteness by finding parallel
+lines. It was first defined in Graph Theoretic Scagnostics, Wilkinson,
+et al. (2005). It is calculated by counting the proportion of vertices
+with only two edges that have an inner angle approximately between
+135 and 220 degrees.
 }
 \examples{
   require(ggplot2)
@@ -48,5 +43,7 @@ Compute striated scagnostic measure using MST
     facet_wrap(~set, ncol=2, scales = "free")
   sc_striated(anscombe$x1, anscombe$y1)
   sc_striated(anscombe$x2, anscombe$y2)
+  sc_striated(anscombe$x3, anscombe$y3)
+  sc_striated(anscombe$x4, anscombe$y4)
 
 }

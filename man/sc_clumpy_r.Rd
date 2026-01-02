@@ -2,42 +2,35 @@
 % Please edit documentation in R/robustscags.R
 \name{sc_clumpy_r}
 \alias{sc_clumpy_r}
-\alias{sc_clumpy_r.default}
-\alias{sc_clumpy_r.scree}
-\alias{sc_clumpy_r.igraph}
 \title{Compute robust clumpy scagnostic measure using MST}
 \usage{
-sc_clumpy_r(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_clumpy_r}{default}(x, y, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_clumpy_r}{scree}(x, y = NULL, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_clumpy_r}{igraph}(x, y, outlier_rm = FALSE, binner = NULL)
+sc_clumpy_r(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values}
-
-\item{outlier_rm}{logical; if TRUE, iteratively trim large MST edges}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
 Can be:
 \itemize{
-\item \code{NULL}: no binning (use raw points)
-\item \code{"hex"} : hexagonal binning following the procedure in the
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
 graph-theoretic scagnostics paper (start 40x40, halve
 until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
 }
 \value{
-A "numeric" object that gives the plot's robust clumpy score.
+A numeric object that gives the plot's robust clumpy score.
 }
 \description{
-Compute robust clumpy scagnostic measure using MST
+A computation for clumpy that is supposed to make the measure more robust
+to changes in binning. The scagnostic is defined in Improving the
+Robustness of Scagnostics, Wang, et al. (2020).
 }
 \examples{
   require(ggplot2)

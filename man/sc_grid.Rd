@@ -2,37 +2,39 @@
 % Please edit documentation in R/adjusted.R
 \name{sc_grid}
 \alias{sc_grid}
-\alias{sc_grid.default}
-\alias{sc_grid.scree}
-\alias{sc_grid.igraph}
 \title{Compute the grid scanostic measure using MST}
 \usage{
-sc_grid(x, y, epsilon, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_grid}{default}(x, y, epsilon = 0.01, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_grid}{scree}(x, y = NULL, epsilon = 0.01, outlier_rm = FALSE, binner = NULL)
-
-\method{sc_grid}{igraph}(x, y, epsilon = 0.01, outlier_rm = FALSE, binner = NULL)
+sc_grid(x, y, epsilon, out.rm = TRUE, binner = "hex")
 }
 \arguments{
-\item{x}{numeric vector of x values, or an MST object}
+\item{x, y}{numeric vectors}
 
-\item{y}{numeric vector of y values, or a scree object}
+\item{epsilon}{the error tolerance allowed when deciding if the MST angles
+are at a right angle or not}
 
-\item{epsilon}{the error tolerance allowed to count the angles}
+\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
+the scanostics will be computed on the entire data set with no outlier
+removal.}
 
-\item{outlier_rm}{logical; if TRUE, outliers are iteratively removed}
-
-\item{binner}{an optional binning}
+\item{binner}{an optional function that bins the x and y vectors prior
+to triangulation
+Can be:
+\itemize{
+\item \code{"hex"} (default): hexagonal binning following the procedure in the
+graph-theoretic scagnostics paper (start 40x40, halve
+until <= 250 nonempty cells)
+\item \code{NULL}: no binning (use raw points)
+\item a function: user-defined binner
+}}
 }
 \value{
-The plot's grid score as a numeric object
+A numeric object that gives the plot's grid score.
 }
 \description{
-This scagnostic identifies grid-like structures by counting the
-number of 90 and 180 degree angles in the MST, as defined in
-in Adam Rahman's PhD thesis.
+The grid scagnsotic as defined in Adam Rahman's PhD thesis (2018).
+The scagnostic identifies grid-like structures by counting the number of
+90 and 180 degree angles in the MST. This measure can be used as an
+effective alternative to striated when computing scagnostics without binning.
 }
 \examples{
   require(ggplot2)

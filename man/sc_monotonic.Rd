@@ -15,7 +15,8 @@ sc_monotonic(x, y)
 A "numeric" object that gives the plot's monotonic score.
 }
 \description{
-Measure of Spearman Correlation
+The measure of Spearman correlation calculated using the stats package
+cor function with method='spearman'.
 }
 \examples{
   require(ggplot2)
@@ -34,4 +35,7 @@ Measure of Spearman Correlation
   sc_monotonic(anscombe$x3, anscombe$y3)
   sc_monotonic(anscombe$x4, anscombe$y4)
 
+}
+\seealso{
+stats::cor
 }

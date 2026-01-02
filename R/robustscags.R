@@ -1,20 +1,11 @@
 #' Compute robust clumpy scagnostic measure using MST
 #'
-#' @param x numeric vector of x values
-#' @param y numeric vector of y values
-#' @param outlier_rm logical; if TRUE, iteratively trim large MST edges
-#' @param binner an optional function that bins the x and y vectors prior
-#' to triangulation
-#'  Can be:
-#'   \itemize{
-#'     \item `NULL`: no binning (use raw points)
-#'     \item `"hex"` : hexagonal binning following the procedure in the
-#'     graph-theoretic scagnostics paper (start 40x40, halve
-#'              until <= 250 nonempty cells)
-#'     \item a function: user-defined binner
-#'     }
-#' @return A "numeric" object that gives the plot's robust clumpy score.
+#' A computation for clumpy that is supposed to make the measure more robust
+#' to changes in binning. The scagnostic is defined in Improving the
+#' Robustness of Scagnostics, Wang, et al. (2020).
 #'
+#' @inheritParams scree
+#' @return A numeric object that gives the plot's robust clumpy score.
 #' @examples
 #'   require(ggplot2)
 #'   require(dplyr)
@@ -25,26 +16,26 @@
 #'   sc_clumpy_r(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_clumpy_r <- function(x, y, outlier_rm = FALSE, binner = NULL) UseMethod("sc_clumpy_r")
+sc_clumpy_r <- function(x, y, out.rm = TRUE, binner =  "hex") UseMethod("sc_clumpy_r")
 
-#' @rdname sc_clumpy_r
+
 #' @export
-sc_clumpy_r.default <- function(x, y, outlier_rm = FALSE, binner = NULL){
-  sc <- scree(x, y, outlier_rm = outlier_rm, binner = binner)
+sc_clumpy_r.default <- function(x, y, out.rm = TRUE, binner =  "hex"){
+  sc <- scree(x, y, out.rm = out.rm, binner = binner)
   sc_clumpy_r.scree(sc)
 }
 
-#' @rdname sc_clumpy_r
+
 #' @export
-sc_clumpy_r.scree <- function(x, y=NULL, outlier_rm = FALSE, binner = NULL) {
+sc_clumpy_r.scree <- function(x, y=NULL, out.rm = TRUE, binner =  "hex") {
   #generate vector of MST edges
   mst <- gen_mst(x$del, x$weights)
   sc_clumpy_r.igraph(mst, x)
 }
 
-#' @rdname sc_clumpy_r
+
 #' @export
-sc_clumpy_r.igraph <- function(x, y, outlier_rm = FALSE, binner = NULL){
+sc_clumpy_r.igraph <- function(x, y, out.rm = TRUE, binner =  "hex"){
   mst_lt <- twomstmat(x,y)$lowertri
   vals <- outside_cluster(mst_lt)
   n <- length(which(mst_lt>0))

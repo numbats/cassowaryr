@@ -1,6 +1,3 @@
-
-######################### UTILITY FUNCTIONS ##############################
-
 # remove duplicates that would trigger an error from the interp package
 is_dupe <- function(x, y){
   xrnd <- round(unitize(x), digits = 10)

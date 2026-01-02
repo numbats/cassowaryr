@@ -1,5 +1,8 @@
 #' Measure of Spearman Correlation
 #'
+#' The measure of Spearman correlation calculated using the stats package
+#' cor function with method='spearman'.
+#'
 #' @param x numeric vector
 #' @param y numeric vector
 #' @return A "numeric" object that gives the plot's monotonic score.
@@ -22,17 +25,20 @@
 #'   sc_monotonic(anscombe$x4, anscombe$y4)
 #'
 #' @export
+#' @seealso stats::cor
 sc_monotonic <- function(x, y){
   abs(stats::cor(x, y, method='spearman'))
 }
 
 #' Spline based index.
 #'
-#' (Taken from tourr git repo)
-#' Compares the variance in residuals of a fitted
-#' spline model to the overall variance to find
-#' functional dependence in 2D projections
-#' of the data.
+#' Measures the functional non-linear dependence by fitting a penalised
+#' splines model on X using Y, and on Y using X. The measure was
+#' defined as an association scagnostic in Katrin Grimm's PhD thesis (2016)
+#' The variance of the residuals are scaled down by the axis so they are
+#' comparable, and finally the maximum is taken.
+#' Therefore the value will be closer to 1 if either relationship
+#' can be decently explained by a splines model.
 #'
 #' @param x numeric vector
 #' @param y numeric vector
@@ -84,9 +90,13 @@ sc_splines <- function(x,y) {
 
 #' Distance correlation index.
 #'
-#' (Taken from tourr package)
-#' Computes the distance correlation based index on
-#' 2D projections of the data.
+#' The distance correlation between X and Y defined by Székely, et al.
+#' in Measuring and testing dependence by correlation of distances.
+#' The measure was suggested as an  association scagnostic in
+#' Katrin Grimm's PhD thesis (2016). Distance correlation is a measure
+#' of non-linear dependence which is 0 if and only if the two variables
+#' are independent. It is computed using an ANOVA like calculation on the
+#' pairwise distances between observations.
 #'
 #' @param x numeric vector
 #' @param y numeric vector

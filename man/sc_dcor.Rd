@@ -15,9 +15,13 @@ sc_dcor(x, y)
 A "numeric" object that gives the plot's dcor score.
 }
 \description{
-(Taken from tourr package)
-Computes the distance correlation based index on
-2D projections of the data.
+The distance correlation between X and Y defined by Székely, et al.
+in Measuring and testing dependence by correlation of distances.
+The measure was suggested as an  association scagnostic in
+Katrin Grimm's PhD thesis (2016). Distance correlation is a measure
+of non-linear dependence which is 0 if and only if the two variables
+are independent. It is computed using an ANOVA like calculation on the
+pairwise distances between observations.
 }
 \examples{
   require(ggplot2)
