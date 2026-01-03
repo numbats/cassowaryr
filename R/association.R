@@ -12,7 +12,7 @@
 #'   require(tidyr)
 #'   require(dplyr)
 #'   data(anscombe)
-#'   anscombe_tidy <- anscombe %>%
+#'   anscombe_tidy <- anscombe |>
 #'   pivot_longer(cols = everything(),
 #'     names_to = c(".value", "set"),
 #'     names_pattern = "(.)(.)")
@@ -49,7 +49,7 @@ sc_monotonic <- function(x, y){
 #'   require(tidyr)
 #'   require(dplyr)
 #'   data(anscombe)
-#'   anscombe_tidy <- anscombe %>%
+#'   anscombe_tidy <- anscombe |>
 #'   pivot_longer(cols = everything(),
 #'     names_to = c(".value", "set"),
 #'     names_pattern = "(.)(.)")
@@ -107,7 +107,7 @@ sc_splines <- function(x,y) {
 #'   require(tidyr)
 #'   require(dplyr)
 #'   data(anscombe)
-#'   anscombe_tidy <- anscombe %>%
+#'   anscombe_tidy <- anscombe |>
 #'   pivot_longer(cols = everything(),
 #'     names_to = c(".value", "set"),
 #'     names_pattern = "(.)(.)")

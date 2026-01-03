@@ -22,7 +22,6 @@
 #' data(pk)
 #' calc_scags_wide(pk[,2:5], scags=c("outlying","monotonic"))
 #'
-#' @importFrom magrittr %>%
 #' @importFrom progress progress_bar
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
@@ -48,7 +47,7 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
 
   # Check if variables are non-constant
   Var1 <- Var2 <- NULL
-  std_dev <- all_data %>% dplyr::summarise_all(stats::sd, na.rm=TRUE)
+  std_dev <- all_data |> dplyr::summarise_all(stats::sd, na.rm=TRUE)
   keep <- names(std_dev)[std_dev > 0]
   drop <- names(std_dev)[!(names(std_dev) %in% keep)]
   if (length(drop) > 0) {
@@ -59,7 +58,7 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
   }
 
   # make a dataset of all pairwise variable combinations
-  all_combs <- expand.grid(colnames(all_data), colnames(all_data)) %>%
+  all_combs <- expand.grid(colnames(all_data), colnames(all_data)) |>
     dplyr::filter(!(Var1==Var2))
 
   # get rid of reversed duplicates
@@ -70,11 +69,11 @@ calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
   pb <- progress_bar$new(format = "[:bar] (:percent) eta :eta", total = num_ticks)
 
   # calculate scagnostics
-  all_combs %>%
-    dplyr::group_by(Var1, Var2) %>%
+  all_combs |>
+    dplyr::group_by(Var1, Var2) |>
     dplyr::summarise(intermediate_scags(vars=c(Var1, Var2),
                                         data=all_data,
-                                        scags=scags, out.rm, pb)) %>%
+                                        scags=scags, out.rm, pb)) |>
     dplyr::ungroup()
 
 }
@@ -115,8 +114,8 @@ intermediate_scags <- function(vars, data, scags, out.rm, pb){
 #' # Compute on long form data, or subsets
 #' # defined by a categorical variable
 #' require(dplyr)
-#' datasaurus_dozen %>%
-#'   group_by(dataset) %>%
+#' datasaurus_dozen |>
+#'   group_by(dataset) |>
 #'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
@@ -309,7 +308,6 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
 #'
 #'
 #' @seealso calc_scags calc_scags_wide
-#' @importFrom magrittr %>%
 #' @name top_functions
 
 #' @rdname top_functions
@@ -319,12 +317,12 @@ top_pair <- function(scags_data){
   validscags <- c("outlying", "stringy", "striated", "grid", "clumpy",
                   "clumpy2", "sparse", "skewed", "convex", "skinny",
                   "monotonic", "splines", "dcor", "striped")
-  scags_data %>%
+  scags_data |>
     tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag",
-                        values_to = "value") %>%
-    dplyr::arrange(dplyr::desc(value)) %>%
-    dplyr::group_by(scag) %>%
-    dplyr::slice_head(n=1) %>%
+                        values_to = "value") |>
+    dplyr::arrange(dplyr::desc(value)) |>
+    dplyr::group_by(scag) |>
+    dplyr::slice_head(n=1) |>
     dplyr::ungroup()
 }
 
@@ -334,11 +332,11 @@ top_pair <- function(scags_data){
 top_scag <- function(scags_data){
   value <- scag <- NULL
   validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
-  scags_data %>%
-    tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") %>%
-    dplyr::arrange(dplyr::desc(value)) %>%
-    dplyr::group_by(dplyr::across(-c(scag,value))) %>%
-    dplyr::slice_head(n=1) %>%
+  scags_data |>
+    tidyr::pivot_longer(tidyselect::any_of(validscags), names_to = "scag", values_to = "value") |>
+    dplyr::arrange(dplyr::desc(value)) |>
+    dplyr::group_by(dplyr::across(-c(scag,value))) |>
+    dplyr::slice_head(n=1) |>
     dplyr::ungroup()
 }
 

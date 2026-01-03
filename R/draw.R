@@ -16,7 +16,7 @@
 #' require(ggplot2)
 #' require(alphahull)
 #'
-#' cl <- features %>% filter(feature == "clusters")
+#' cl <- features |> filter(feature == "clusters")
 #'
 #' # draw the alpha hull
 #' draw_alphahull(cl$x, cl$y)
@@ -113,10 +113,10 @@ draw_mst.igraph <- function(x, y, out.rm = FALSE,
   # get edge matrix
   n <- length(igraph::E(x)$weight) + 1
   MST_mat <- matrix(x[], nrow = n)
-  d_MST <- xystartend %>%
-    dplyr::group_by(ind1,ind2) %>%
-    dplyr::mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) %>%
-    dplyr::ungroup() %>%
+  d_MST <- xystartend |>
+    dplyr::group_by(ind1,ind2) |>
+    dplyr::mutate(connected = ifelse(any(!MST_mat[ind1,ind2]==0), 1, 0)) |>
+    dplyr::ungroup() |>
     dplyr::filter(connected==1)
   ggplot2::ggplot(d_MST) +
     ggplot2::geom_point(ggplot2::aes(x=x1, y=y1), alpha=0.5) +

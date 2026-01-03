@@ -16,7 +16,7 @@
 #'   ggplot(features, aes(x=x, y=y)) +
 #'      geom_point() +
 #'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features %>% group_by(feature) %>% summarise(convex = sc_convex(x,y))
+#'   features |> group_by(feature) |> summarise(convex = sc_convex(x,y))
 #'   sc_convex(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
 sc_convex <- function(x, y, alpha = "rahman",
@@ -72,7 +72,7 @@ sc_convex.list <- function(x, y, alpha = "rahman",
 #'   ggplot(features, aes(x=x, y=y)) +
 #'      geom_point() +
 #'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features %>% group_by(feature) %>% summarise(skinny = sc_skinny(x,y))
+#'   features |> group_by(feature) |> summarise(skinny = sc_skinny(x,y))
 #'   sc_skinny(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #' @export
 sc_skinny <- function(x, y, alpha = "rahman",
