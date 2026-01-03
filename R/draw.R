@@ -33,16 +33,16 @@
 
 #' @rdname draw_functions
 #' @export
-draw_alphahull <- function(x, y, out.rm = FALSE,
-                     binner = NULL, alpha = "rahman",
+draw_alphahull <- function(x, y, out.rm = TRUE,
+                     binner = "hex", alpha = "rahman",
                      fill = FALSE){
   UseMethod("draw_alphahull")
 }
 
 
 #' @export
-draw_alphahull.default <- function(x, y, out.rm = FALSE,
-                             binner = NULL, alpha = "rahman",
+draw_alphahull.default <- function(x, y, out.rm = TRUE,
+                             binner = "hex", alpha = "rahman",
                              fill = FALSE){
   # x1 <- x2 <- y1 <- y2 <- NULL
   sc <- scree(x, y, out.rm, binner, alpha = alpha)
@@ -50,8 +50,8 @@ draw_alphahull.default <- function(x, y, out.rm = FALSE,
 }
 
 #' @export
-draw_alphahull.scree <- function(x, y=NULL, out.rm = FALSE,
-                                 binner = NULL, alpha = "rahman",
+draw_alphahull.scree <- function(x, y=NULL, out.rm = TRUE,
+                                 binner = "hex", alpha = "rahman",
                                  fill = FALSE){
   ahull <- alphahull::ahull(x$del, alpha=x$alpha)
   d_ahull <- tibble::tibble(x1 = ahull[["xahull"]][,1][ahull[["arcs"]][,7]],
@@ -86,28 +86,28 @@ draw_alphahull.scree <- function(x, y=NULL, out.rm = FALSE,
 
 #' @rdname draw_functions
 #' @export
-draw_mst <- function(x, y, out.rm = FALSE, binner = NULL){
+draw_mst <- function(x, y, out.rm = TRUE, binner = "hex"){
   UseMethod("draw_mst")
 }
 
 #' @export
-draw_mst.default <- function(x, y, out.rm = FALSE,
-                             binner = NULL){
+draw_mst.default <- function(x, y, out.rm = TRUE,
+                             binner = "hex"){
   # ind1 <- ind2 <- connected <- x1 <- x2 <- y1 <- y2 <- NULL
   sc <- scree(x, y, out.rm, binner)
   draw_mst.scree(sc)
 }
 
 #' @export
-draw_mst.scree <- function(x, y=NULL, out.rm = FALSE,
-                           binner = NULL){
+draw_mst.scree <- function(x, y=NULL, out.rm = TRUE,
+                           binner = "hex"){
   mst <- gen_mst(x$del, x$weights)
   draw_mst.igraph(mst, x)
 }
 
 #' @export
-draw_mst.igraph <- function(x, y, out.rm = FALSE,
-                            binner = NULL){
+draw_mst.igraph <- function(x, y, out.rm = TRUE,
+                            binner = "hex"){
   xystartend <- tibble::as_tibble(y[["del"]][["mesh"]])
 
   # get edge matrix
@@ -127,22 +127,22 @@ draw_mst.igraph <- function(x, y, out.rm = FALSE,
 
 #' @export
 #' @rdname draw_functions
-draw_convexhull <- function(x, y, out.rm = FALSE, binner = NULL,
+draw_convexhull <- function(x, y, out.rm = TRUE, binner = "hex",
                             fill = FALSE){
   UseMethod("draw_convexhull")
 }
 
 #' @export
-draw_convexhull.default <- function(x, y, out.rm = FALSE,
-                                    binner = NULL, fill = FALSE){
+draw_convexhull.default <- function(x, y, out.rm = TRUE,
+                                    binner = "hex", fill = FALSE){
   # x1 <- x2 <- y1 <- y2 <- NULL
   sc <- scree(x, y, out.rm, binner)
   draw_convexhull.scree(sc, fill = fill)
 }
 
 #' @export
-draw_convexhull.scree <- function(x, y=NULL, out.rm = FALSE,
-                                  binner = NULL, fill = FALSE){
+draw_convexhull.scree <- function(x, y=NULL, out.rm = TRUE,
+                                  binner = "hex", fill = FALSE){
   sc <- x
   chull <- gen_conv_hull(sc$del)
 
