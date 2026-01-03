@@ -230,26 +230,30 @@ sc_clumpy.default <- function(x, y, out.rm = TRUE, binner = "hex"){
 sc_clumpy.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #input: x is a scree
   mst <- gen_mst(x$del, x$weights)
-  sc_clumpy.igraph(mst,x)
+
+  sc_clumpy.igraph(mst)
 }
 
 
 
 #' @export
-sc_clumpy.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
-  #input: x is the MST, y is the scree
-  #lower triangular matrix
-  mstmat <- twomstmat(x,y)$lowertri
+sc_clumpy.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex"){
+
+  # Get mst weights
+  mst_weights <- igraph::E(x)$weight
+  # convert
+  n <- length(mst_weights) + 1
+  mst_matrix <- matrix(x[], nrow = n)
 
   #make index variables to iterate through
-  matind <- which(mstmat>0)
-  rows <- matind %% length(mstmat[,1])
-  cols <- (matind-1) %/% length(mstmat[,1]) +1
+  matind <- which(mst_matrix>0)
+  rows <- matind %% length(mst_matrix[,1])
+  cols <- (matind-1) %/% length(mst_matrix[,1]) +1
   clumpy <- rep(0,length(matind))
 
   for(j in seq(length(rows))){
     #set mst we are going to remove all the edges from
-    mst_ej <- mstmat
+    mst_ej <- mst_matrix
 
     #have two clusters sprawling out from the deleted edge (inex i)
     c1rowcol <- rows[j]
@@ -365,21 +369,19 @@ sc_sparse.default <- function(x, y, out.rm = TRUE, binner = "hex"){
 sc_sparse.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #generate vector of MST edges
   mst <- gen_mst(x$del, x$weights)
-  sc_sparse.igraph(mst,x)
+  # pass to MST version of function
+  sc_sparse.igraph(mst)
 }
 
 
 
 #' @export
-sc_sparse.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
-  #input: x is MST, y is scree
-  mstmat <- twomstmat(x,y)$lowertri
-  edges <- mstmat[which(mstmat>0)]
-  #calculate sample size weight
-  n = length(x)/500
-  w = 0.7 + 0.3/(1+n^2)
-  #calculate sparse value
-  w*(sort(edges)[floor(0.9*length( edges))])
+sc_sparse.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex"){
+  # get mst edge weights
+  mst_weights <- igraph::E(x)$weight
+
+  #sparse value
+  sort(mst_weights)[floor(0.9*length(mst_weights))]
 }
 
 
@@ -432,26 +434,24 @@ sc_skewed.default <- function(x, y, out.rm = TRUE, binner = "hex"){
 sc_skewed.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #generate vector of MST edges
   mst <- gen_mst(x$del, x$weights)
-  sc_skewed.igraph(mst, x)
+
+  # pass to MST version of function
+  sc_skewed.igraph(mst)
 }
 
 
 #' @export
-sc_skewed.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
-  mstmat <- twomstmat(x,y)$lowertri
-  edges <- mstmat[which(mstmat>0)]
+sc_skewed.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex"){
+  # rename for clarity
+  mst_weights <- igraph::E(x)$weight
 
   # find quantiles
-  q10 <- sort(edges)[floor(0.1*length( edges))]
-  q50 <- sort(edges)[floor(0.5*length( edges))]
-  q90 <- sort(edges)[floor(0.9*length( edges))]
+  q10 <- sort(mst_weights)[floor(0.1*length(mst_weights))]
+  q50 <- sort(mst_weights)[floor(0.5*length(mst_weights))]
+  q90 <- sort(mst_weights)[floor(0.9*length(mst_weights))]
 
-  #calculate sample size weight
-  n = length(x)/500
-  w = 0.7 + 0.3/(1+n^2)
-
-  # calculate skewed value
-  w*((q90-q50)/(q90-q10))
+  # Skewed calc
+  (q90-q50)/(q90-q10)
 
 }
 
@@ -490,43 +490,56 @@ sc_skewed.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
 #' # calculate scag
 #' sc_outlying(x, y)
 #' @export
-sc_outlying <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_outlying")
+sc_outlying <- function(x, y, binner = "hex") UseMethod("sc_outlying")
 
 
 #' @export
-sc_outlying.default <- function(x, y, out.rm = TRUE, binner = "hex"){
-  sc <- scree(x, y, out.rm = out.rm, binner = binner)
+sc_outlying.default <- function(x, y, binner = "hex"){
+  sc <- scree(x, y, out.rm = FALSE, binner = binner)
   sc_outlying.scree(sc)
 }
 
 
 #' @export
-sc_outlying.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
-  #generate vector of MST edges
+sc_outlying.scree <- function(x, y = NULL, binner = "hex") {
+  #generate vector of MST edges and weights
   mst <- gen_mst(x$del, x$weights)
-  sc_outlying.igraph(mst, x)
+
+  # pass to MST version of function
+  sc_outlying.igraph(mst)
 }
 
 
 #' @export
-sc_outlying.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
-  #input: x orig mst (mymst) and y scree object
-  #output: outlying mst value
+sc_outlying.igraph <- function(x, y = NULL, binner = "hex"){
+  # rename input (x = mst) for code clarity
+  mst <- x
 
-  #make into matrix
-  twomst <- twomstmat(x,y)
-  mstmat <- twomst$mat
-  mstlowertri <- twomst$lowertri
+  # get mst edges
+  mst_weights <- igraph::E(mst)$weight
 
-  #identify outliers
-  outliers <- outlying_identify(x, y)
+  # identify outliers
+  outliers <- outlying_identify(mst, mst_weights)
 
-  #calculate outlying value
-  outlier_e <- sum(mstmat[outliers,]) #sum of edges of outlying points
-  overlap <- sum(mstmat[as.matrix(expand.grid(outliers,outliers))]) #outerliers connected to outliers
-  numer <- outlier_e - 0.5*overlap #overlap double counts
-  denom <-  0.5*sum(mstmat)
-  numer/denom
+  # get mst as edge matrix
+  n <- length(mst_weights) + 1
+  mst_matrix <- matrix(mst[], nrow = n)
+
+  # calculate outlying value
+  # get sum of edges of outlying points
+  outlying_edges <- sum(mst_matrix[outliers,])
+
+  # Get double count from outliers connected to outliers
+  double_count <- sum(mst_matrix[as.matrix(expand.grid(outliers,outliers))])
+
+  # subtract edges that were counted twice
+  sum_outlying <- outlying_edges - 0.5*double_count
+
+  # get the sum total of all edge lengths in MST (*0.5 for matrix symmtetry)
+  sum_edges <-  0.5*sum(mst_matrix)
+
+  # final outlying value
+  sum_outlying/sum_edges
 }
 
 gen_mst <- function(del, weights) {
