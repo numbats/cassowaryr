@@ -14,18 +14,29 @@
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's stringy score.
 #' @examples
-#'   require(ggplot2)
-#'   require(tidyr)
-#'   require(dplyr)
-#'   data(anscombe_tidy)
-#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~set, ncol=2, scales = "free")
-#'   sc_stringy(anscombe$x1, anscombe$y1)
-#'   sc_stringy(anscombe$x2, anscombe$y2)
-#'   sc_stringy(anscombe$x3, anscombe$y3)
-#'   sc_stringy(anscombe$x4, anscombe$y4)
+#' require(ggplot2)
+#' require(dplyr)
 #'
+#' # plot the features data
+#' ggplot(features, aes(x=x, y=y)) +
+#'   geom_point() +
+#'   facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate using tidy code
+#' features |>
+#'  group_by(feature) |>
+#'  summarise(stringy = sc_stringy(x,y))
+#'
+#' # using just vectors of points
+#' x <- datasaurus_dozen_wide$star_x
+#' y <- datasaurus_dozen_wide$star_y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate using vectors
+#' sc_stringy(x, y)
 #' @export
 sc_stringy <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_stringy")
 
@@ -106,16 +117,29 @@ sc_stringy2.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's striated score.
 #' @examples
-#'   require(ggplot2)
-#'   require(dplyr)
-#'   data(anscombe_tidy)
-#'   ggplot(anscombe_tidy, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~set, ncol=2, scales = "free")
-#'   sc_striated(anscombe$x1, anscombe$y1)
-#'   sc_striated(anscombe$x2, anscombe$y2)
-#'   sc_striated(anscombe$x3, anscombe$y3)
-#'   sc_striated(anscombe$x4, anscombe$y4)
+#' require(ggplot2)
+#' require(dplyr)
+#'
+#' # plot the features data
+#' ggplot(features, aes(x=x, y=y)) +
+#'   geom_point() +
+#'   facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate using tidy code
+#' features |>
+#'  group_by(feature) |>
+#'  summarise(striated = sc_striated(x,y))
+#'
+#' # using just vectors of points
+#' x <- datasaurus_dozen_wide$v_lines_x
+#' y <- datasaurus_dozen_wide$v_lines_y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate scagnostic
+#' sc_striated(x, y)
 #'
 #' @export
 sc_striated <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_striated")
@@ -167,13 +191,29 @@ sc_striated.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's clumpy score.
 #' @examples
-#'   require(ggplot2)
-#'   require(dplyr)
-#'   ggplot(features, aes(x=x, y=y)) +
-#'      geom_point() +
-#'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features |> group_by(feature) |> summarise(clumpy = sc_clumpy(x,y))
-#'   sc_clumpy(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#' require(ggplot2)
+#' require(dplyr)
+#'
+#' # plot the feature
+#' ggplot(features, aes(x=x, y=y)) +
+#'    geom_point() +
+#'    facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate using tidy code
+#' features |>
+#'   group_by(feature) |>
+#'   summarise(clumpy = sc_clumpy(x,y))
+#'
+#' # using two vectors
+#' x <- datasaurus_dozen_wide$slant_up_x
+#' y <- datasaurus_dozen_wide$slant_up_y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate using vectors
+#' sc_clumpy(x, y)
 #'
 #' @export
 sc_clumpy <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_clumpy")
@@ -286,15 +326,29 @@ sc_clumpy.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's sparse score.
 #' @examples
-#'   require(ggplot2)
-#'   require(tidyr)
-#'   require(dplyr)
-#'   ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~dataset, ncol=3, scales = "free")
-#'   sc_sparse(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
-#'   sc_sparse(datasaurus_dozen_wide$circle_x, datasaurus_dozen_wide$circle_y)
-#'   sc_sparse(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
+#' require(ggplot2)
+#' require(dplyr)
+#'
+#' # plot the feature
+#' ggplot(features, aes(x=x, y=y)) +
+#'    geom_point() +
+#'    facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate using tidy code
+#' features |>
+#'   group_by(feature) |>
+#'   summarise(sparse = sc_sparse(x,y))
+#'
+#' # using two vectors
+#' x <- datasaurus_dozen_wide$dots_x
+#' y <- datasaurus_dozen_wide$dots_y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate using vectors
+#' sc_sparse(x, y)
 #'
 #' @export
 sc_sparse <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_sparse")
@@ -339,16 +393,29 @@ sc_sparse.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's skewed score.
 #' @examples
-#'   require(ggplot2)
-#'   require(tidyr)
-#'   require(dplyr)
-#'   data(anscombe_tidy)
-#'   ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~dataset, ncol=3, scales = "free")
-#'   sc_skewed(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
-#'   sc_skewed(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
-#'   sc_skewed(datasaurus_dozen_wide$x_shape_x, datasaurus_dozen_wide$x_shape_y)
+#' require(ggplot2)
+#' require(dplyr)
+#'
+#' # plot the feature
+#' ggplot(features, aes(x=x, y=y)) +
+#'    geom_point() +
+#'    facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate using tidy code
+#' features |>
+#'   group_by(feature) |>
+#'   summarise(skewed = sc_skewed(x,y))
+#'
+#' # using two vectors
+#' x <- datasaurus_dozen_wide$away_x
+#' y <- datasaurus_dozen_wide$away_y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate using vectors
+#' sc_skewed(x, y)
 #'
 #' @export
 sc_skewed <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_skewed")
@@ -399,16 +466,29 @@ sc_skewed.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's outlying score.
 #' @examples
-#'   require(ggplot2)
-#'   require(tidyr)
-#'   require(dplyr)
-#'   ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-#'     geom_point() +
-#'     facet_wrap(~dataset, ncol=3, scales = "free")
-#'   sc_outlying(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
-#'   sc_outlying(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
-#'   sc_outlying(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
+#' require(ggplot2)
+#' require(dplyr)
 #'
+#' # plot the feature
+#' ggplot(features, aes(x=x, y=y)) +
+#'    geom_point() +
+#'    facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate using tidy code
+#' features |>
+#'   group_by(feature) |>
+#'   summarise(outlying = sc_outlying(x,y))
+#'
+#' # using two vectors
+#' x <- datasaurus_dozen_wide$away_x
+#' y <- datasaurus_dozen_wide$away_y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate scag
+#' sc_outlying(x, y)
 #' @export
 sc_outlying <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_outlying")
 
