@@ -40,7 +40,7 @@ step.
   ggplot(features, aes(x=x, y=y)) +
      geom_point() +
      facet_wrap(~feature, ncol = 5, scales = "free")
-  features \%>\% group_by(feature) \%>\% summarise(clumpy = sc_clumpy2(x,y))
+  features |> group_by(feature) |> summarise(clumpy = sc_clumpy2(x,y))
   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 
 }

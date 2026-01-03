@@ -70,8 +70,8 @@ calc_scags(anscombe$x1, anscombe$y1, scags=c("monotonic", "outlying"))
 # Compute on long form data, or subsets
 # defined by a categorical variable
 require(dplyr)
-datasaurus_dozen \%>\%
-  group_by(dataset) \%>\%
+datasaurus_dozen |>
+  group_by(dataset) |>
   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 
 }

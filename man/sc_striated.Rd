@@ -35,15 +35,28 @@ with only two edges that have an inner angle approximately between
 135 and 220 degrees.
 }
 \examples{
-  require(ggplot2)
-  require(dplyr)
-  data(anscombe_tidy)
-  ggplot(anscombe_tidy, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~set, ncol=2, scales = "free")
-  sc_striated(anscombe$x1, anscombe$y1)
-  sc_striated(anscombe$x2, anscombe$y2)
-  sc_striated(anscombe$x3, anscombe$y3)
-  sc_striated(anscombe$x4, anscombe$y4)
+require(ggplot2)
+require(dplyr)
+
+# plot the features data
+ggplot(features, aes(x=x, y=y)) +
+  geom_point() +
+  facet_wrap(~feature, ncol = 5, scales = "free")
+
+# calculate using tidy code
+features |>
+ group_by(feature) |>
+ summarise(striated = sc_striated(x,y))
+
+# using just vectors of points
+x <- datasaurus_dozen_wide$v_lines_x
+y <- datasaurus_dozen_wide$v_lines_y
+
+# plot it
+ggplot() +
+  geom_point(aes(x = x, y = y))
+
+# calculate scagnostic
+sc_striated(x, y)
 
 }

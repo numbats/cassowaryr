@@ -4,14 +4,10 @@
 \alias{sc_outlying}
 \title{Compute outlying scagnostic measure using MST}
 \usage{
-sc_outlying(x, y, out.rm = TRUE, binner = "hex")
+sc_outlying(x, y, binner = "hex")
 }
 \arguments{
 \item{x, y}{numeric vectors}
-
-\item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
-the scanostics will be computed on the entire data set with no outlier
-removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
 to triangulation
@@ -34,14 +30,27 @@ It is calculated by comparing the edge lengths of the outlying points in
 the MST with the total length of all the edges in the MST.
 }
 \examples{
-  require(ggplot2)
-  require(tidyr)
-  require(dplyr)
-  ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~dataset, ncol=3, scales = "free")
-  sc_outlying(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
-  sc_outlying(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
-  sc_outlying(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
+require(ggplot2)
+require(dplyr)
 
+# plot the feature
+ggplot(features, aes(x=x, y=y)) +
+   geom_point() +
+   facet_wrap(~feature, ncol = 5, scales = "free")
+
+# calculate using tidy code
+features |>
+  group_by(feature) |>
+  summarise(outlying = sc_outlying(x,y))
+
+# using two vectors
+x <- datasaurus_dozen_wide$away_x
+y <- datasaurus_dozen_wide$away_y
+
+# plot it
+ggplot() +
+  geom_point(aes(x = x, y = y))
+
+# calculate scag
+sc_outlying(x, y)
 }

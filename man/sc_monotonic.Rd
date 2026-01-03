@@ -23,7 +23,7 @@ cor function with method='spearman'.
   require(tidyr)
   require(dplyr)
   data(anscombe)
-  anscombe_tidy <- anscombe \%>\%
+  anscombe_tidy <- anscombe |>
   pivot_longer(cols = everything(),
     names_to = c(".value", "set"),
     names_pattern = "(.)(.)")

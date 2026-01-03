@@ -38,12 +38,28 @@ This process is repeated for every edge in the MST and the final clumpy
 measure is the maximum of this value over all edges.
 }
 \examples{
-  require(ggplot2)
-  require(dplyr)
-  ggplot(features, aes(x=x, y=y)) +
-     geom_point() +
-     facet_wrap(~feature, ncol = 5, scales = "free")
-  features \%>\% group_by(feature) \%>\% summarise(clumpy = sc_clumpy(x,y))
-  sc_clumpy(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+require(ggplot2)
+require(dplyr)
+
+# plot the feature
+ggplot(features, aes(x=x, y=y)) +
+   geom_point() +
+   facet_wrap(~feature, ncol = 5, scales = "free")
+
+# calculate using tidy code
+features |>
+  group_by(feature) |>
+  summarise(clumpy = sc_clumpy(x,y))
+
+# using two vectors
+x <- datasaurus_dozen_wide$slant_up_x
+y <- datasaurus_dozen_wide$slant_up_y
+
+# plot it
+ggplot() +
+  geom_point(aes(x = x, y = y))
+
+# calculate using vectors
+sc_clumpy(x, y)
 
 }

@@ -34,15 +34,28 @@ Scagnostics, Wilkinson, et al. (2005). It is the ratio between
 the 90th to 50th percentile range and the 10th to 90th percentile range.
 }
 \examples{
-  require(ggplot2)
-  require(tidyr)
-  require(dplyr)
-  data(anscombe_tidy)
-  ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~dataset, ncol=3, scales = "free")
-  sc_skewed(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
-  sc_skewed(datasaurus_dozen_wide$h_lines_x, datasaurus_dozen_wide$h_lines_y)
-  sc_skewed(datasaurus_dozen_wide$x_shape_x, datasaurus_dozen_wide$x_shape_y)
+require(ggplot2)
+require(dplyr)
+
+# plot the feature
+ggplot(features, aes(x=x, y=y)) +
+   geom_point() +
+   facet_wrap(~feature, ncol = 5, scales = "free")
+
+# calculate using tidy code
+features |>
+  group_by(feature) |>
+  summarise(skewed = sc_skewed(x,y))
+
+# using two vectors
+x <- datasaurus_dozen_wide$away_x
+y <- datasaurus_dozen_wide$away_y
+
+# plot it
+ggplot() +
+  geom_point(aes(x = x, y = y))
+
+# calculate using vectors
+sc_skewed(x, y)
 
 }

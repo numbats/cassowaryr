@@ -10,15 +10,15 @@
 draw_alphahull(
   x,
   y,
-  out.rm = FALSE,
-  binner = NULL,
+  out.rm = TRUE,
+  binner = "hex",
   alpha = "rahman",
   fill = FALSE
 )
 
-draw_mst(x, y, out.rm = FALSE, binner = NULL)
+draw_mst(x, y, out.rm = TRUE, binner = "hex")
 
-draw_convexhull(x, y, out.rm = FALSE, binner = NULL, fill = FALSE)
+draw_convexhull(x, y, out.rm = TRUE, binner = "hex", fill = FALSE)
 }
 \arguments{
 \item{x, y}{numeric vectors}
@@ -66,7 +66,7 @@ require(dplyr)
 require(ggplot2)
 require(alphahull)
 
-cl <- features \%>\% filter(feature == "clusters")
+cl <- features |> filter(feature == "clusters")
 
 # draw the alpha hull
 draw_alphahull(cl$x, cl$y)

@@ -34,14 +34,28 @@ Wilkinson & Wills (2008). It is calculated as the 90th percentile
 of MST edge lengths
 }
 \examples{
-  require(ggplot2)
-  require(tidyr)
-  require(dplyr)
-  ggplot(datasaurus_dozen, aes(x=x, y=y)) +
-    geom_point() +
-    facet_wrap(~dataset, ncol=3, scales = "free")
-  sc_sparse(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
-  sc_sparse(datasaurus_dozen_wide$circle_x, datasaurus_dozen_wide$circle_y)
-  sc_sparse(datasaurus_dozen_wide$dino_x, datasaurus_dozen_wide$dino_y)
+require(ggplot2)
+require(dplyr)
+
+# plot the feature
+ggplot(features, aes(x=x, y=y)) +
+   geom_point() +
+   facet_wrap(~feature, ncol = 5, scales = "free")
+
+# calculate using tidy code
+features |>
+  group_by(feature) |>
+  summarise(sparse = sc_sparse(x,y))
+
+# using two vectors
+x <- datasaurus_dozen_wide$dots_x
+y <- datasaurus_dozen_wide$dots_y
+
+# plot it
+ggplot() +
+  geom_point(aes(x = x, y = y))
+
+# calculate using vectors
+sc_sparse(x, y)
 
 }
