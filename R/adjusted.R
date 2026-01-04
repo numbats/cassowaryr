@@ -80,6 +80,17 @@ sc_grid.igraph <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex"){
 #'   features |> group_by(feature) |> summarise(clumpy = sc_clumpy2(x,y))
 #'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
+#' data <- features |> filter(feature == "clusters")
+#' x <- data$x
+#' y <- data$y
+#'
+#' # plot it
+#' ggplot() +
+#'   geom_point(aes(x = x, y = y))
+#'
+#' # calculate using vectors
+#' sc_clumpy2(x, y)
+#'
 #' @export
 sc_clumpy2 <- function(x, y, out.rm = TRUE, binner =  "hex") UseMethod("sc_clumpy2")
 
@@ -99,37 +110,41 @@ sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 
 
 #' @export
-sc_clumpy2.igraph <- function(x, y, out.rm = TRUE, binner =  "hex"){
-  #set stringy penalty
-  vertex_counts <- igraph::degree(x)
-  #technically stringy calc
-  stringy <- sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
-  stringy_pen <- ifelse(stringy>0.95, (1-stringy), 1)
-  # get lower triangular matrix
-  mstmat <- twomstmat(x, y)$lowertri
+sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
+  # Get...
+  # edge weights
+  mst_weights <- igraph::E(x)$weight
+  # number of edges
+  n_total <- length(mst_weights)
+  # Lower triangular matrix
+  mstmat <- lower.tri(matrix(x[], nrow = n_total + 1))
 
   #get the index of all the edges in the mst
   matind <- which(mstmat>0) # in whole matrix
   rows <- matind %% length(mstmat[,1]) # respective row
   cols <- (matind-1) %/% length(mstmat[,1]) +1 #respective col
-  #for later calculations
-  n_total <- length(matind) #get total number of edges for weighting later
+  print(matind)
+  print(rows)
+  print(cols)
 
-  # identify big edges
-  edge_order <- order(mstmat[matind]) #get edge order
+  # Sort and get length difference
   #index of maximum difference
-  ind <- which.min(diff(sort(mstmat[matind], decreasing = TRUE)))
-  #index in original mst of big edges
-  big_ei <- which(mstmat[matind] %in% utils::head(sort(mstmat, decreasing=TRUE), ind))
+  ind <- which.min(diff(sort(mst_weights, decreasing = TRUE)))
 
+  print(ind)
+  #index in original mst of big edges
+  big_ei <- which(mst_weights %in% utils::head(sort(mst_weights, decreasing=TRUE), ind))
+  print(big_ei)
   #only keep index, rows and cols of between cluster indexs
   matind <- matind[big_ei]
   rows <- rows[big_ei]
   cols <- cols[big_ei]
-
+  print(matind)
+  print(rows)
+  print(cols)
   #place holder for clumpy values
   clumpy <- rep(0,length(matind)) #1 for each between cluster edge
-
+  print(clumpy)
   #get big edge weights for later calculation
   big_ew <- mstmat[matind]
   #set mst we are going to remove all the edges from
@@ -193,13 +208,14 @@ sc_clumpy2.igraph <- function(x, y, out.rm = TRUE, binner =  "hex"){
 
     # calculate clumpy value w penalty for uneven clusters
     uneven_pen <- sqrt((2*c_length)/(len_c1+len_c2))
-    clumpy[j] <- stringy_pen*uneven_pen*(big_ew[j]/short_edge)
+    clumpy[j] <- uneven_pen*(big_ew[j]/short_edge)
     #return 1 if all clusters are of size 1
     clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j])
   }
+
   #threshold to be considered clumpy is above 1
-  value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy)) #value <- mean(clumpy)+1
-  #stringy penalty only for high values
+  value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy))
+
   #return clumpy
   1-(1/value)
 }
@@ -207,7 +223,7 @@ sc_clumpy2.igraph <- function(x, y, out.rm = TRUE, binner =  "hex"){
 
 #' Compute  adjusted sparse measure using the alpha hull
 #'
-#' The sparse2 mesure as defined in cassowaryr, Mason, et al (2025).
+#' The sparse2 measure created for cassowaryr
 #' The measure calculates the sparsity of the plot as 1-area(ahull).
 #'
 #' @inheritParams scree
