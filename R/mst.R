@@ -51,7 +51,7 @@ sc_stringy.default <- function(x, y, out.rm = TRUE, binner = "hex"){
 
 
 #' @export
-sc_stringy.scree <- function(x, y, out.rm = TRUE, binner = "hex") {
+sc_stringy.scree <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
   #input: x is a scree, no y
   mst <- gen_mst(x$del, x$weights)
   sc_stringy.igraph(mst)
@@ -59,7 +59,7 @@ sc_stringy.scree <- function(x, y, out.rm = TRUE, binner = "hex") {
 
 
 #' @export
-sc_stringy.igraph <- function(x, y, out.rm = TRUE, binner = "hex") {
+sc_stringy.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
   #input: x is the MST igraph object
   vertex_counts <- igraph::degree(x)
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
@@ -115,7 +115,8 @@ sc_stringy2.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 #' # calculate using tidy code
 #' features |>
 #'  group_by(feature) |>
-#'  summarise(striated = sc_striated(x,y))
+#'  summarise(striated = sc_striated(x,y)) |>
+#'  arrange(striated)
 #'
 #' # using just vectors of points
 #' x <- datasaurus_dozen_wide$v_lines_x
@@ -143,6 +144,8 @@ sc_striated.default <- function(x, y, out.rm = TRUE, binner = "hex"){
 sc_striated.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #input: x is scree
   mst <- gen_mst(x$del, x$weights)
+  # only MST measure that still takes the scree, will figure out
+  # code that doesn't need it later
   sc_striated.igraph(mst, x)
 }
 
@@ -150,7 +153,7 @@ sc_striated.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 
 #' @export
 sc_striated.igraph <- function(x, y, out.rm = TRUE, binner = "hex"){
-  #input: x is MST, y is scree
+  # input: x is MST, y is scree
   vertex_counts <- igraph::degree(x)
   angs <- which(vertex_counts==2)
   angles_vect <- numeric(length(angs))
