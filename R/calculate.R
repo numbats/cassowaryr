@@ -145,8 +145,14 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
     scags[which(scags=="striated2")] <- "grid"
     }
 
+  # get list for each object type for easier computation
+  xy_scags <- c("monotonic", "splines", "dcor", "striped")
+  ahull_scags <- c("convex", "skinny")
+  mst_scags <- c("outlying", "stringy", "stringy2", "striated", "grid",
+                "clumpy", "clumpy2", "sparse", "skewed")
+
   # Check for typos/misspellings in scags list
-  validscags <- c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse", "skewed", "convex", "skinny", "monotonic", "splines", "dcor", "striped")
+  validscags <- c(mst_scags, ahull_scags, xy_scags)
   validpased <- match.arg(scags, validscags, several.ok=TRUE)
   typo <- scags[!scags %in% validpased]
   if(length(typo)>0){
@@ -154,92 +160,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
     scags <- validpased #replace scags list with only valid scags
   }
 
-  # Remove missing values
-  d <- tibble::tibble(x=x, y=y)
-  d <- d[stats::complete.cases(d),]
-  if (length(x) > nrow(d))
-    message("WARNING: ", length(x)-nrow(d), " observations in have been removed. \n")
-  x <- d$x
-  y <- d$y
-
-  # Make original and outlying adjusted scree+mst
-  sm_list <- original_and_robust(x,y)
-
-  if(is.null(sm_list)){
-    # this is null when one of the variables is constant after outlier removal
-    return(
-      dplyr::tibble("outlying"=NA,
-                    "stringy"=NA,
-                    "striated"=NA,
-                    "grid" = NA,
-                    "clumpy"=NA,
-                    "clumpy2"=NA,
-                    "sparse"=NA,
-                    "skewed"=NA,
-                    "convex"=NA,
-                    "skinny"=NA,
-                    "monotonic"=NA,
-                    "splines"=NA,
-                    "dcor"=NA,
-                    "stripes"=NA)
-    )
-  }
-
-  #scree and mst without outlier removal
-  sc_orig <- sm_list$scree_ori
-  mst_orig <- sm_list$mst_ori
-
-  #scree and mst with outlier removal
-  sc <- sm_list$scree_rob
-  mst <- sm_list$mst_rob
-
-  #calculate outlying meausre
-  if("outlying" %in% scags){
-    outlying <- sc_outlying(mst_orig, sc_orig)
-  }
-
-  #check is outliers should be removed
-  if(out.rm == FALSE){
-    sc <- sc_orig
-    mst <- mst_orig
-  }
-
-  #CALCULATE MST MEASURES
-  if("stringy" %in% scags){
-    stringy <- sc_stringy(mst)
-  }
-  if("striated" %in% scags){
-    striated <- sc_striated(mst, sc)
-  }
-  if("grid" %in% scags){
-    grid <- sc_grid(mst, sc)
-  }
-  if("clumpy" %in% scags){
-    clumpy <- sc_clumpy(mst, sc)
-  }
-  if("clumpy2" %in% scags){
-    clumpy2 <- sc_clumpy2(mst, sc)
-  }
-  if("sparse" %in% scags){
-    sparse <- sc_sparse(mst, sc)
-  }
-  if("skewed" %in% scags){
-    skewed <- sc_skewed(mst, sc)
-
-  }
-
-  #CALCULATE ALPHA HULL MEASURES
-  if(any("convex" %in% scags, "skinny" %in% scags)){
-    chull <- gen_conv_hull(sc$del)
-    ahull <- gen_alpha_hull(sc$del, sc$alpha)
-    if("convex" %in% scags){
-      convex <- sc_convex.list(chull,ahull)
-    }
-    if("skinny" %in% scags){
-      skinny <- sc_skinny.list(ahull)
-    }}
-
-  #CALCULATE ASSOCIATION MEASURES
+  # 1) Calculate association measures using x,y values
   if("monotonic" %in% scags){
     monotonic <- sc_monotonic(x,y)
   }
@@ -249,12 +170,77 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
   if("dcor" %in% scags){
     dcor <- sc_dcor(x,y)
   }
-
   # Striped, special index
   if("striped" %in% scags){
     striped <- sc_striped(x,y)
   }
 
+  # 2) Calculate outlying measure by itself
+  # (it can be calculated with other MST scags if out.rm = FALSE)
+  if(out.rm == TRUE & "outlying" %in% scags){
+    outlying <- sc_outlying(x,y, binner = binner)
+
+    # remove from scag list so it is not recomputed
+    scags <- setdiff(scags, "outlying")
+  }
+
+  # 2) Implement delauney triangulation if we have graph based scags
+  if(length(scags) == 0){
+    break
+  } else{
+    scr <- scree(x, y, out.rm = out.rm, binner = binner, alpha = alpha)
+  }
+
+  # 3) If we have MST scags, calculate MST
+  if(any(scags %in% mst_scags)){
+    mst <- gen_mst(scr$del, scr$weights)
+
+    # 4) Then calculate MST scagnostics
+    if("outlying" %in% scags){
+      stringy <- sc_stringy(mst)
+    }
+    if("stringy" %in% scags){
+      stringy <- sc_stringy(mst)
+    }
+    if("striated" %in% scags){
+      striated <- sc_striated(mst, scr)
+    }
+    if("grid" %in% scags){
+      grid <- sc_grid(mst, scr)
+    }
+    if("clumpy" %in% scags){
+      clumpy <- sc_clumpy(mst)
+    }
+    if("clumpy2" %in% scags){
+      clumpy2 <- sc_clumpy2(mst)
+    }
+    if("sparse" %in% scags){
+      sparse <- sc_sparse(mst)
+    }
+    if("skewed" %in% scags){
+      skewed <- sc_skewed(mst)
+    }
+    # Remove MST scags from list
+    scags <- setdiff(scags, mst_scags)
+  }
+
+  # 4) If any hull based scags
+  if(any(scags %in% ahull_scags)){
+
+    # Calculate alpha and convex hulls
+    ahull <- gen_alpha_hull(scr$del, scr$alpha)
+    chull <- gen_conv_hull(scr$del)
+
+    # Then calculate the scagnostics
+    if("convex" %in% scags){
+      convex <- sc_convex.list(chull,ahull)
+    }
+    if("skinny" %in% scags){
+      skinny <- sc_skinny.list(ahull)
+    }
+  }
+
+  # return table of scagnostic values
   scagnostic_calcs <- dplyr::tibble("outlying"=outlying,
                              "stringy"=stringy,
                              "striated"=striated,
