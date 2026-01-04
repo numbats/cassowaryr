@@ -45,13 +45,7 @@ sc_stringy <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_string
 sc_stringy.default <- function(x, y, out.rm = TRUE, binner = "hex"){
   #input: x and y are vectors
   sc <- scree(x, y, out.rm = out.rm, binner = binner)
-  if (is.null(sc$del)) {
-    dc <- sc_dcor(x,y)
-    if (dc >= 1 - 1e-8) {
-      return(1)
-    }
 
-  }
   sc_stringy.scree(sc)
 }
 
@@ -80,13 +74,6 @@ sc_stringy2 <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_strin
 sc_stringy2.default <- function(x, y, out.rm = TRUE, binner = "hex"){
   #input: x and y are vectors
   sc <- scree(x, y, out.rm = out.rm, binner = binner)
-  if (is.null(sc$del)) {
-    dc <- sc_dcor(x,y)
-    if (dc >= 1 - 1e-8) {
-      return(1)
-    }
-
-  }
   sc_stringy2.scree(sc)
 }
 
