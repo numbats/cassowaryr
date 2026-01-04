@@ -228,85 +228,27 @@ sc_clumpy.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 
 #' @export
 sc_clumpy.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex"){
+  # Rename x to mst for code clarity
+  mst <- x
 
-  # Get mst weights
-  mst_weights <- igraph::E(x)$weight
-  # convert
-  n <- length(mst_weights) + 1
-  mst_matrix <- matrix(x[], nrow = n)
+  # get all edge weights
+  mst_weights <- igraph::E(mst)$weight
 
-  #make index variables to iterate through
-  matind <- which(mst_matrix>0)
-  rows <- matind %% length(mst_matrix[,1])
-  cols <- (matind-1) %/% length(mst_matrix[,1]) +1
-  clumpy <- rep(0,length(matind))
+  # set up clumpy vector
+  n <- length(mst_weights)
+  clumpy <- rep(0,n)
 
-  for(j in seq(length(rows))){
-    #set mst we are going to remove all the edges from
-    mst_ej <- mst_matrix
+  # for each j, calculate clumpy
+  for(j in seq(n)){
+    length_j <- mst_weights[j]
+    max_length_k <- get_max_k(mst, j)
+    # calculate clumpy for this edge j
+    clumpy[j] <- 1 - (max_length_k/length_j)
 
-    #have two clusters sprawling out from the deleted edge (inex i)
-    c1rowcol <- rows[j]
-    c2rowcol <- cols[j]
-
-    #get weight of ej
-    ej_weight <- mst_ej[matind[j]]
-
-    #remove ej and all values in mst that are greater than ej
-    mst_ej[which(mst_ej>=ej_weight)] = 0
-
-    #remake index objects to edit within iteration
-    matind_ej <- which(mst_ej>0)
-    rows_ej <- matind_ej %% length(mst_ej[,1])
-    cols_ej <- (matind_ej-1) %/% length(mst_ej[,1]) +1
-
-    #initialise variable that checks if clusters have changed
-    whilecheck <- c(c1rowcol,c2rowcol)
-    quitloop = 0
-
-    #add in new indices until both clusters are full
-    while(quitloop==0){
-
-      #find matches in rows/columns to join connected vertices
-      c1rowcol <- unique(c(c1rowcol,
-                           rows_ej[which(cols_ej%in%c1rowcol)],
-                           cols_ej[which(rows_ej%in%c1rowcol)]))
-      c2rowcol <- unique(c(c2rowcol,
-                           rows_ej[which(cols_ej%in%c2rowcol)],
-                           cols_ej[which(rows_ej%in%c2rowcol)]))
-
-      #check if indices are done updating
-      if(setequal(whilecheck, c(c1rowcol,c2rowcol))){
-        quitloop=1
-      }
-
-      #update while loop check
-      whilecheck = c(c1rowcol,c2rowcol)
-
-    }
-
-    #get matrix indices of each of the clusters
-    c1ind <- unique(c(matind_ej[which(cols_ej%in%c1rowcol)],
-                      matind_ej[which(rows_ej%in%c1rowcol)]))
-    c2ind <- unique(c(matind_ej[which(cols_ej%in%c2rowcol)],
-                      matind_ej[which(rows_ej%in%c2rowcol)]))
-
-    #get edge weights for each cluster
-    c1weights <- mst_ej[c1ind]
-    c2weights <- mst_ej[c2ind]
-
-    #set K weight value
-    ek <- max(c(0,c1weights)) #max(c1weights, na.rm=TRUE)
-    em <- max(c(0,c2weights)) #max(c2weights, na.rm=TRUE)
-    ek_weight <- ifelse(length(c1weights)<length(c2weights), ek, em)
-
-
-    #calculate this clumpy value
-    clumpy[j] <- ifelse(ek_weight==0, 0, 1 - (ek_weight/ej_weight)) # ifelse(is.finite(1 - ek_weight/ej_weight), 1 - ek_weight/ej_weight, 0)
   }
 
-  #remove NA and return final clumpy measure
-  max(clumpy, na.rm=TRUE)
+  # return clumpy measure
+  max(clumpy)
 
 }
 
@@ -532,11 +474,45 @@ sc_outlying.igraph <- function(x, y = NULL, binner = "hex"){
   sum_outlying/sum_edges
 }
 
+# function that generates MST from delauney triangulation
 gen_mst <- function(del, weights) {
   edges <- del$mesh[, c("ind1", "ind2")]
   graph <- igraph::graph_from_edgelist(edges, directed = FALSE)
   graph <- igraph::set_edge_attr(graph, "weight", value = weights)
   igraph::mst(graph, weights =  igraph::E(graph)$weight)
+}
+
+
+# CLUMPY: function that calculates K
+get_max_k <- function(mst, j){
+  # get edge to delete
+  edge <- igraph::E(mst)[[j]]
+
+  # delete edge
+  disjoint_mst <- decompose(igraph::delete_edges(mst, edge))
+
+  # extract stats from disjoint graphs
+  gs <- graph_stats(disjoint_mst) |>
+    data.frame() |>
+    stats::na.omit() # remove single nodes (rows with NA median_edge)
+
+  # K = max_edge from MST with min n
+  return(gs[which.min(gs$n), "max_edge"])
+}
+
+
+# CLUMPY: function that extracts statistics from disjoint graphs
+graph_stats <- function(dg){
+  suppressWarnings( #suppress warning for edges by themselves
+    t(sapply(seq_along(dg),
+             function(x) c(index = x,
+                           n = vcount(dg[[x]]),
+                           max_edge = max(igraph::E(dg[[x]])$weight),
+                           med_edge = unname(quantile(igraph::E(dg[[x]])$weight,0.5))
+             )
+    )
+    )
+  )
 }
 
 
