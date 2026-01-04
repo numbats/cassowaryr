@@ -1,3 +1,75 @@
+####################################################################################
+# CLUMPY2: function that gets medians from clusters after
+get_median_k <- function(mst, j){
+  # get edge to delete
+  edges <- igraph::E(mst)[[j]]
+
+  # delete edges
+  disjoint_mst <- decompose(igraph::delete_edges(mst, edges))
+  print("check")
+  # extract stats from disjoint graphs
+  gs <- graph_stats(disjoint_mst) |>
+    data.frame() |>
+    stats::na.omit() # remove single nodes (rows with NA median_edge)
+
+  # K = max_edge from MST with min n
+  return(gs[ , "med_edge"])
+}
+
+
+# find max gap
+arrange_edges <- sort(mst_weights, decreasing = TRUE)
+ind <- which.min(diff(arrange_edges))
+# get inter-cluster edges
+inter_edges <- utils::head(arrange_edges, ind)
+
+# WRITE FUNCTIO THAT DELETES
+# ALL OTHER INTER-CLUSTER EDGES THEN
+# FINDS THE GRAPH WITH THE EDGE WE ARE CHECKING
+# THEN ANOTHER FUNCTION THAT COMPUTES THE RATIO THING ON THAT GRAPH
+inter_edge_ind <- which(mst_weights %in% inter_edges)
+
+# get median value for inter cluster edges
+within_edges <- get_median_k(mst, inter_edge_ind)
+
+
+
+
+1 - (mean(within_edges)/mean(inter_edges))
+
+
+###################################################################################
+
+
+# PLACEHOLDER FOR CHECKS
+# Remove missing values
+d <- tibble::tibble(x=x, y=y)
+d <- d[stats::complete.cases(d),]
+if (length(x) > nrow(d))
+  message("WARNING: ", length(x)-nrow(d), " observations in have been removed. \n")
+x <- d$x
+y <- d$y
+
+if(is.null(sm_list)){
+  # this is null when one of the variables is constant after outlier removal
+  return(
+    dplyr::tibble("outlying"=NA,
+                  "stringy"=NA,
+                  "striated"=NA,
+                  "grid" = NA,
+                  "clumpy"=NA,
+                  "clumpy2"=NA,
+                  "sparse"=NA,
+                  "skewed"=NA,
+                  "convex"=NA,
+                  "skinny"=NA,
+                  "monotonic"=NA,
+                  "splines"=NA,
+                  "dcor"=NA,
+                  "stripes"=NA)
+  )
+}
+
 # require(ggplot2)
 # require(tidyr)
 # require(dplyr)
