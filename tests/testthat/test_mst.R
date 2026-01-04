@@ -5,19 +5,28 @@ set.seed(4213)
 
 # Clumpy test
 
-x2 <- c(0,10,10,10,20,80,90,90,90,100,10,90)
-y2 <- c(50,60,50,40,50,50,60,50,40,50,100,0)
+# Case 1
+x1 <- c(0,10,10,10,20,80,90,90,90,100,10,90)
+y1 <- c(50,60,50,40,50,50,60,50,40,50,100,0)
 
-#plot(x2,y2)
+# Case 2 (similar but without long edge)
+x2 <- c(0,1,1,1,2, 8,9,9,9,10)
+y2 <- c(1,2,1,0,1, 9,10,9,8,9)
+
+e_length <- sqrt((0.7)^2 + (0.7)^2)
 
 test_that("Clumpy Scagnostic", {
-  expect_equal(sc_clumpy(x2,y2), (1-0.4/0.6))
+  expect_equal(sc_clumpy(x1,y1), (1-0.4/0.6))
+  expect_equal(sc_clumpy(x2,y2), (1-0.1/e_length))
 })
 
+
+
 # Test for extra clumpy issue
-x1 <- c(0,1,4,4.0001, 6, 6.0001, 9, 10)
-y1 <- c(10,10,0,0,0,0,10,10)
-#sc_clumpy(x1,y1)
+# x1 <- c(0,1,4,4.0001, 6, 6.0001, 9, 10)
+# y1 <- c(10,10,0,0,0,0,10,10)
+# sc_clumpy(x1,y1, binner=NULL)
+# sc_clumpy(x1,y1)
 
 # Stringy Test
 x1 <- c(0,10,20,30,40,50,60,70,80,90,100, 15)
