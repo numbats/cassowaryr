@@ -489,7 +489,7 @@ get_graph_feature <- function(mst, j, feature){
   edge <- igraph::E(mst)[[j]]
 
   # delete edge
-  disjoint_mst <- decompose(igraph::delete_edges(mst, edge))
+  disjoint_mst <- igraph::decompose(igraph::delete_edges(mst, edge))
 
   # extract stats from disjoint graphs
   gs <- graph_stats(disjoint_mst) |>
@@ -506,7 +506,7 @@ graph_stats <- function(dg){
   suppressWarnings( #suppress warning for edges by themselves
     t(sapply(seq_along(dg),
              function(x) c(index = x,
-                           n = vcount(dg[[x]]),
+                           n = igraph::vcount(dg[[x]]),
                            max_edge = max(igraph::E(dg[[x]])$weight),
                            med_edge = unname(quantile(igraph::E(dg[[x]])$weight,0.5))
              )
