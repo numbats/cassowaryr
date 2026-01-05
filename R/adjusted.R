@@ -80,7 +80,8 @@ sc_grid.igraph <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex"){
 #'   features |> group_by(feature) |> summarise(clumpy = sc_clumpy2(x,y))
 #'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
-#' data <- features |> filter(feature == "clusters")
+#' # data <- features |> filter(feature == "clusters")
+#' data <- datasaurus_dozen |> filter(dataset == "away")
 #' x <- data$x
 #' y <- data$y
 #'
@@ -111,10 +112,11 @@ sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 
 #' @export
 sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
-  # Start of function
-  mst_weights <- igraph::E(mst)$weight
+  # rename x to mst
+  mst <- x
 
   # find max gap
+  mst_weights <- igraph::E(mst)$weight
   arrange_edges <- sort(mst_weights, decreasing = TRUE)
   ind <- which.min(diff(arrange_edges))
 
@@ -127,14 +129,19 @@ sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
                           function(x) {
                             # get stats from smaller of two clusters
                             cluster_graph <- connected_subgraph(mst, inter_edge_ind, x)
-                            graph_stats <- get_graph_feature(cluster_graph, x, c("med_edge", "n"))
+                            graph_stats <- get_graph_feature(cluster_graph,
+       # this edge is literally just going 1,2,3,4, and is not the specific connecting edge
+       # if we use inter_edge_ind[x], that is defined for mst, not cluster graph
+       # need to find an equivalence to translate inter_edge_ind[x] to something for x
+                                                             x,
+                                                             c("med_edge", "n"))
 
                             # Calculate clumpy metric for this value of j
                             clumpy <- graph_stats$med_edge/mst_weights[inter_edge_ind[x]]
 
                             # calculate uneven cluster pentalty
                             nsmall <- graph_stats$n
-                            ntotal <- vcount(cluster_graph)
+                            ntotal <- igraph::vcount(cluster_graph)
                             size_penalty <- sqrt(2*nsmall/ntotal)
 
                             # calculate stringy penalty
@@ -146,7 +153,6 @@ sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
                             clumpy*size_penalty*string_penalty
                           }
   )
-
   # return clump value
   1 - mean(clumpy_vector)
 }
@@ -214,7 +220,7 @@ connected_subgraph <- function(mst, inter_edge_ind, j){
   verts <- group_but_one[which(!(group_but_one %in%  group_all))]
   verts <- unname(unlist(verts))
   # make a subgraph with those verticies
-  igraph::subgraph(disjoint_mst2, verts)
+  igraph::subgraph(disjoint_but_one, verts)
 }
 
 
