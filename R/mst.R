@@ -241,7 +241,7 @@ sc_clumpy.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex"){
   # for each j, calculate clumpy
   for(j in seq(n)){
     length_j <- mst_weights[j]
-    max_length_k <- get_max_k(mst, j)
+    max_length_k <- get_graph_feature(mst, j, "max_edge")
     # calculate clumpy for this edge j
     clumpy[j] <- 1 - (max_length_k/length_j)
 
@@ -483,8 +483,10 @@ gen_mst <- function(del, weights) {
 }
 
 
-# CLUMPY: function that calculates K
-get_max_k <- function(mst, j){
+# CLUMPY:
+# function that get the feature from the smaller of two clusters
+# after an edge has been deleted
+get_graph_feature <- function(mst, j, feature){
   # get edge to delete
   edge <- igraph::E(mst)[[j]]
 
@@ -497,7 +499,7 @@ get_max_k <- function(mst, j){
     stats::na.omit() # remove single nodes (rows with NA median_edge)
 
   # K = max_edge from MST with min n
-  return(gs[which.min(gs$n), "max_edge"])
+  return(gs[which.min(gs$n), feature])
 }
 
 
