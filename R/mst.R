@@ -236,20 +236,18 @@ sc_clumpy.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex"){
 
   # set up clumpy vector
   n <- length(mst_weights)
-  clumpy <- rep(0,n)
 
   # for each j, calculate clumpy
-  for(j in seq(n)){
-    length_j <- mst_weights[j]
-    max_length_k <- get_graph_feature(mst, j, "max_edge")
-    # calculate clumpy for this edge j
-    clumpy[j] <- 1 - (max_length_k/length_j)
-
-  }
-
+  clumpy <- sapply(seq(n),
+         # Function: given edge index, find clumpy value
+         function(x) {
+           length_j <- mst_weights[x]
+           max_length_k <- get_graph_feature(mst, x, "max_edge")
+           1 - (max_length_k/length_j)
+         }
+  )
   # return clumpy measure
   max(clumpy)
-
 }
 
 #' Compute sparse scagnostic measure using MST
