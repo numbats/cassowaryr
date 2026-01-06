@@ -72,22 +72,24 @@ sc_grid.igraph <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex"){
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's adjusted clumpy score.
 #' @examples
-#'   require(ggplot2)
-#'   require(dplyr)
-#'   ggplot(features, aes(x=x, y=y)) +
-#'      geom_point() +
-#'      facet_wrap(~feature, ncol = 5, scales = "free")
-#'   features |> group_by(feature) |> summarise(clumpy = sc_clumpy2(x,y))
-#'   sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#' require(ggplot2)
+#' require(dplyr)
 #'
-#' # data <- features |> filter(feature == "clusters")
-#' data <- datasaurus_dozen |> filter(dataset == "away")
+#' # plot features
+#' ggplot(features, aes(x=x, y=y)) +
+#'    geom_point() +
+#'    facet_wrap(~feature, ncol = 5, scales = "free")
+#'
+#' # calculate clumpy2 on all features
+#' features |>
+#'   group_by(feature) |>
+#'   summarise(clumpy2 = sc_clumpy2(x,y))
+#'
+#' sc_clumpy2(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
+#'
+#' data <- features |> filter(feature == "clusters")
 #' x <- data$x
 #' y <- data$y
-#'
-#' # plot it
-#' ggplot() +
-#'   geom_point(aes(x = x, y = y))
 #'
 #' # calculate using vectors
 #' sc_clumpy2(x, y)
@@ -104,7 +106,7 @@ sc_clumpy2.default <- function(x, y, out.rm = TRUE, binner =  "hex"){
 
 
 #' @export
-sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
+sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner =  "hex") {
   mst <- gen_mst(x$del, x$weights)
   sc_clumpy2.igraph(mst,x)
 }
@@ -114,6 +116,10 @@ sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
   # rename x to mst
   mst <- x
+  #set stringy penalty
+  vertex_counts <- igraph::degree(x)
+  stringy <- sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
+  stringy_pen <- ifelse(stringy>0.9, (1-stringy), 1)
 
   # find max gap
   mst_weights <- igraph::E(mst)$weight
@@ -123,38 +129,43 @@ sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
   # get inter-cluster edges
   inter_edges <- utils::head(arrange_edges, ind)
   inter_edge_ind <- which(mst_weights %in% inter_edges)
+  # add edge attribute
+  mst <- igraph::set_edge_attr(mst, "inter", index = inter_edge_ind, TRUE)
 
-  clumpy_vector <- sapply(seq(length(inter_edge_ind)),
+  # calculate clumpy
+  clumpy_vector <- t(sapply(seq(length(inter_edge_ind)),
                           # Function: given edge index, find clumpy value
                           function(x) {
                             # get stats from smaller of two clusters
                             cluster_graph <- connected_subgraph(mst, inter_edge_ind, x)
-                            graph_stats <- get_graph_feature(cluster_graph,
-       # this edge is literally just going 1,2,3,4, and is not the specific connecting edge
-       # if we use inter_edge_ind[x], that is defined for mst, not cluster graph
-       # need to find an equivalence to translate inter_edge_ind[x] to something for x
-                                                             x,
-                                                             c("med_edge", "n"))
-
-                            # Calculate clumpy metric for this value of j
-                            clumpy <- graph_stats$med_edge/mst_weights[inter_edge_ind[x]]
-
-                            # calculate uneven cluster pentalty
-                            nsmall <- graph_stats$n
                             ntotal <- igraph::vcount(cluster_graph)
-                            size_penalty <- sqrt(2*nsmall/ntotal)
 
-                            # calculate stringy penalty
-                            vertex_counts <- igraph::degree(cluster_graph)
-                            stringy <- sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
-                            string_penalty <- ifelse(stringy>0.95, (1-stringy), 1)
+                            # two clusters cannot have 3 points or fewer
+                            if(ntotal<=3){
+                              final_clumpy = 0
+                            } else{
+                              # get index of edge of interest (changed with subgraph)
+                              e_ind <- which(igraph::E(cluster_graph)$inter)
+                              graph_stats <- get_graph_feature(cluster_graph, e_ind, c("max_edge", "n"))
+                              # Calculate clumpy metric for this value of j
+                              clumpy <- 1 - (graph_stats$max_edge/mst_weights[inter_edge_ind[x]])
 
-                            # Final clumpy measure for j
-                            clumpy*size_penalty*string_penalty
+                              # calculate uneven cluster pentalty
+                              nsmall <- graph_stats$n
+                              size_penalty <- sqrt(2*nsmall/ntotal)
+
+                              # Final clumpy measure for j (including weighting)
+                              final_clumpy <- ntotal*clumpy*size_penalty
+                            }
+
+                            # Take number of points so that we can weight final value
+                            c(clumpy = final_clumpy, n = ntotal)
+
                           }
-  )
-  # return clump value
-  1 - mean(clumpy_vector)
+  ))
+  # return clump value and finish weighting
+  clumpy_vector <- clumpy_vector |> data.frame()
+  stringy_pen*(sum(clumpy_vector$clumpy)/sum(clumpy_vector$n))
 }
 
 
@@ -212,7 +223,8 @@ connected_subgraph <- function(mst, inter_edge_ind, j){
   group_all <- igraph::groups(igraph::components(disjoint_all))
 
   # get mst with all but index j edge deleted
-  edges_but_one <- igraph::E(mst)[[inter_edge_ind[-j]]]
+  e_ind <- inter_edge_ind[-j] # remove other edges
+  edges_but_one <- igraph::E(mst)[[e_ind]]
   disjoint_but_one <-igraph::delete_edges(mst, edges_but_one)
   group_but_one <- igraph::groups(igraph::components(disjoint_but_one))
 
