@@ -25,10 +25,8 @@
 #' @importFrom progress progress_bar
 #' @export
 calc_scags_wide <- function(all_data, scags=c("outlying", "stringy", "striated",
-                                              "grid", "clumpy", "clumpy2",
-                                              "sparse", "skewed", "convex",
-                                              "skinny", "monotonic", "splines",
-                                              "dcor"),
+                                              "clumpy", "sparse", "skewed",
+                                              "convex", "skinny", "monotonic"),
                             out.rm= TRUE, binner = "hex", alpha = "rahman"){
 
   if("striated2" %in% scags){
@@ -119,10 +117,9 @@ intermediate_scags <- function(vars, data, scags, out.rm, pb){
 #'   summarise(calc_scags(x,y, scags=c("monotonic", "outlying", "convex")))
 #'
 #' @export
-calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
-                                     "clumpy", "clumpy2", "sparse", "skewed",
-                                     "convex", "skinny", "monotonic", "splines",
-                                     "dcor"),
+calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated",
+                                     "clumpy", "sparse", "skewed",
+                                     "convex", "skinny", "monotonic"),
                        out.rm=TRUE, binner = "hex", alpha = "rahman"){
   #set all scagnostics to null
   outlying = NULL
