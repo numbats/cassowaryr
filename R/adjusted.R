@@ -113,60 +113,109 @@ sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner =  "hex") {
 
 
 #' @export
-sc_clumpy2.igraph <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
-  # rename x to mst
-  mst <- x
+sc_clumpy2.igraph <- function(x, y){
   #set stringy penalty
   vertex_counts <- igraph::degree(x)
+  #technically stringy calc
   stringy <- sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
-  stringy_pen <- ifelse(stringy>0.9, (1-stringy), 1)
+  stringy_pen <- ifelse(stringy>0.95, (1-stringy), 1)
+  # get lower triangular matrix
+  mstmat <- twomstmat(x, y)$lowertri
 
-  # find max gap
-  mst_weights <- igraph::E(mst)$weight
-  arrange_edges <- sort(mst_weights, decreasing = TRUE)
-  ind <- which.min(diff(arrange_edges))
+  #get the index of all the edges in the mst
+  matind <- which(mstmat>0) # in whole matrix
+  rows <- matind %% length(mstmat[,1]) # respective row
+  cols <- (matind-1) %/% length(mstmat[,1]) +1 #respective col
+  #for later calculations
+  n_total <- length(matind) #get total number of edges for weighting later
 
-  # get inter-cluster edges
-  inter_edges <- utils::head(arrange_edges, ind)
-  inter_edge_ind <- which(mst_weights %in% inter_edges)
-  # add edge attribute
-  mst <- igraph::set_edge_attr(mst, "inter", index = inter_edge_ind, TRUE)
+  # identify big edges
+  edge_order <- order(mstmat[matind]) #get edge order
+  ind <- which.min(diff(sort(mstmat[matind], decreasing = TRUE))) #index of maximum difference
+  big_ei <- which(mstmat[matind] %in% utils::head(sort(mstmat, decreasing=TRUE), ind)) #index in original mst of big edges
 
-  # calculate clumpy
-  clumpy_vector <- t(sapply(seq(length(inter_edge_ind)),
-                          # Function: given edge index, find clumpy value
-                          function(x) {
-                            # get stats from smaller of two clusters
-                            cluster_graph <- connected_subgraph(mst, inter_edge_ind, x)
-                            ntotal <- igraph::vcount(cluster_graph)
+  #only keep index, rows and cols of between cluster indexs
+  matind <- matind[big_ei]
+  rows <- rows[big_ei]
+  cols <- cols[big_ei]
 
-                            # two clusters cannot have 3 points or fewer
-                            if(ntotal<=3){
-                              final_clumpy = 0
-                            } else{
-                              # get index of edge of interest (changed with subgraph)
-                              e_ind <- which(igraph::E(cluster_graph)$inter)
-                              graph_stats <- get_graph_feature(cluster_graph, e_ind, c("max_edge", "n"))
-                              # Calculate clumpy metric for this value of j
-                              clumpy <- 1 - (graph_stats$max_edge/mst_weights[inter_edge_ind[x]])
+  #place holder for clumpy values
+  clumpy <- rep(0,length(matind)) #1 for each between cluster edge
 
-                              # calculate uneven cluster pentalty
-                              nsmall <- graph_stats$n
-                              size_penalty <- sqrt(2*nsmall/ntotal)
+  #get big edge weights for later calculation
+  big_ew <- mstmat[matind]
+  #set mst we are going to remove all the edges from
+  mst_ej <- mstmat
+  mst_ej[matind] = 0 #remove big edges
 
-                              # Final clumpy measure for j (including weighting)
-                              final_clumpy <- ntotal*clumpy*size_penalty
-                            }
+  # finc clumpy value for each big edge
+  for(j in seq(length(rows))){
 
-                            # Take number of points so that we can weight final value
-                            c(clumpy = final_clumpy, n = ntotal)
+    #have two clusters sprawling out from the deleted edge (inex i)
+    c1rowcol <- rows[j]
+    c2rowcol <- cols[j]
 
-                          }
-  ))
-  # return clump value and finish weighting
-  clumpy_vector <- clumpy_vector |> data.frame()
-  stringy_pen*(sum(clumpy_vector$clumpy)/sum(clumpy_vector$n))
+    #remake index objects to edit within iteration
+    matind_ej <- which(mst_ej>0)
+    rows_ej <- matind_ej %% length(mst_ej[,1])
+    cols_ej <- (matind_ej-1) %/% length(mst_ej[,1]) +1
+
+    #initialise variable that checks if clusters have changed
+    whilecheck <- c(c1rowcol,c2rowcol)
+    quitloop = 0
+
+    while(quitloop==0){
+
+      #find matches in rows/columns to join connected vertices
+      c1rowcol <- unique(c(c1rowcol,
+                           rows_ej[which(cols_ej%in%c1rowcol)],
+                           cols_ej[which(rows_ej%in%c1rowcol)]))
+      c2rowcol <- unique(c(c2rowcol,
+                           rows_ej[which(cols_ej%in%c2rowcol)],
+                           cols_ej[which(rows_ej%in%c2rowcol)]))
+
+      #check if indices are done updating
+      if(setequal(whilecheck, c(c1rowcol,c2rowcol))){
+        quitloop=1
+      }
+
+      #update while loop check
+      whilecheck = c(c1rowcol,c2rowcol)
+
+    }
+    #get indicies in the matrix
+    c1ind <- unique(c(matind_ej[which(cols_ej%in%c1rowcol)],
+                      matind_ej[which(rows_ej%in%c1rowcol)]))
+    c2ind <- unique(c(matind_ej[which(cols_ej%in%c2rowcol)],
+                      matind_ej[which(rows_ej%in%c2rowcol)]))
+
+    #pull weights from the matrix
+    c1weights <- mst_ej[c1ind]
+    c2weights <- mst_ej[c2ind]
+
+    # get the number of points in each cluster
+    len_c1 <- length(c1weights)
+    len_c2 <- length(c2weights)
+    # take the value of the smaller cluster (points wise)
+    c_length <- ifelse(len_c1 > len_c2, len_c2, len_c1)
+    # and get short edge
+    short_edge <- ifelse(len_c1 > len_c2, stats::median(c2weights), stats::median(c1weights))
+    # possible code for dealing with irregular clusters
+    # short_edge <- ifelse(len_c1 == len_c2, max(c(c2weights,c1weights)), short_edge)
+
+    # calculate clumpy value w penalty for uneven clusters
+    uneven_pen <- sqrt((2*c_length)/(len_c1+len_c2))
+    clumpy[j] <- stringy_pen*uneven_pen*(big_ew[j]/short_edge)
+    #just setting this now will fix to something more appropriate later
+    clumpy[j] <- ifelse(is.na(clumpy[j]), 1, clumpy[j]) #return 1 if all clusters are of size 1
+  }
+  #threshold to be considered clumpy is above 1
+  value <- ifelse(mean(clumpy)< 1, 1, mean(clumpy)) #value <- mean(clumpy)+1
+  #stringy penalty only for high values
+  #return clumpy
+  1-(1/value)
 }
+
 
 
 #' Compute  adjusted sparse measure using the alpha hull
@@ -213,26 +262,20 @@ sc_sparse2.list <- function(x, y=NULL, out.rm = TRUE, binner =  "hex"){
   1- ahull_area
 }
 
-# get mst with all edges deleted
-# input: mst, full edge index, index of edge j
-# output: subgraph of two clusters that are connected by edge j
-connected_subgraph <- function(mst, inter_edge_ind, j){
-  # get fully disconnected mst with all edges deleted
-  edges_all <- igraph::E(mst)[[inter_edge_ind]]
-  disjoint_all <- igraph::delete_edges(mst, edges_all)
-  group_all <- igraph::groups(igraph::components(disjoint_all))
+twomstmat <- function(mst, scr){
+  #input: mst and scree
+  #output: mst full and lower triangular matrices
 
-  # get mst with all but index j edge deleted
-  e_ind <- inter_edge_ind[-j] # remove other edges
-  edges_but_one <- igraph::E(mst)[[e_ind]]
-  disjoint_but_one <-igraph::delete_edges(mst, edges_but_one)
-  group_but_one <- igraph::groups(igraph::components(disjoint_but_one))
+  #make into upper tri-matrix
+  mst_mat <- matrix(mst[], nrow=length(scr[["del"]][["x"]][,1]))
+  mst_uppertri <- mst_mat
+  mst_uppertri[upper.tri(mst_mat, diag = FALSE)]=0
 
-  # get vertex indicies for mismatched vertice list
-  verts <- group_but_one[which(!(group_but_one %in%  group_all))]
-  verts <- unname(unlist(verts))
-  # make a subgraph with those verticies
-  igraph::subgraph(disjoint_but_one, verts)
+  #output matrix and upper triangular matrix
+  structure(
+    list(mat = mst_mat,
+         lowertri = mst_uppertri))
 }
+
 
 
