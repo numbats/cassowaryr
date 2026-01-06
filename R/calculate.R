@@ -212,7 +212,7 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated", "grid",
       clumpy <- sc_clumpy(mst)
     }
     if("clumpy2" %in% scags){
-      clumpy2 <- sc_clumpy2(mst)
+      clumpy2 <- sc_clumpy2(mst, scr)
     }
     if("sparse" %in% scags){
       sparse <- sc_sparse(mst)
