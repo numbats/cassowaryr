@@ -1,3 +1,14 @@
+# cassowaryr 2.0.12
+- standardised outlier removal in all functions to be out.rm parameter
+- set binning and outlier removal to be default preprocessing steps across the entire package (including in the sc_* functions)
+- included a propper description for each function that includes a citation to the definition
+- consolidated the documentation for for the draw_* and top_* functions 
+- changed all the tidy pipes (%>%) to native pipes (|>)
+- Changed the mst examples to be datasaurus dozen instead of anscomb due to small sample issues
+- Change the default in all calc_scags functions to be the Wilkinson & wills scagnostics (rather than all the scagnostics in the package)
+- Removed edge case versions of skinny and stringy (need to implement it in the scree)
+- Rewrote clumpy using sapply (from for loops) and igraph functions so it is easier to read and runs faster
+
 # cassowaryr 2.0.11
 - Broke scree function up so binning, outlier removal, and alpha calculations are in their own functions (and R files)
 - Reverted outlier removal to old method, but made kept it iterative and in the scree
