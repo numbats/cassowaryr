@@ -7,8 +7,8 @@
 calc_scags(
   x,
   y,
-  scags = c("outlying", "stringy", "striated", "grid", "clumpy", "clumpy2", "sparse",
-    "skewed", "convex", "skinny", "monotonic", "splines", "dcor"),
+  scags = c("outlying", "stringy", "striated", "clumpy", "sparse", "skewed", "convex",
+    "skinny", "monotonic"),
   out.rm = TRUE,
   binner = "hex",
   alpha = "rahman"
@@ -23,7 +23,7 @@ grid, striped, clumpy, clumpy2, sparse, skewed, convex,
 skinny, monotonic, splines, dcor}
 
 \item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
-the scanostics will be computed on the entire data set with no outlier
+the scagnostics will be computed on the entire data set with no outlier
 removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior

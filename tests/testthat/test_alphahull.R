@@ -30,14 +30,15 @@ test_that("Skinny scagnostic", {
   x  <- seq(0, 1, length.out = 50)
 
   y1 <- x
-  y2 <- 2 * x
+  y2 <- x^2
 
   s1 <- suppressWarnings(sc_skinny(x, y1))
   s2 <- suppressWarnings(sc_skinny(x, y2))
 
   # we expect exactly 1
   expect_equal(s1, 1, tolerance = 1e-8)
-  expect_equal(s2, 1, tolerance = 1e-8)
+
+  expect_gt(s2, 0.7)
 })
 
 

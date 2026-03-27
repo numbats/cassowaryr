@@ -10,7 +10,7 @@ sc_striated(x, y, out.rm = TRUE, binner = "hex")
 \item{x, y}{numeric vectors}
 
 \item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
-the scanostics will be computed on the entire data set with no outlier
+the scagnostics will be computed on the entire data set with no outlier
 removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
@@ -46,7 +46,8 @@ ggplot(features, aes(x=x, y=y)) +
 # calculate using tidy code
 features |>
  group_by(feature) |>
- summarise(striated = sc_striated(x,y))
+ summarise(striated = sc_striated(x,y)) |>
+ arrange(striated)
 
 # using just vectors of points
 x <- datasaurus_dozen_wide$v_lines_x

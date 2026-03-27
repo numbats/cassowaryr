@@ -10,7 +10,7 @@ sc_clumpy2(x, y, out.rm = TRUE, binner = "hex")
 \item{x, y}{numeric vectors}
 
 \item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
-the scanostics will be computed on the entire data set with no outlier
+the scagnostics will be computed on the entire data set with no outlier
 removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
@@ -35,12 +35,26 @@ alternative measure to clumpy when binning is removed as a pre-processing
 step.
 }
 \examples{
-  require(ggplot2)
-  require(dplyr)
-  ggplot(features, aes(x=x, y=y)) +
-     geom_point() +
-     facet_wrap(~feature, ncol = 5, scales = "free")
-  features |> group_by(feature) |> summarise(clumpy = sc_clumpy2(x,y))
-  sc_clumpy2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+require(ggplot2)
+require(dplyr)
+
+# plot features
+ggplot(features, aes(x=x, y=y)) +
+   geom_point() +
+   facet_wrap(~feature, ncol = 5, scales = "free")
+
+# calculate clumpy2 on all features
+features |>
+  group_by(feature) |>
+  summarise(clumpy2 = sc_clumpy2(x,y))
+
+sc_clumpy2(datasaurus_dozen_wide$dots_x, datasaurus_dozen_wide$dots_y)
+
+data <- features |> filter(feature == "clusters")
+x <- data$x
+y <- data$y
+
+# calculate using vectors
+sc_clumpy2(x, y)
 
 }

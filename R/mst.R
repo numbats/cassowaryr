@@ -516,3 +516,10 @@ graph_stats <- function(dg){
 }
 
 
+# MST degree-2 fraction
+mst_deg2 <- function(x, y) {
+  sc  <- scree(x, y)
+  mst <- gen_mst(sc$del, sc$weights)
+  deg <- igraph::degree(mst)
+  sum(deg == 2) / length(deg)
+}

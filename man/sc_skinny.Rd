@@ -21,7 +21,7 @@ Alternatively:
 }}
 
 \item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
-the scanostics will be computed on the entire data set with no outlier
+the scagnostics will be computed on the entire data set with no outlier
 removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior

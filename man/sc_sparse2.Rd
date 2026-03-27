@@ -10,7 +10,7 @@ sc_sparse2(x, y, out.rm = TRUE, binner = "hex")
 \item{x, y}{numeric vectors}
 
 \item{out.rm}{logical; if TRUE, iteratively trim large MST edges, If FALSE
-the scanostics will be computed on the entire data set with no outlier
+the scagnostics will be computed on the entire data set with no outlier
 removal.}
 
 \item{binner}{an optional function that bins the x and y vectors prior
@@ -28,7 +28,7 @@ until <= 250 nonempty cells)
 A numeric object that gives the plot's adjusted sparse score.
 }
 \description{
-The sparse2 mesure as defined in cassowaryr, Mason, et al (2025).
+The sparse2 measure created for cassowaryr
 The measure calculates the sparsity of the plot as 1-area(ahull).
 }
 \examples{

@@ -26,7 +26,7 @@
 #'     \item a function with no arguments that returns a single numeric alpha
 #'     }
 #' @param out.rm logical; if TRUE, iteratively trim large MST edges, If FALSE
-#' the scanostics will be computed on the entire data set with no outlier
+#' the scagnostics will be computed on the entire data set with no outlier
 #' removal.
 #' @param ...  other args
 #'
@@ -104,7 +104,4 @@ scree <- function(x, y, out.rm = TRUE, binner = "hex",
     class = "scree"
   )
 }
-
-
-
 

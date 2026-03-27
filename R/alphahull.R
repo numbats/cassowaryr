@@ -82,13 +82,18 @@ sc_skinny <- function(x, y, alpha = "rahman",
 sc_skinny.default <- function(x, y, alpha = "rahman",
                               out.rm = TRUE, binner =  "hex"){
   sc <- scree(x, y, alpha = alpha, out.rm = out.rm, binner = binner)
-  if (is.null(sc$del)) {
-    dc <- sc_dcor(x,y)
-    if (dc >= 1 - 1e-8) {
-      return(1)
-    }
 
+  if (is.null(sc$del)) {
+    return(1)
   }
+
+  dc <- sc_dcor(x, y)
+  d2 <- mst_deg2(x, y)
+
+  if (dc >= 1 - 1e-8 || (!is.na(d2) && d2 > 0.9)) {
+    return(skinny_fix(x, y))
+  }
+
   sc_skinny.scree(sc)
 }
 
@@ -129,3 +134,20 @@ gen_alpha_hull <- function(del, alpha) {
   return(ahull)
 }
 
+
+
+# skinny index helper
+skinny_fix <- function(x, y, alpha = "rahman",
+                       out.rm = TRUE, binner = "hex",
+                       sigma = seq(0.0005, 0.01, by = 0.0005)) {
+  n <- length(x)
+
+  vals <- sapply(sigma, function(s) {
+    xj <- x + rnorm(n, sd = s)
+    yj <- y + rnorm(n, sd = s)
+    sc_skinny.scree(scree(xj, yj, alpha = alpha, out.rm = out.rm, binner = binner))
+  })
+
+  fit <- lm(vals ~ sigma)
+  pmin(1, pmax(0, coef(fit)[1]))
+}
