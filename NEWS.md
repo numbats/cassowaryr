@@ -1,3 +1,6 @@
+# cassowaryr 2.0.13
+- Skinny index fixed (including the straight-line error and unrealistically small values for visually skinny shapes).
+
 # cassowaryr 2.0.12
 - standardised outlier removal in all functions to be out.rm parameter
 - set binning and outlier removal to be default preprocessing steps across the entire package (including in the sc_* functions)
