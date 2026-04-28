@@ -1,6 +1,6 @@
 Package: cassowaryr
 Title: Compute Scagnostics on Pairs of Numeric Variables in a Data Set
-Version: 2.0.13
+Version: 2.0.14
 Authors@R: 
     c(person(given = "Harriet",
              family = "Mason",
@@ -46,7 +46,6 @@ Imports:
     energy,
     dplyr,
     ggplot2,
-    magrittr,
     progress,
     tibble,
     stats,

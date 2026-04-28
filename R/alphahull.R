@@ -143,11 +143,11 @@ skinny_fix <- function(x, y, alpha = "rahman",
   n <- length(x)
 
   vals <- sapply(sigma, function(s) {
-    xj <- x + rnorm(n, sd = s)
-    yj <- y + rnorm(n, sd = s)
+    xj <- x + stats::rnorm(n, sd = s)
+    yj <- y + stats::rnorm(n, sd = s)
     sc_skinny.scree(scree(xj, yj, alpha = alpha, out.rm = out.rm, binner = binner))
   })
 
-  fit <- lm(vals ~ sigma)
-  pmin(1, pmax(0, coef(fit)[1]))
+  fit <- stats::lm(vals ~ sigma)
+  pmin(1, pmax(0, stats::coef(fit)[1]))
 }

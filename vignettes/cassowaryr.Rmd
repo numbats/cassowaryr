@@ -106,7 +106,7 @@ ggplotly(p)
 There are several functions that can summarise the scagnostics results. Using `top_pairs` allows us to find the top scagnostic for each pair of variables, while `top_scags` finds the top pair of variables for each scagnostic. Their usage is similar and looks like:
 
 ```{r}
-top_scags(widescags) %>%
+top_scag(widescags) %>%
   knitr::kable(digits=4, align="c")
 ```
 
@@ -119,7 +119,7 @@ Occasionally we will get unexpected results for a scagnostic. To diagnose a scag
 drawexample <- exampledata %>%
   filter(dataset== "dots")
 
-draw_mst(drawexample$x, drawexample$y, alpha=0.2) + theme_minimal()
+draw_mst(drawexample$x, drawexample$y) + theme_minimal()
 ```
 
 

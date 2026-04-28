@@ -1,15 +1,15 @@
-
-#' Compute stringy scagnostic measure using MST
+#' Compute the stringy06 scagnostic measure using the MST
 #'
 #' This measure identifies a “stringy” shape with no branches, such as a thin
-#' line of data. The stringy function is defined in Scagnostics Distributions by
-#' Wilkinson & Wills (2008). It is calculated by comparing the number of
-#' vertices of degree two in the MST with the total number of vertices
-#' in the MST, dropping those of degree one. The stringy2 function
-#' is defined in Graph Theoretic Scagnostics, Wilkinson (2005). It is
-#' the legnth of the longest shortest path through the MST divided by the
-#' sum of all edge lengths in the MST.
-
+#' line of data. The stringy06 function is defined in
+#' *High-Dimensional Visual Analytics: Interactive Exploration Guided by Pairwise
+#' Views of Point Distributions* (Wilkinson et al., 2006). It is calculated using
+#' the minimum spanning tree (MST) by comparing the number of vertices with
+#' degree two to the total number of vertices, dropping those of degree one.
+#'
+#' The name "stringy06" is used to distinguish this version from earlier definition
+#' of the stringy measure.
+#'
 #'
 #' @inheritParams scree
 #' @return A numeric object that gives the plot's stringy score.
@@ -25,7 +25,7 @@
 #' # calculate using tidy code
 #' features |>
 #'  group_by(feature) |>
-#'  summarise(stringy = sc_stringy(x,y))
+#'  summarise(stringy = sc_stringy06(x,y))
 #'
 #' # using just vectors of points
 #' x <- datasaurus_dozen_wide$star_x
@@ -36,58 +36,71 @@
 #'   geom_point(aes(x = x, y = y))
 #'
 #' # calculate using vectors
-#' sc_stringy(x, y)
+#' sc_stringy06(x, y)
 #' @export
-sc_stringy <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_stringy")
+sc_stringy06 <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_stringy06")
 
 
 #' @export
-sc_stringy.default <- function(x, y, out.rm = TRUE, binner = "hex"){
+sc_stringy06.default <- function(x, y, out.rm = TRUE, binner = "hex"){
   #input: x and y are vectors
   sc <- scree(x, y, out.rm = out.rm, binner = binner)
 
-  sc_stringy.scree(sc)
+  sc_stringy06.scree(sc)
 }
 
 
 #' @export
-sc_stringy.scree <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
+sc_stringy06.scree <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
   #input: x is a scree, no y
   mst <- gen_mst(x$del, x$weights)
-  sc_stringy.igraph(mst)
+  sc_stringy06.igraph(mst)
 }
 
 
 #' @export
-sc_stringy.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
+sc_stringy06.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
   #input: x is the MST igraph object
   vertex_counts <- igraph::degree(x)
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
 }
 
-#' @rdname sc_stringy
+#' Compute the stringy05 scagnostic measure
+#'
+#' Computes the stringy measure as defined in *Graph-Theoretic Scagnostics*
+#' (Wilkinson et al., 2005). It is the legnth of the longest shortest path through
+#' the MST divided by the sum of all edge lengths in the MST.
+#'
+#' @inheritParams scree
+#' @return A numeric value giving the stringy05 score.
+#'
+#' @examples
+#' x <- datasaurus_dozen_wide$star_x
+#' y <- datasaurus_dozen_wide$star_y
+#' sc_stringy05(x, y)
+#'
 #' @export
-sc_stringy2 <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_stringy2")
+sc_stringy05 <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_stringy05")
 
 
 #' @export
-sc_stringy2.default <- function(x, y, out.rm = TRUE, binner = "hex"){
+sc_stringy05.default <- function(x, y, out.rm = TRUE, binner = "hex"){
   #input: x and y are vectors
   sc <- scree(x, y, out.rm = out.rm, binner = binner)
-  sc_stringy2.scree(sc)
+  sc_stringy05.scree(sc)
 }
 
 
 #' @export
-sc_stringy2.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
+sc_stringy05.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #input: x is a scree, no y
   mst <- gen_mst(x$del, x$weights)
-  sc_stringy2.igraph(mst)
+  sc_stringy05.igraph(mst)
 }
 
 
 #' @export
-sc_stringy2.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
+sc_stringy05.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #input: x is the MST igraph object
   diameter <- igraph::get_diameter(x)
   length(diameter) / (length(x) - 1)
@@ -508,7 +521,7 @@ graph_stats <- function(dg){
              function(x) c(index = x,
                            n = igraph::vcount(dg[[x]]),
                            max_edge = max(igraph::E(dg[[x]])$weight),
-                           med_edge = unname(quantile(igraph::E(dg[[x]])$weight,0.5))
+                           med_edge = unname(stats::quantile(igraph::E(dg[[x]])$weight,0.5))
              )
     )
     )

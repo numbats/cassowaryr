@@ -1,3 +1,11 @@
+# cassowaryr 2.0.14
+- Renamed sc_stringy to sc_stringy06, corresponding to the 2006 version of the stringy index
+- Renamed sc_stringy2 to sc_stringy05, corresponding to the 2005 version
+- Updated documentation and ran full package checks
+- Updated the vignette and fixed related errors
+- Fixed several package errors and warnings
+
+
 # cassowaryr 2.0.13
 - Skinny index fixed (including the straight-line error and unrealistically small values for visually skinny shapes).
 
@@ -26,7 +34,7 @@
 - Updated `scree()` so `outlier_rm` returns revised `del`, `weights`, and `alpha`.
 - Added `outlier_rm` and `binner` options to all index functions and `alpha` option to alpha-hull–based indices.
 - Added Tina’s name and ORCID to the package description.
-- Modified `sc_skinny` and `sc_stringy` to return 1 for perfectly straight-line conditions.
+- Modified `sc_skinny` and `sc_stringy06` to return 1 for perfectly straight-line conditions.
 
 
 # cassowaryr 2.0.8

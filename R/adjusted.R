@@ -113,7 +113,7 @@ sc_clumpy2.scree <- function(x, y=NULL, out.rm = FALSE, binner =  "hex") {
 
 
 #' @export
-sc_clumpy2.igraph <- function(x, y){
+sc_clumpy2.igraph <- function(x, y, out.rm = FALSE, binner =  "hex"){
   #set stringy penalty
   vertex_counts <- igraph::degree(x)
   #technically stringy calc

@@ -34,8 +34,8 @@ y1 <- c(0,10,20,30,40,50,60,70,80,90,100, 25)
 #plot(x1,y1)
 
 test_that("Stringy Scagnostic", {
-  expect_equal(sc_stringy(x1,y1), (8/9))
-  expect_equal(sc_stringy2(x1,y1), 1)
+  expect_equal(sc_stringy06(x1,y1), (8/9))
+  expect_equal(sc_stringy05(x1,y1), 1)
 })
 
 
@@ -48,10 +48,10 @@ test_that("Stringy scagnostic", {
   y1 <- x
   y2 <- 2 * x
 
-  s1 <- suppressWarnings(sc_stringy(x, y1))
-  s2 <- suppressWarnings(sc_stringy(x, y2))
-  s3 <- suppressWarnings(sc_stringy2(x, y1))
-  s4 <- suppressWarnings(sc_stringy2(x, y1))
+  s1 <- suppressWarnings(sc_stringy06(x, y1))
+  s2 <- suppressWarnings(sc_stringy06(x, y2))
+  s3 <- suppressWarnings(sc_stringy05(x, y1))
+  s4 <- suppressWarnings(sc_stringy05(x, y1))
 
   # we expect exactly 1
   expect_equal(s1, 1, tolerance = 1e-8)

@@ -194,10 +194,10 @@ calc_scags <- function(x, y, scags=c("outlying", "stringy", "striated",
 
     # 4) Then calculate MST scagnostics
     if("outlying" %in% scags){
-      stringy <- sc_stringy(mst)
+      stringy <- sc_stringy06(mst)
     }
     if("stringy" %in% scags){
-      stringy <- sc_stringy(mst)
+      stringy <- sc_stringy06(mst)
     }
     if("striated" %in% scags){
       striated <- sc_striated(mst, scr)
