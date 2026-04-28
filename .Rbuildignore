@@ -18,3 +18,5 @@ hexsticker.R
 heximage.png
 hexfile.png
 pkgdown
+^\.positai$
+^\.claude$
