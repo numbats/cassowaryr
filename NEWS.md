@@ -1,3 +1,6 @@
+# cassowaryr 2.0.15
+- Updated the definition of `sc_stringy05()`, replacing the previous vertex-count-based calculation with the weighted MST diameter divided by the total MST edge length.
+
 # cassowaryr 2.0.14
 - Renamed sc_stringy to sc_stringy06, corresponding to the 2006 version of the stringy index
 - Renamed sc_stringy2 to sc_stringy05, corresponding to the 2005 version

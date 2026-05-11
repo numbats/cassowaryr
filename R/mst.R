@@ -102,8 +102,12 @@ sc_stringy05.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 #' @export
 sc_stringy05.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   #input: x is the MST igraph object
-  diameter <- igraph::get_diameter(x)
-  length(diameter) / (length(x) - 1)
+  w <- igraph::E(x)$weight
+  total_length <- sum(w)
+
+  diameter_length <- igraph::diameter(x)
+
+  diameter_length / total_length
 }
 
 #' Compute striated scagnostic measure using MST
