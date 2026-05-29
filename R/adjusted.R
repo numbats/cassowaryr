@@ -18,10 +18,10 @@
 #'   features |> group_by(feature) |>
 #'     summarise(grid1 = sc_grid(x,y),
 #'               grid2 = sc_grid(x,y, epsilon=0.05))
-#'   sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+#'   sc_striated2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 #'
 #' @export
-sc_grid <- function(x, y, epsilon,
+sc_grid <- function(x, y, epsilon=0.01,
                     out.rm = TRUE, binner =  "hex") UseMethod("sc_grid")
 
 
@@ -59,6 +59,15 @@ sc_grid.igraph <- function(x, y, epsilon=0.01, out.rm = TRUE, binner =  "hex"){
     grd <- grd + b
   }
   grd/(0.5*sum(vertex_counts) - 1)
+}
+
+# depreciate striated2
+#' @rdname sc_grid
+#' @export
+sc_striated2 <- function(x, y, epsilon=0.01,
+                         out.rm = TRUE, binner =  "hex") {
+  .Deprecated("sc_grid")
+  sc_grid(x, y, epsilon, out.rm, binner)
 }
 
 #' Compute adjusted clumpy measure using MST
