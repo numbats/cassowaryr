@@ -65,6 +65,14 @@ sc_stringy06.igraph <- function(x, y=NULL, out.rm = TRUE, binner = "hex") {
   sum(vertex_counts == 2) / (length(vertex_counts) - sum(vertex_counts == 1))
 }
 
+# depreciate stringy
+#' @rdname sc_stringy06
+#' @export
+sc_stringy <- function(x, y, out.rm = TRUE, binner = "hex") {
+  .Deprecated("sc_stringy06")
+  sc_stringy06(x, y, out.rm, binner)
+}
+
 #' Compute the stringy05 scagnostic measure
 #'
 #' Computes the stringy measure as defined in *Graph-Theoretic Scagnostics*
@@ -108,6 +116,14 @@ sc_stringy05.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
   diameter_length <- igraph::diameter(x)
 
   diameter_length / total_length
+}
+
+# depreciate stringy2
+#' @rdname sc_stringy05
+#' @export
+sc_stringy2 <- function(x, y, out.rm = TRUE, binner = "hex") {
+  .Deprecated("sc_stringy05")
+  sc_stringy05(x, y, out.rm, binner)
 }
 
 #' Compute striated scagnostic measure using MST
