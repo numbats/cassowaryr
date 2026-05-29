@@ -1,3 +1,6 @@
+# cassowaryr 2.0.16
+- Depreciated `sc_striated2` for `sc_grid`, `sc_stringy` for `sc_stringy05`, and `sc_stringy2` for `sc_stringy06`
+
 # cassowaryr 2.0.15
 - Updated the definition of `sc_stringy05()`, replacing the previous vertex-count-based calculation with the weighted MST diameter divided by the total MST edge length.
 
