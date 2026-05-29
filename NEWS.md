@@ -1,3 +1,6 @@
+# cassowaryr 2.0.17
+- Added vdiff tests for the `draw_*` functions
+
 # cassowaryr 2.0.16
 - Depreciated `sc_striated2` for `sc_grid`, `sc_stringy` for `sc_stringy05`, and `sc_stringy2` for `sc_stringy06`
 
