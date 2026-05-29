@@ -1,4 +1,3 @@
-
 #' Compute convex scagnostic measure
 #'
 #' A measure of how convex the shape of the data is. It was first defined in
@@ -50,10 +49,7 @@ sc_convex.list <- function(x, y, alpha = "rahman",
   else
     ahull_area <- 0
 
-  #calculate sample size weight
-  #n = length(x)/500
-  #w = 0.7 + 0.3/(1+n^2)
-  (ahull_area / chull_area) # w*(ahull_area / chull_area)
+  (ahull_area / chull_area)
 }
 
 #' Compute skinny scagnostic measure
