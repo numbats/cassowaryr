@@ -31,11 +31,15 @@ test_that("Clumpy Scagnostic", {
 # Stringy Test
 x1 <- c(0,10,20,30,40,50,60,70,80,90,100, 15)
 y1 <- c(0,10,20,30,40,50,60,70,80,90,100, 25)
-#plot(x1,y1)
+
+# Calculate correct stringy05 solution
+path <- 10*10*sqrt(2)
+extra <- sqrt(sum((c(20,20) - c(15,25))^2))
+total <- path +  extra
 
 test_that("Stringy Scagnostic", {
   expect_equal(sc_stringy06(x1,y1), (8/9))
-  expect_equal(sc_stringy05(x1,y1), 1)
+  expect_equal(sc_stringy05(x1,y1), path/total)
 })
 
 
