@@ -2,9 +2,12 @@
 % Please edit documentation in R/mst.R
 \name{sc_stringy06}
 \alias{sc_stringy06}
+\alias{sc_stringy}
 \title{Compute the stringy06 scagnostic measure using the MST}
 \usage{
 sc_stringy06(x, y, out.rm = TRUE, binner = "hex")
+
+sc_stringy(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
 \item{x, y}{numeric vectors}

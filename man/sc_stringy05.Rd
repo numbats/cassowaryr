@@ -2,9 +2,12 @@
 % Please edit documentation in R/mst.R
 \name{sc_stringy05}
 \alias{sc_stringy05}
+\alias{sc_stringy2}
 \title{Compute the stringy05 scagnostic measure}
 \usage{
 sc_stringy05(x, y, out.rm = TRUE, binner = "hex")
+
+sc_stringy2(x, y, out.rm = TRUE, binner = "hex")
 }
 \arguments{
 \item{x, y}{numeric vectors}

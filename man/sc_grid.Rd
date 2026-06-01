@@ -2,9 +2,12 @@
 % Please edit documentation in R/adjusted.R
 \name{sc_grid}
 \alias{sc_grid}
+\alias{sc_striated2}
 \title{Compute the grid scanostic measure using MST}
 \usage{
-sc_grid(x, y, epsilon, out.rm = TRUE, binner = "hex")
+sc_grid(x, y, epsilon = 0.01, out.rm = TRUE, binner = "hex")
+
+sc_striated2(x, y, epsilon = 0.01, out.rm = TRUE, binner = "hex")
 }
 \arguments{
 \item{x, y}{numeric vectors}
@@ -45,6 +48,6 @@ effective alternative to striated when computing scagnostics without binning.
   features |> group_by(feature) |>
     summarise(grid1 = sc_grid(x,y),
               grid2 = sc_grid(x,y, epsilon=0.05))
-  sc_grid(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
+  sc_striated2(datasaurus_dozen_wide$away_x, datasaurus_dozen_wide$away_y)
 
 }

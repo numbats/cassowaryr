@@ -1,6 +1,6 @@
 Package: cassowaryr
 Title: Compute Scagnostics on Pairs of Numeric Variables in a Data Set
-Version: 2.0.17
+Version: 2.0.18
 Authors@R: 
     c(person(given = "Harriet",
              family = "Mason",
@@ -50,7 +50,6 @@ Imports:
     tibble,
     stats,
     tidyselect
-RoxygenNote: 7.3.2
 Suggests: 
     rmarkdown,
     knitr,
@@ -63,3 +62,4 @@ Suggests:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0
