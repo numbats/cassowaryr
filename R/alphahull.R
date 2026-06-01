@@ -77,19 +77,7 @@ sc_skinny <- function(x, y, alpha = "rahman",
 #' @export
 sc_skinny.default <- function(x, y, alpha = "rahman",
                               out.rm = TRUE, binner =  "hex"){
-  sc <- scree(x, y, alpha = alpha, out.rm = out.rm, binner = binner)
-
-  if (is.null(sc$del)) {
-    return(1)
-  }
-
-  dc <- sc_dcor(x, y)
-  d2 <- mst_deg2(x, y)
-
-  if (dc >= 1 - 1e-8 || (!is.na(d2) && d2 > 0.9)) {
-    return(skinny_fix(x, y))
-  }
-
+  sc <- scree(x, y)
   sc_skinny.scree(sc)
 }
 
