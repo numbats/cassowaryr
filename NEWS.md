@@ -1,3 +1,6 @@
+# cassowaryr 2.0.20
+- Moved hexbin to imports
+
 # cassowaryr 2.0.19
 
 - Reverted default `sc_skinny` code to previous version.
@@ -47,7 +50,7 @@
 
 - Broke scree function up so binning, outlier removal, and alpha calculations are in their own functions (and R files)
 - Reverted outlier removal to old method, but made kept it iterative and in the scree
-- Changed binning to the method implemented in the scagnsotics package
+- Changed binning to the method implemented in the `scanogstics` R package
 - Wrote tests for binning, outlier removal, alpha, and scree functions
 
 # cassowaryr 2.0.10
