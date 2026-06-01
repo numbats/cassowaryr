@@ -1,3 +1,8 @@
+# cassowaryr 2.0.19
+
+- Reverted default `sc_skinny` code to previous version.
+- Updated all tests so they are able to run and pass with new changes.
+
 # cassowaryr 2.0.18
 
 - Added `diagnose_outliers` function
