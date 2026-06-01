@@ -9,21 +9,20 @@ data <- tibble(r = runif(20000, 0,1),
                theta = runif(20000, 0, 2*pi)) %>%
   mutate(x = r*cos(theta),
          y = r*sin(theta))
-
 #plot(data$x,data$y)
 
-# Test Skinny Scagnostic
-test_that("Skinny Scagnostic", {
-  expect_lt(sc_skinny(data$x,data$y), 0.1)
-})
 
 # Test Convex Scagnostic
 test_that("Convex Scagnostic", {
   expect_gt(sc_convex(data$x,data$y), 0.95)
 })
 
+# Test Skinny Scagnostic
+test_that("Skinny Scagnostic", {
+  expect_lt(sc_skinny(data$x,data$y, binner = NULL), 0.1)
+})
 
-# additional tests for skinny index
+# Test cases of perfect straight lines
 test_that("Skinny scagnostic", {
   set.seed(1200)
 
@@ -37,8 +36,7 @@ test_that("Skinny scagnostic", {
 
   # we expect exactly 1
   expect_equal(s1, 1, tolerance = 1e-8)
-
-  expect_gt(s2, 0.7)
+  expect_equal(s2, 1, tolerance = 1e-8)
 })
 
 

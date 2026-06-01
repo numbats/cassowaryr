@@ -1,14 +1,3 @@
-
-# current test case
-x <- c(x1, 10)
-y <- c(y1,10)
-
-xy <- cbind(unitize(x), unitize(y))
-del <- alphahull::delvor(xy)
-weights <- gen_edge_lengths(del)
-mst <- gen_mst(del, weights)
-mst_weights <- igraph::E(mst)$weight
-
 # TEST CASES
 # No Outliers
 x1 <- c(0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1)
