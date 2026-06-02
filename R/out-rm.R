@@ -38,12 +38,29 @@ outlier_removal <- function(xy){
 
     # get outliers
     outliers <- outlying_identify(mst, mst_weights)
+
     # if no outliers, just return current del
     if(is.null(outliers)){
       return(del)
     } else{
       # otherwise we remove outliers and recompute
       xy <- xy[-outliers,]
+    }
+
+    # Finally, we need to check if outlier removal created straight lines
+    corr <- suppressWarnings(abs(stats::cor(xy[,1], xy[,2])) > 1-1*10^-15)
+    # In which case we need to add noise to the xy matrix
+    if (any(corr, # straight line
+            !stats::sd(xy[,1])>0, # x is constant
+            !stats::sd(xy[,2])>0) # y is constant
+    ){
+      message("Outlier removal produced data that is in a perfectly straight line. ",
+              "The Delaunay triangulation will be computed with a small amount of jitter.")
+      # make matrix of very small noise
+      noise_matrix <- matrix(rnorm(prod(dim(xy)), 0, 1*10^-5),
+                             dim(xy)[1], dim(xy)[2])
+      # add noise to original matrix
+      xy <- xy + noise_matrix
     }
   }
 }
