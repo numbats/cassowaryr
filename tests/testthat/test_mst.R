@@ -47,25 +47,25 @@ test_that("Stringy Scagnostic", {
 
 
 # additional tests for stringy index
-# test_that("Stringy scagnostic", {
-#   set.seed(1200)
-#
-#   x  <- seq(0, 1, length.out = 50)
-#
-#   y1 <- x
-#   y2 <- 2 * x
-#
-#   s1 <- suppressWarnings(sc_stringy06(x, y1))
-#   s2 <- suppressWarnings(sc_stringy06(x, y2))
-#   s3 <- suppressWarnings(sc_stringy05(x, y1))
-#   s4 <- suppressWarnings(sc_stringy05(x, y1))
-#
-#   # we expect exactly 1
-#   expect_equal(s1, 1, tolerance = 1e-8)
-#   expect_equal(s2, 1, tolerance = 1e-8)
-#   expect_equal(s3, 1, tolerance = 1e-8)
-#   expect_equal(s4, 1, tolerance = 1e-8)
-# })
+test_that("Stringy scagnostic", {
+  set.seed(1200)
+
+  x  <- seq(0, 1, length.out = 50)
+
+  y1 <- x
+  y2 <- 2 * x
+
+  s1 <- suppressWarnings(sc_stringy06(x, y1))
+  s2 <- suppressWarnings(sc_stringy06(x, y2))
+  s3 <- suppressWarnings(sc_stringy05(x, y1))
+  s4 <- suppressWarnings(sc_stringy05(x, y1))
+
+  # we expect exactly 1
+  expect_equal(s1, 1, tolerance = 1e-8)
+  expect_equal(s2, 1, tolerance = 1e-8)
+  expect_equal(s3, 1, tolerance = 1e-8)
+  expect_equal(s4, 1, tolerance = 1e-8)
+})
 
 #Striated test
 test_that("Striated Scagnostic", {
