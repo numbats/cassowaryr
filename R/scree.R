@@ -55,25 +55,10 @@
 #' @export
 scree <- function(x, y, out.rm = TRUE, binner = "hex",
                   alpha = "rahman", ...) {
-  # CHECKS
-  # Numeric and equal length
+  # Check if data is numeric and vectors are equal length
   stopifnot(
     is.numeric(x), is.numeric(y), length(x) == length(y)
   )
-
-  # Data is a straight line
-  if (any(abs(stats::cor(x,y))>1-1*10^-15, !stats::sd(x)>0, !stats::sd(y)>0)){
-  warning("Data is a perfectly straight line and cannot be analysed; ",
-          "Delaunay triangulation is not computed.")
-    sc <- list(
-      del     = NULL,
-      weights = NULL,
-      alpha   = NA_real_
-    )
-    class(sc) <- "scree"
-    return(sc)
-  }
-
   # cast to a matrix
   xy <- cbind(unitize(x), unitize(y))
 
@@ -82,6 +67,20 @@ scree <- function(x, y, out.rm = TRUE, binner = "hex",
 
   # Bin data
   xy <- get_binned_matrix(xy, binner)
+
+  # Check for perfect colinearity
+  if (any(abs(stats::cor(x, y)) > 1-1*10^-15, # straight line
+          !stats::sd(x)>0, # x is constant
+          !stats::sd(y)>0) # y is constant
+  ){
+    message("Data is a perfectly straight line and cannot be analysed. ",
+            "The Delaunay triangulation will be computed with a small amount of jitter.")
+    # make matrix of very small noise
+    noise_matrix <- matrix(rnorm(prod(dim(xy)), 0, 1*10^-5),
+                           dim(xy)[1], dim(xy)[2])
+    # add noise to original matrix
+    xy <- xy + noise_matrix
+  }
 
   # Outlier removal & delauney triangulation
   if (out.rm) {
