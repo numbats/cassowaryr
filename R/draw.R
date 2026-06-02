@@ -67,7 +67,8 @@ draw_alphahull.scree <- function(x, y=NULL, out.rm = TRUE,
       ggplot2::geom_point(data=d, ggplot2::aes(x, y),
                           colour = "black")+
       ggplot2::geom_segment(data=d_ahull,
-                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2))
+                            ggplot2::aes(x=x1, xend=x2, y=y1, yend=y2)) +
+      ggplot2::lims(x=c(-0.1,1.1), y = c(-0.1,1.1))
   }
   if (fill){ #draws points on top of fill
     p <- ggplot2::ggplot() +
@@ -122,7 +123,8 @@ draw_mst.igraph <- function(x, y, out.rm = TRUE,
     ggplot2::geom_point(ggplot2::aes(x=x1, y=y1), alpha=0.5) +
     ggplot2::geom_point(ggplot2::aes(x=x2, y=y2), alpha=0.5) +
     ggplot2::geom_segment(ggplot2::aes(x=x1, xend=x2,
-                                       y=y1, yend=y2))
+                                       y=y1, yend=y2)) +
+    ggplot2::lims(x=c(-0.1,1.1), y = c(-0.1,1.1))
 }
 
 #' @export
@@ -160,7 +162,8 @@ draw_convexhull.scree <- function(x, y=NULL, out.rm = TRUE,
 
   p <- p + ggplot2::geom_segment(data = d_ends,
                                  ggplot2::aes(x=x1, y=y1,
-                                              xend=x2, yend=y2))
+                                              xend=x2, yend=y2)) +
+    ggplot2::lims(x=c(-0.1,1.1), y = c(-0.1,1.1))
 
   if (fill){ # re-draws points on top of fill
     p <- p + ggplot2::geom_polygon(data=d_ends, alpha=0.5,
