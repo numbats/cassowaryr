@@ -1,3 +1,9 @@
+# cassowaryr 2.0.21
+- Scree now adds a small jitter if data is perfectly colinear.
+- Added second check for colinearity after outlier removal.
+- all draw functions now have a set scale from [0,1] as that is scale the scagnostics are computed on (they are not rescaled after outlier removal).
+- Added extra stringy tests back in
+
 # cassowaryr 2.0.20
 - Moved hexbin to imports
 
