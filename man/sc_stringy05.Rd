@@ -2,10 +2,13 @@
 % Please edit documentation in R/mst.R
 \name{sc_stringy05}
 \alias{sc_stringy05}
+\alias{sc_stringy05.default}
 \alias{sc_stringy2}
 \title{Compute the stringy05 scagnostic measure}
 \usage{
-sc_stringy05(x, y, out.rm = TRUE, binner = "hex")
+sc_stringy05(x, y, out.rm = TRUE, binner = "hex", rescale = FALSE)
+
+\method{sc_stringy05}{default}(x, y, out.rm = TRUE, binner = "hex", rescale = FALSE)
 
 sc_stringy2(x, y, out.rm = TRUE, binner = "hex")
 }
@@ -26,18 +29,36 @@ until <= 250 nonempty cells)
 \item \code{NULL}: no binning (use raw points)
 \item a function: user-defined binner
 }}
+
+\item{rescale}{Logical. If TRUE, apply the Gaussian-noise
+rescaling. Defaults to FALSE.}
 }
 \value{
-A numeric value giving the stringy05 score.
+A numeric value giving the original or rescaled
+Stringy05 score.
 }
 \description{
-Computes the stringy measure as defined in \emph{Graph-Theoretic Scagnostics}
-(Wilkinson et al., 2005). It is the legnth of the longest shortest path through
-the MST divided by the sum of all edge lengths in the MST.
+Computes the Stringy05 measure as defined in
+\emph{Graph-Theoretic Scagnostics} (Wilkinson et al., 2005).
+}
+\details{
+Stringy05 is the weighted diameter of the minimum spanning
+tree divided by the total length of its edges.
+
+When \code{rescale = TRUE}, the index is rescaled using a
+sample-size-dependent Gaussian-noise threshold:
+
+l(n) = 0.05 + 3.86 / sqrt(n)
+
+The rescaled index is:
+
+max(0, (I - l(n)) / (1 - l(n)))
 }
 \examples{
 x <- datasaurus_dozen_wide$star_x
 y <- datasaurus_dozen_wide$star_y
+
 sc_stringy05(x, y)
+sc_stringy05(x, y, rescale = TRUE)
 
 }

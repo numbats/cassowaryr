@@ -75,32 +75,66 @@ sc_stringy <- function(x, y, out.rm = TRUE, binner = "hex") {
 
 #' Compute the stringy05 scagnostic measure
 #'
-#' Computes the stringy measure as defined in *Graph-Theoretic Scagnostics*
-#' (Wilkinson et al., 2005). It is the legnth of the longest shortest path through
-#' the MST divided by the sum of all edge lengths in the MST.
+#' Computes the Stringy05 measure as defined in
+#' *Graph-Theoretic Scagnostics* (Wilkinson et al., 2005).
+#'
+#' Stringy05 is the weighted diameter of the minimum spanning
+#' tree divided by the total length of its edges.
+#'
+#' When `rescale = TRUE`, the index is rescaled using a
+#' sample-size-dependent Gaussian-noise threshold:
+#'
+#' l(n) = 0.05 + 3.86 / sqrt(n)
+#'
+#' The rescaled index is:
+#'
+#' max(0, (I - l(n)) / (1 - l(n)))
 #'
 #' @inheritParams scree
-#' @return A numeric value giving the stringy05 score.
+#' @param rescale Logical. If TRUE, apply the Gaussian-noise
+#'   rescaling. Defaults to FALSE.
+#' @return A numeric value giving the original or rescaled
+#'   Stringy05 score.
 #'
 #' @examples
 #' x <- datasaurus_dozen_wide$star_x
 #' y <- datasaurus_dozen_wide$star_y
+#'
 #' sc_stringy05(x, y)
+#' sc_stringy05(x, y, rescale = TRUE)
 #'
 #' @export
-sc_stringy05 <- function(x, y, out.rm = TRUE, binner = "hex") UseMethod("sc_stringy05")
+sc_stringy05 <- function(x, y, out.rm = TRUE, binner = "hex",
+                         rescale = FALSE){
+  UseMethod("sc_stringy05")
+}
 
-
+#' @rdname sc_stringy05
 #' @export
-sc_stringy05.default <- function(x, y, out.rm = TRUE, binner = "hex"){
+sc_stringy05.default <- function(x, y, out.rm = TRUE, binner = "hex",
+                                 rescale = FALSE){
+
+  # Original sample size
+  n <- length(x)
+
   #input: x and y are vectors
   sc <- scree(x, y, out.rm = out.rm, binner = binner)
-  sc_stringy05.scree(sc)
+  index <- sc_stringy05.scree(sc)
+
+  if (!rescale) {
+    return(index)
+  }
+
+  # Gaussian-noise threshold
+  lb <- 0.05 + 3.86 / sqrt(n)
+
+  # Rescale the final Stringy05 value
+  max(0, (index - lb) / (1 - lb))
 }
 
 
 #' @export
-sc_stringy05.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
+sc_stringy05.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL, rescale = FALSE) {
   #input: x is a scree, no y
   mst <- gen_mst(x$del, x$weights)
   sc_stringy05.igraph(mst)
@@ -108,12 +142,12 @@ sc_stringy05.scree <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 
 
 #' @export
-sc_stringy05.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
+sc_stringy05.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL, rescale = FALSE) {
   #input: x is the MST igraph object
   w <- igraph::E(x)$weight
   total_length <- sum(w)
 
-  diameter_length <- igraph::diameter(x)
+  diameter_length <- igraph::diameter(x, weights = w)
 
   diameter_length / total_length
 }
@@ -123,7 +157,7 @@ sc_stringy05.igraph <- function(x, y=NULL, out.rm = FALSE, binner = NULL) {
 #' @export
 sc_stringy2 <- function(x, y, out.rm = TRUE, binner = "hex") {
   .Deprecated("sc_stringy05")
-  sc_stringy05(x, y, out.rm, binner)
+  sc_stringy05(x, y, out.rm, binner, rescale)
 }
 
 #' Compute striated scagnostic measure using MST
